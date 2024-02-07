@@ -71,3 +71,5 @@ modules/
 # psfml
 bin/Data.zip
 !bin/psfml.dll
+bin/imgui.ini
+bin/view.txt

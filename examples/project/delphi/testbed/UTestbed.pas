@@ -66,6 +66,7 @@ type
     procedure OnVideoStatus(const AStatus: sfVideoStatus; const AFilename: string);
     procedure MPEG1VideoPlayback();
     procedure ParallaxTexture();
+    procedure ImGUI();
 
   end;
 
@@ -111,10 +112,11 @@ begin
     PrintLn('3. HiDPI Window');
     PrintLn('4. MPEG1 Video Playback');
     PrintLn('5. Parallax Texture');
+    PrintLn('6. ImGUI');
     PrintLn('Q. Quit');
     PrintLn();
     Print('Select: ');
-    LOption := ReadLnX(['q', 'Q', '1', '2', '3', '4', '5'], 1).ToLower;
+    LOption := ReadLnX(['q', 'Q', '1', '2', '3', '4', '5', '6'], 1).ToLower;
     if LOption.Length = 0 then continue;
     case Ord(LOption[1]) of
       Ord('1'): BuildZipFile();
@@ -122,6 +124,7 @@ begin
       Ord('3'): HiDPIWindow();
       Ord('4'): MPEG1VideoPlayback();
       Ord('5'): ParallaxTexture();
+      Ord('6'): ImGUI();
       Ord('q'): LDone := True;
     end;
   until LDone;
@@ -450,6 +453,158 @@ begin
 
   // destroy window
   sfRenderWindow_destroy(LRenderWindow);
+end;
+
+procedure TTestbed.ImGUI();
+var
+  LRenderWindow: PsfRenderWindow;
+  LEvent: sfEvent;
+  LFont: PsfFont;
+  LText: PsfText;
+  LIO: PImGuiIO;
+  LShowDemoWindow: Boolean;
+  LShowAnotherWindow: Boolean;
+  LFloatValue: Single;
+  LCounter: Integer;
+  LClearColor: ImVec4;
+  LButtonSize: ImVec2;
+  LColor: sfColor;
+
+  procedure ResizeFont();
+  begin
+    ImFontAtlas_Clear(LIO.Fonts);
+    ImFontAtlas_AddDefaultFontTTF(LIO.Fonts, Round(16*LRenderWindow.Scale), nil, nil);
+    ImGui_SFML_UpdateFontTexture();
+  end;
+
+begin
+  // init GUI variables
+  LShowDemoWindow := True;
+  LShowAnotherWindow := False;
+  LFloatValue := 0;
+  LCounter := 0;
+  LClearColor.x := 0.45;
+  LClearColor.y := 0.55;
+  LClearColor.z := 0.60;
+  LClearColor.w := 1.00;
+
+  // create window
+  LRenderWindow := sfRenderWindow_create('SFML: ImGUI');
+
+  // init default font
+  LFont := sfFont_createDefaultFont;
+
+  // init text
+  LText := sfText_create;
+  sfText_setFont(LText, LFont);
+  sfText_setCharacterSize(LRenderWindow, LText, 10);
+
+  // init imgui
+  ImGui_SFML_Init_RenderWindow(LRenderWindow, True);
+  LIO := igGetIO();
+  LIO.MouseDrawCursor := True;
+  LIO.ConfigFlags := LIO.ConfigFlags or Ord(ImGuiConfigFlags_NavEnableKeyboard);
+  LIO.ConfigFlags := LIO.ConfigFlags or Ord(ImGuiConfigFlags_DockingEnable);
+  LIO.ConfigFlags := LIO.ConfigFlags or Ord(ImGuiConfigFlags_ViewportsEnable);
+  LIO.ConfigFlags := LIO.ConfigFlags or Ord(ImGuiConfigFlags_DpiEnableScaleViewports);
+  LIO.ConfigFlags := LIO.ConfigFlags or Ord(ImGuiConfigFlags_DpiEnableScaleFonts);
+
+  // resize font base on DPI
+  ResizeFont();
+
+  // start game loop
+  while sfRenderWindow_isOpen(LRenderWindow) = sfTrue do
+  begin
+
+    // process events
+    while sfRenderWindow_pollEvent(LRenderWindow, @LEvent) = sfTrue do
+    begin
+      // process imgui events
+      ImGui_SFML_ProcessEvent_Window(LRenderWindow, @LEvent);
+
+      // close window
+      if LEvent.&type = sfEvtClosed then
+        sfRenderWindow_close(LRenderWindow);
+    end;
+
+    // process DPI/monitor changes
+    if sfRenderWindow_scaleOnDPIChange(LRenderWindow) then
+    begin
+      // on dpi change, resize font
+      ResizeFont();
+    end;
+
+    // new imgui frame
+    igNewFrame();
+
+    // check to show demo window
+    if LShowDemoWindow then
+      igShowDemoWindow(@LShowDemoWindow);
+
+    // process window #1
+    igBegin('Hello, world!', nil, Ord(ImGuiWindowFlags_AlwaysAutoResize));
+      igText('This is some useful text');
+      igCheckbox('Demo window', @LShowDemoWindow);
+      igCheckbox('Another window', @LShowAnotherWindow);
+
+      igSliderFloat('Float', @LFloatValue, 0.0, 1.0, '%.3f', 0);
+      igColorEdit3('clear color', @LClearColor, 0);
+
+      LButtonSize.x := 0;
+      LButtonSize.y := 0;
+      if igButton('Button', LButtonSize) then
+        LCounter := LCounter + 1;
+      igSameLine(0.0, -1.0);
+      igText('counter = %d', LCounter);
+
+      igText('Application average %.3f ms/frame (%.1f FPS)', 1000.0 / igGetIO().Framerate, igGetIO().Framerate);
+    igEnd();
+
+    // process window #2
+    if LShowAnotherWindow then
+    begin
+      igBegin('imgui Another Window', @LshowAnotherWindow, Ord(ImGuiWindowFlags_AlwaysAutoResize));
+      igText('Hello from imgui');
+      LButtonSize.x := 0; LButtonSize.y := 0;
+      if igButton('Close me', LButtonSize) then
+        LShowAnotherWindow := false;
+      igEnd();
+    end;
+
+    // render imgui
+    igRender();
+
+    // end imgui frame
+    igEndFrame();
+
+    // clear window
+    LColor.r := Round(LClearColor.x * 255);
+    LColor.g := Round(LClearColor.y * 255);
+    LColor.b := Round(LClearColor.z * 255);
+    LColor.a := Round(LClearColor.w * 255);
+    sfRenderWindow_clear(LRenderWindow, LColor);
+
+    // display fps
+    sfRenderWindow_drawText(LRenderWindow, LText, 3, 23, WHITE, '%d fps', [sfRenderWindow_getFrameRate(LRenderWindow)]);
+
+    // render imgui
+    ImGui_SFML_Render_RenderWindow(LRenderWindow);
+
+    // display rendering
+    sfRenderWindow_display(LRenderWindow);
+  end;
+
+  // destroy text
+  sfText_destroy(LText);
+
+  // destroy font
+  sfFont_destroy(LFont);
+
+  // destroy window
+  sfRenderWindow_destroy(LRenderWindow);
+
+  // shutdown imgui
+  ImGui_SFML_Shutdown();
 end;
 
 end.

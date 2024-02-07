@@ -413,7 +413,7 @@ procedure sfRenderWindow_resetGLStates(renderWindow: PsfRenderWindow);
 function  sfRenderWindow_capture(const renderWindow: PsfRenderWindow): PsfImage;
 function  sfRenderWindow_getDPI(const AWindow: PsfRenderWindow): Cardinal;
 function  sfRenderWindow_scaleToDPI(const AWindow: PsfRenderWindow; const ABaseWidth, ABaseHeight: Cardinal; const ACenter: Boolean; const ADefaultDPI: Integer=96): Boolean;
-procedure sfRenderWindow_scaleOnDPIChange(const AWindow: PsfRenderWindow);
+function  sfRenderWindow_scaleOnDPIChange(const AWindow: PsfRenderWindow): Boolean;
 procedure sfRenderWindow_setDefaultIcon(const AWindow: PsfRenderWindow);
 procedure sfRenderWindow_drawLine(const AWindow: PsfRenderWindow; const X1, Y1, X2, Y2: Single; const AColor: sfColor; const AThickness: Single);
 procedure sfRenderWindow_drawRect(const AWindow: PsfRenderWindow; const X, Y, AWidth, AHeight, AThickness: Single; const AColor: sfColor);
@@ -475,6 +475,16 @@ function  sfVideo_getLoop(): Boolean;
 procedure sfVideo_setLoop(const ALoop: Boolean);
 function  sfVideo_getVolume(): Single;
 procedure sfVideo_setVolume(const AVolume: Single);
+
+//=== IMGUI ==================================================================
+function ImFontAtlas_AddFontFromResTTF(self: PImFontAtlas; const AInstance: HINST; const AResName: string; size_pixels: Single; const font_cfg: PImFontConfig; const glyph_ranges: PImWchar): PImFont;
+function ImFontAtlas_AddDefaultFontTTF(self: PImFontAtlas; size_pixels: Single; const font_cfg: PImFontConfig; const glyph_ranges: PImWchar): PImFont;
+
+//=== IMGUI-SFML =============================================================
+function  ImGui_SFML_Init_RenderWindow(window: PsfRenderWindow; loadDefaultFont: Boolean): Boolean;
+procedure ImGui_SFML_ProcessEvent_Window(window: PsfRenderWindow; event: PsfEvent);
+procedure ImGui_SFML_Render_RenderWindow(window: PsfRenderWindow);
+
 
 implementation
 
@@ -1339,11 +1349,13 @@ begin
   Result := True;
 end;
 
-procedure sfRenderWindow_scaleOnDPIChange(const AWindow: PsfRenderWindow);
+function sfRenderWindow_scaleOnDPIChange(const AWindow: PsfRenderWindow): Boolean;
 begin
+  Result := False;
   if sfRenderWindow_getDPI(AWindow) <> AWindow.Dpi then
   begin
     sfRenderWindow_scaleToDPI(AWindow, AWindow.Mode.width, AWindow.Mode.height, False, 96);
+    Result := True;
   end;
 end;
 
@@ -2074,7 +2086,57 @@ begin
   sfVideo.Volume := EnsureRange(AVolume, 0, 1);
   sfSoundStream_setVolume(sfVideo.AudioStream, UnitToScalarValue(sfVideo.Volume, 100));
 end;
-{$ENDREGION}
+
+//=== IMGUI ==================================================================
+function ImFontAtlas_AddFontFromResTTF(self: PImFontAtlas; const AInstance: HINST; const AResName: string; size_pixels: Single; const font_cfg: PImFontConfig; const glyph_ranges: PImWchar): PImFont;
+type
+  TImWchar = Word;
+var
+  LResStream: TResourceStream;
+  LConfig: ImFontConfig;
+begin
+  Result := nil;
+  if not ResourceExist(AInstance, AResName) then Exit;
+  LResStream := TResourceStream.Create(AInstance, AResName, RT_RCDATA);
+  try
+    FillChar(LConfig, SizeOf(LConfig), 0);
+    LConfig.FontData := LResStream.Memory;
+    LConfig.FontDataSize := LResStream.Size;
+    LConfig.SizePixels := size_pixels;
+    LConfig.FontDataOwnedByAtlas := False;
+    LConfig.OversampleH := 2;
+    LConfig.OversampleV := 1;
+    LConfig.GlyphMaxAdvanceX := MaxSingle;
+    LConfig.RasterizerMultiply := 1.0;
+    LConfig.RasterizerDensity := 1.0;
+    LConfig.EllipsisChar := TImWchar(-1);
+
+    Result := ImFontAtlas_AddFontFromMemoryTTF(self, LResStream.Memory, LResStream.Size, size_pixels, @LConfig, glyph_ranges);
+  finally
+    LResStream.Free;
+  end;
+end;
+
+function ImFontAtlas_AddDefaultFontTTF(self: PImFontAtlas; size_pixels: Single; const font_cfg: PImFontConfig; const glyph_ranges: PImWchar): PImFont;
+begin
+  Result := ImFontAtlas_AddFontFromResTTF(self, HInstance, '0b0039416ae04dedaad41588e3751295', size_pixels, font_cfg, glyph_ranges);
+end;
+
+//=== IMGUI-SFML =============================================================
+function ImGui_SFML_Init_RenderWindow(window: PsfRenderWindow; loadDefaultFont: Boolean): Boolean;
+begin
+  Result := psfml.ImGui_SFML_Init_RenderWindow(window.Handle, loadDefaultFont);
+end;
+
+procedure ImGui_SFML_ProcessEvent_Window(window: PsfRenderWindow; event: PsfEvent);
+begin
+  psfml.ImGui_SFML_ProcessEvent_Window(window.Handle, event)
+end;
+
+procedure ImGui_SFML_Render_RenderWindow(window: PsfRenderWindow);
+begin
+  psfml.ImGui_SFML_Render_RenderWindow(window.Handle);
+end;
 
 
 {$REGION ' UNIT INIT '}

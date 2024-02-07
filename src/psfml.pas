@@ -1,4 +1,4 @@
-﻿(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                 __         _ 
      _ __  ___ / _| _ __  | |
     | '_ \(_-<|  _|| '  \ | |
@@ -38,6 +38,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ----------------------------------------------------------------------------
 Contains the following open-source libraries:
+  + cimgui         - https://github.com/cimgui/cimgui
+  + imgui-sfml     - https://github.com/SFML/imgui-sfml  
   + pl_mpeg        - https://github.com/phoboslab/pl_mpeg
   + CSFML          - https://github.com/SFML/CSFML
   + zlib           - https://github.com/madler/zlib
@@ -46,7 +48,7 @@ Contains the following open-source libraries:
 unit psfml;
 
 {$I psfml.defines.inc}
-
+    
 interface
 
 const
@@ -58,6 +60,7 @@ const
   {$ENDIF}
 
 const
+  CIMGUI_DEFINE_ENUMS_AND_STRUCTS = 1;
   CSFML_VERSION_MAJOR = 2;
   CSFML_VERSION_MINOR = 6;
   CSFML_VERSION_PATCH = 0;
@@ -87,10 +90,12 @@ const
   APPEND_STATUS_CREATE = (0);
   APPEND_STATUS_CREATEAFTER = (1);
   APPEND_STATUS_ADDINZIP = (2);
+  IMGUI_HAS_DOCK = 1;
 
 type
   // Forward declarations
   PPUTF8Char = ^PUTF8Char;
+  PPByte = ^PByte;
   PUInt8 = ^UInt8;
   PWideChar = ^WideChar;
   PPointer = ^Pointer;
@@ -151,6 +156,181 @@ type
   Pzip_fileinfo = ^zip_fileinfo;
   Ptm_unz_s = ^tm_unz_s;
   Punz_file_info64_s = ^unz_file_info64_s;
+  PImVector_const_charPtr = ^ImVector_const_charPtr;
+  PImVec2 = ^ImVec2;
+  PImVec4 = ^ImVec4;
+  PImGuiTableSortSpecs = ^ImGuiTableSortSpecs;
+  PImGuiTableColumnSortSpecs = ^ImGuiTableColumnSortSpecs;
+  PImGuiStyle = ^ImGuiStyle;
+  PImGuiKeyData = ^ImGuiKeyData;
+  PImVector_ImWchar = ^ImVector_ImWchar;
+  PImGuiIO = ^ImGuiIO;
+  PImGuiInputTextCallbackData = ^ImGuiInputTextCallbackData;
+  PImGuiSizeCallbackData = ^ImGuiSizeCallbackData;
+  PImGuiWindowClass = ^ImGuiWindowClass;
+  PImGuiPayload = ^ImGuiPayload;
+  PImGuiOnceUponAFrame = ^ImGuiOnceUponAFrame;
+  PImGuiTextRange = ^ImGuiTextRange;
+  PImVector_ImGuiTextRange = ^ImVector_ImGuiTextRange;
+  PImGuiTextFilter = ^ImGuiTextFilter;
+  PImVector_char = ^ImVector_char;
+  PImGuiTextBuffer = ^ImGuiTextBuffer;
+  PImGuiStoragePair = ^ImGuiStoragePair;
+  PImVector_ImGuiStoragePair = ^ImVector_ImGuiStoragePair;
+  PImGuiStorage = ^ImGuiStorage;
+  PImGuiListClipper = ^ImGuiListClipper;
+  PImColor = ^ImColor;
+  PImDrawCmd = ^ImDrawCmd;
+  PImDrawVert = ^ImDrawVert;
+  PImDrawCmdHeader = ^ImDrawCmdHeader;
+  PImVector_ImDrawCmd = ^ImVector_ImDrawCmd;
+  PImVector_ImDrawIdx = ^ImVector_ImDrawIdx;
+  PImDrawChannel = ^ImDrawChannel;
+  PImVector_ImDrawChannel = ^ImVector_ImDrawChannel;
+  PImDrawListSplitter = ^ImDrawListSplitter;
+  PImVector_ImDrawVert = ^ImVector_ImDrawVert;
+  PImVector_ImVec4 = ^ImVector_ImVec4;
+  PImVector_ImTextureID = ^ImVector_ImTextureID;
+  PImVector_ImVec2 = ^ImVector_ImVec2;
+  PImDrawList = ^ImDrawList;
+  PPImDrawList = ^PImDrawList;
+  PImVector_ImDrawListPtr = ^ImVector_ImDrawListPtr;
+  PImDrawData = ^ImDrawData;
+  PImFontConfig = ^ImFontConfig;
+  PImFontGlyph = ^ImFontGlyph;
+  PImVector_ImU32 = ^ImVector_ImU32;
+  PImFontGlyphRangesBuilder = ^ImFontGlyphRangesBuilder;
+  PImFontAtlasCustomRect = ^ImFontAtlasCustomRect;
+  PImVector_ImFontPtr = ^ImVector_ImFontPtr;
+  PImVector_ImFontAtlasCustomRect = ^ImVector_ImFontAtlasCustomRect;
+  PImVector_ImFontConfig = ^ImVector_ImFontConfig;
+  PImFontAtlas = ^ImFontAtlas;
+  PImVector_float = ^ImVector_float;
+  PImVector_ImFontGlyph = ^ImVector_ImFontGlyph;
+  PImFont = ^ImFont;
+  PPImFont = ^PImFont;
+  PImGuiViewport = ^ImGuiViewport;
+  PPImGuiViewport = ^PImGuiViewport;
+  PImVector_ImGuiPlatformMonitor = ^ImVector_ImGuiPlatformMonitor;
+  PImVector_ImGuiViewportPtr = ^ImVector_ImGuiViewportPtr;
+  PImGuiPlatformIO = ^ImGuiPlatformIO;
+  PImGuiPlatformMonitor = ^ImGuiPlatformMonitor;
+  PImGuiPlatformImeData = ^ImGuiPlatformImeData;
+  PStbUndoRecord = ^StbUndoRecord;
+  PStbUndoState = ^StbUndoState;
+  PSTB_TexteditState = ^STB_TexteditState;
+  PStbTexteditRow = ^StbTexteditRow;
+  PImVec1 = ^ImVec1;
+  PImVec2ih = ^ImVec2ih;
+  PImRect = ^ImRect;
+  PImBitVector = ^ImBitVector;
+  PImVector_int = ^ImVector_int;
+  PImGuiTextIndex = ^ImGuiTextIndex;
+  PImDrawListSharedData = ^ImDrawListSharedData;
+  PImDrawDataBuilder = ^ImDrawDataBuilder;
+  PImGuiDataVarInfo = ^ImGuiDataVarInfo;
+  PImGuiDataTypeTempStorage = ^ImGuiDataTypeTempStorage;
+  PImGuiDataTypeInfo = ^ImGuiDataTypeInfo;
+  PImGuiColorMod = ^ImGuiColorMod;
+  PImGuiStyleMod = ^ImGuiStyleMod;
+  PImGuiComboPreviewData = ^ImGuiComboPreviewData;
+  PImGuiGroupData = ^ImGuiGroupData;
+  PImGuiMenuColumns = ^ImGuiMenuColumns;
+  PImGuiInputTextDeactivatedState = ^ImGuiInputTextDeactivatedState;
+  PImGuiInputTextState = ^ImGuiInputTextState;
+  PImGuiPopupData = ^ImGuiPopupData;
+  PImGuiNextWindowData = ^ImGuiNextWindowData;
+  PImGuiNextItemData = ^ImGuiNextItemData;
+  PImGuiLastItemData = ^ImGuiLastItemData;
+  PImGuiNavTreeNodeData = ^ImGuiNavTreeNodeData;
+  PImGuiStackSizes = ^ImGuiStackSizes;
+  PImGuiWindowStackData = ^ImGuiWindowStackData;
+  PImGuiShrinkWidthItem = ^ImGuiShrinkWidthItem;
+  PImGuiPtrOrIndex = ^ImGuiPtrOrIndex;
+  PImBitArray_ImGuiKey_NamedKey_COUNT__lessImGuiKey_NamedKey_BEGIN = ^ImBitArray_ImGuiKey_NamedKey_COUNT__lessImGuiKey_NamedKey_BEGIN;
+  PImGuiInputEventMousePos = ^ImGuiInputEventMousePos;
+  PImGuiInputEventMouseWheel = ^ImGuiInputEventMouseWheel;
+  PImGuiInputEventMouseButton = ^ImGuiInputEventMouseButton;
+  PImGuiInputEventMouseViewport = ^ImGuiInputEventMouseViewport;
+  PImGuiInputEventKey = ^ImGuiInputEventKey;
+  PImGuiInputEventText = ^ImGuiInputEventText;
+  PImGuiInputEventAppFocused = ^ImGuiInputEventAppFocused;
+  PImGuiInputEvent = ^ImGuiInputEvent;
+  PImGuiKeyRoutingData = ^ImGuiKeyRoutingData;
+  PImVector_ImGuiKeyRoutingData = ^ImVector_ImGuiKeyRoutingData;
+  PImGuiKeyRoutingTable = ^ImGuiKeyRoutingTable;
+  PImGuiKeyOwnerData = ^ImGuiKeyOwnerData;
+  PImGuiListClipperRange = ^ImGuiListClipperRange;
+  PImVector_ImGuiListClipperRange = ^ImVector_ImGuiListClipperRange;
+  PImGuiListClipperData = ^ImGuiListClipperData;
+  PImGuiNavItemData = ^ImGuiNavItemData;
+  PImGuiTypingSelectRequest = ^ImGuiTypingSelectRequest;
+  PImGuiTypingSelectState = ^ImGuiTypingSelectState;
+  PImGuiOldColumnData = ^ImGuiOldColumnData;
+  PImVector_ImGuiOldColumnData = ^ImVector_ImGuiOldColumnData;
+  PImGuiOldColumns = ^ImGuiOldColumns;
+  PImVector_ImGuiWindowPtr = ^ImVector_ImGuiWindowPtr;
+  PImGuiDockNode = ^ImGuiDockNode;
+  PImGuiWindowDockStyle = ^ImGuiWindowDockStyle;
+  PImVector_ImGuiDockRequest = ^ImVector_ImGuiDockRequest;
+  PImVector_ImGuiDockNodeSettings = ^ImVector_ImGuiDockNodeSettings;
+  PImGuiDockContext = ^ImGuiDockContext;
+  PImGuiViewportP = ^ImGuiViewportP;
+  PPImGuiViewportP = ^PImGuiViewportP;
+  PImGuiWindowSettings = ^ImGuiWindowSettings;
+  PImGuiSettingsHandler = ^ImGuiSettingsHandler;
+  PImGuiLocEntry = ^ImGuiLocEntry;
+  PImGuiDebugAllocEntry = ^ImGuiDebugAllocEntry;
+  PImGuiDebugAllocInfo = ^ImGuiDebugAllocInfo;
+  PImGuiMetricsConfig = ^ImGuiMetricsConfig;
+  PImGuiStackLevelInfo = ^ImGuiStackLevelInfo;
+  PImVector_ImGuiStackLevelInfo = ^ImVector_ImGuiStackLevelInfo;
+  PImGuiIDStackTool = ^ImGuiIDStackTool;
+  PImGuiContextHook = ^ImGuiContextHook;
+  PImVector_ImGuiInputEvent = ^ImVector_ImGuiInputEvent;
+  PImVector_ImGuiWindowStackData = ^ImVector_ImGuiWindowStackData;
+  PImVector_ImGuiColorMod = ^ImVector_ImGuiColorMod;
+  PImVector_ImGuiStyleMod = ^ImVector_ImGuiStyleMod;
+  PImVector_ImGuiID = ^ImVector_ImGuiID;
+  PImVector_ImGuiItemFlags = ^ImVector_ImGuiItemFlags;
+  PImVector_ImGuiGroupData = ^ImVector_ImGuiGroupData;
+  PImVector_ImGuiPopupData = ^ImVector_ImGuiPopupData;
+  PImVector_ImGuiNavTreeNodeData = ^ImVector_ImGuiNavTreeNodeData;
+  PImVector_ImGuiViewportPPtr = ^ImVector_ImGuiViewportPPtr;
+  PImVector_unsigned_char = ^ImVector_unsigned_char;
+  PImVector_ImGuiListClipperData = ^ImVector_ImGuiListClipperData;
+  PImVector_ImGuiTableTempData = ^ImVector_ImGuiTableTempData;
+  PImVector_ImGuiTable = ^ImVector_ImGuiTable;
+  PImPool_ImGuiTable = ^ImPool_ImGuiTable;
+  PImVector_ImGuiTabBar = ^ImVector_ImGuiTabBar;
+  PImPool_ImGuiTabBar = ^ImPool_ImGuiTabBar;
+  PImVector_ImGuiPtrOrIndex = ^ImVector_ImGuiPtrOrIndex;
+  PImVector_ImGuiShrinkWidthItem = ^ImVector_ImGuiShrinkWidthItem;
+  PImVector_ImGuiSettingsHandler = ^ImVector_ImGuiSettingsHandler;
+  PImChunkStream_ImGuiWindowSettings = ^ImChunkStream_ImGuiWindowSettings;
+  PImChunkStream_ImGuiTableSettings = ^ImChunkStream_ImGuiTableSettings;
+  PImVector_ImGuiContextHook = ^ImVector_ImGuiContextHook;
+  PImGuiContext = ^ImGuiContext;
+  PImGuiWindowTempData = ^ImGuiWindowTempData;
+  PImVector_ImGuiOldColumns = ^ImVector_ImGuiOldColumns;
+  PImGuiWindow = ^ImGuiWindow;
+  PPImGuiWindow = ^PImGuiWindow;
+  PImGuiTabItem = ^ImGuiTabItem;
+  PImVector_ImGuiTabItem = ^ImVector_ImGuiTabItem;
+  PImGuiTabBar = ^ImGuiTabBar;
+  PImGuiTableColumn = ^ImGuiTableColumn;
+  PImGuiTableCellData = ^ImGuiTableCellData;
+  PImGuiTableInstanceData = ^ImGuiTableInstanceData;
+  PImSpan_ImGuiTableColumn = ^ImSpan_ImGuiTableColumn;
+  PImSpan_ImGuiTableColumnIdx = ^ImSpan_ImGuiTableColumnIdx;
+  PImSpan_ImGuiTableCellData = ^ImSpan_ImGuiTableCellData;
+  PImVector_ImGuiTableInstanceData = ^ImVector_ImGuiTableInstanceData;
+  PImVector_ImGuiTableColumnSortSpecs = ^ImVector_ImGuiTableColumnSortSpecs;
+  PImGuiTable = ^ImGuiTable;
+  PImGuiTableTempData = ^ImGuiTableTempData;
+  PImGuiTableColumnSettings = ^ImGuiTableColumnSettings;
+  PImGuiTableSettings = ^ImGuiTableSettings;
+  PImFontBuilderIO = ^ImFontBuilderIO;
 
   ////////////////////////////////////////////////////////////
   sfBool = Integer;
@@ -1965,6 +2145,3477 @@ type
 
   unz_file_info64 = unz_file_info64_s;
   Punz_file_info64 = ^unz_file_info64;
+  ImU64 = UInt64;
+  PImU64 = ^ImU64;
+  PImGuiDockRequest = Pointer;
+  PPImGuiDockRequest = ^PImGuiDockRequest;
+  PImGuiDockNodeSettings = Pointer;
+  PPImGuiDockNodeSettings = ^PImGuiDockNodeSettings;
+  PImGuiInputTextDeactivateData = Pointer;
+  PPImGuiInputTextDeactivateData = ^PImGuiInputTextDeactivateData;
+  PImGuiTableColumnsSettings = Pointer;
+  PPImGuiTableColumnsSettings = ^PImGuiTableColumnsSettings;
+
+  ImVector_const_charPtr = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PPUTF8Char;
+  end;
+
+  ImGuiCol = Integer;
+  ImGuiCond = Integer;
+  ImGuiDataType = Integer;
+  ImGuiDir = Integer;
+  PImGuiDir = ^ImGuiDir;
+  ImGuiMouseButton = Integer;
+  ImGuiMouseCursor = Integer;
+  ImGuiSortDirection = Integer;
+  ImGuiStyleVar = Integer;
+  ImGuiTableBgTarget = Integer;
+  ImDrawFlags = Integer;
+  ImDrawListFlags = Integer;
+  ImFontAtlasFlags = Integer;
+  ImGuiBackendFlags = Integer;
+  ImGuiButtonFlags = Integer;
+  ImGuiChildFlags = Integer;
+  ImGuiColorEditFlags = Integer;
+  ImGuiConfigFlags = Integer;
+  ImGuiComboFlags = Integer;
+  ImGuiDockNodeFlags = Integer;
+  ImGuiDragDropFlags = Integer;
+  ImGuiFocusedFlags = Integer;
+  ImGuiHoveredFlags = Integer;
+  ImGuiInputTextFlags = Integer;
+  ImGuiKeyChord = Integer;
+  ImGuiPopupFlags = Integer;
+  ImGuiSelectableFlags = Integer;
+  ImGuiSliderFlags = Integer;
+  ImGuiTabBarFlags = Integer;
+  ImGuiTabItemFlags = Integer;
+  ImGuiTableFlags = Integer;
+  ImGuiTableColumnFlags = Integer;
+  ImGuiTableRowFlags = Integer;
+  ImGuiTreeNodeFlags = Integer;
+  ImGuiViewportFlags = Integer;
+  ImGuiWindowFlags = Integer;
+  ImTextureID = Pointer;
+  PImTextureID = ^ImTextureID;
+  ImDrawIdx = Word;
+  PImDrawIdx = ^ImDrawIdx;
+  ImGuiID = Cardinal;
+  PImGuiID = ^ImGuiID;
+  ImS8 = UTF8Char;
+  ImU8 = Byte;
+  ImS16 = Smallint;
+  ImU16 = Word;
+  ImS32 = Integer;
+  ImU32 = Cardinal;
+  PImU32 = ^ImU32;
+  ImS64 = Int64;
+  PImS64 = ^ImS64;
+  ImWchar32 = Cardinal;
+  ImWchar16 = Word;
+  ImWchar = ImWchar16;
+  PImWchar = ^ImWchar;
+
+  ImGuiInputTextCallback = function(data: PImGuiInputTextCallbackData): Integer; cdecl;
+
+  ImGuiSizeCallback = procedure(data: PImGuiSizeCallbackData); cdecl;
+
+  ImGuiMemAllocFunc = function(sz: NativeUInt; user_data: Pointer): Pointer; cdecl;
+  PImGuiMemAllocFunc = ^ImGuiMemAllocFunc;
+
+  ImGuiMemFreeFunc = procedure(ptr: Pointer; user_data: Pointer); cdecl;
+  PImGuiMemFreeFunc = ^ImGuiMemFreeFunc;
+
+  ImVec2 = record
+    x: Single;
+    y: Single;
+  end;
+
+  ImVec4 = record
+    x: Single;
+    y: Single;
+    z: Single;
+    w: Single;
+  end;
+
+  ImGuiWindowFlags_ = (
+    ImGuiWindowFlags_None = 0,
+    ImGuiWindowFlags_NoTitleBar = 1,
+    ImGuiWindowFlags_NoResize = 2,
+    ImGuiWindowFlags_NoMove = 4,
+    ImGuiWindowFlags_NoScrollbar = 8,
+    ImGuiWindowFlags_NoScrollWithMouse = 16,
+    ImGuiWindowFlags_NoCollapse = 32,
+    ImGuiWindowFlags_AlwaysAutoResize = 64,
+    ImGuiWindowFlags_NoBackground = 128,
+    ImGuiWindowFlags_NoSavedSettings = 256,
+    ImGuiWindowFlags_NoMouseInputs = 512,
+    ImGuiWindowFlags_MenuBar = 1024,
+    ImGuiWindowFlags_HorizontalScrollbar = 2048,
+    ImGuiWindowFlags_NoFocusOnAppearing = 4096,
+    ImGuiWindowFlags_NoBringToFrontOnFocus = 8192,
+    ImGuiWindowFlags_AlwaysVerticalScrollbar = 16384,
+    ImGuiWindowFlags_AlwaysHorizontalScrollbar = 32768,
+    ImGuiWindowFlags_NoNavInputs = 65536,
+    ImGuiWindowFlags_NoNavFocus = 131072,
+    ImGuiWindowFlags_UnsavedDocument = 262144,
+    ImGuiWindowFlags_NoDocking = 524288,
+    ImGuiWindowFlags_NoNav = 196608,
+    ImGuiWindowFlags_NoDecoration = 43,
+    ImGuiWindowFlags_NoInputs = 197120,
+    ImGuiWindowFlags_NavFlattened = 8388608,
+    ImGuiWindowFlags_ChildWindow = 16777216,
+    ImGuiWindowFlags_Tooltip = 33554432,
+    ImGuiWindowFlags_Popup = 67108864,
+    ImGuiWindowFlags_Modal = 134217728,
+    ImGuiWindowFlags_ChildMenu = 268435456,
+    ImGuiWindowFlags_DockNodeHost = 536870912);
+  PImGuiWindowFlags_ = ^ImGuiWindowFlags_;
+
+  ImGuiChildFlags_ = (
+    ImGuiChildFlags_None = 0,
+    ImGuiChildFlags_Border = 1,
+    ImGuiChildFlags_AlwaysUseWindowPadding = 2,
+    ImGuiChildFlags_ResizeX = 4,
+    ImGuiChildFlags_ResizeY = 8,
+    ImGuiChildFlags_AutoResizeX = 16,
+    ImGuiChildFlags_AutoResizeY = 32,
+    ImGuiChildFlags_AlwaysAutoResize = 64,
+    ImGuiChildFlags_FrameStyle = 128);
+  PImGuiChildFlags_ = ^ImGuiChildFlags_;
+
+  ImGuiInputTextFlags_ = (
+    ImGuiInputTextFlags_None = 0,
+    ImGuiInputTextFlags_CharsDecimal = 1,
+    ImGuiInputTextFlags_CharsHexadecimal = 2,
+    ImGuiInputTextFlags_CharsUppercase = 4,
+    ImGuiInputTextFlags_CharsNoBlank = 8,
+    ImGuiInputTextFlags_AutoSelectAll = 16,
+    ImGuiInputTextFlags_EnterReturnsTrue = 32,
+    ImGuiInputTextFlags_CallbackCompletion = 64,
+    ImGuiInputTextFlags_CallbackHistory = 128,
+    ImGuiInputTextFlags_CallbackAlways = 256,
+    ImGuiInputTextFlags_CallbackCharFilter = 512,
+    ImGuiInputTextFlags_AllowTabInput = 1024,
+    ImGuiInputTextFlags_CtrlEnterForNewLine = 2048,
+    ImGuiInputTextFlags_NoHorizontalScroll = 4096,
+    ImGuiInputTextFlags_AlwaysOverwrite = 8192,
+    ImGuiInputTextFlags_ReadOnly = 16384,
+    ImGuiInputTextFlags_Password = 32768,
+    ImGuiInputTextFlags_NoUndoRedo = 65536,
+    ImGuiInputTextFlags_CharsScientific = 131072,
+    ImGuiInputTextFlags_CallbackResize = 262144,
+    ImGuiInputTextFlags_CallbackEdit = 524288,
+    ImGuiInputTextFlags_EscapeClearsAll = 1048576);
+  PImGuiInputTextFlags_ = ^ImGuiInputTextFlags_;
+
+  ImGuiTreeNodeFlags_ = (
+    ImGuiTreeNodeFlags_None = 0,
+    ImGuiTreeNodeFlags_Selected = 1,
+    ImGuiTreeNodeFlags_Framed = 2,
+    ImGuiTreeNodeFlags_AllowOverlap = 4,
+    ImGuiTreeNodeFlags_NoTreePushOnOpen = 8,
+    ImGuiTreeNodeFlags_NoAutoOpenOnLog = 16,
+    ImGuiTreeNodeFlags_DefaultOpen = 32,
+    ImGuiTreeNodeFlags_OpenOnDoubleClick = 64,
+    ImGuiTreeNodeFlags_OpenOnArrow = 128,
+    ImGuiTreeNodeFlags_Leaf = 256,
+    ImGuiTreeNodeFlags_Bullet = 512,
+    ImGuiTreeNodeFlags_FramePadding = 1024,
+    ImGuiTreeNodeFlags_SpanAvailWidth = 2048,
+    ImGuiTreeNodeFlags_SpanFullWidth = 4096,
+    ImGuiTreeNodeFlags_SpanAllColumns = 8192,
+    ImGuiTreeNodeFlags_NavLeftJumpsBackHere = 16384,
+    ImGuiTreeNodeFlags_CollapsingHeader = 26);
+  PImGuiTreeNodeFlags_ = ^ImGuiTreeNodeFlags_;
+
+  ImGuiPopupFlags_ = (
+    ImGuiPopupFlags_None = 0,
+    ImGuiPopupFlags_MouseButtonLeft = 0,
+    ImGuiPopupFlags_MouseButtonRight = 1,
+    ImGuiPopupFlags_MouseButtonMiddle = 2,
+    ImGuiPopupFlags_MouseButtonMask_ = 31,
+    ImGuiPopupFlags_MouseButtonDefault_ = 1,
+    ImGuiPopupFlags_NoOpenOverExistingPopup = 32,
+    ImGuiPopupFlags_NoOpenOverItems = 64,
+    ImGuiPopupFlags_AnyPopupId = 128,
+    ImGuiPopupFlags_AnyPopupLevel = 256,
+    ImGuiPopupFlags_AnyPopup = 384);
+  PImGuiPopupFlags_ = ^ImGuiPopupFlags_;
+
+  ImGuiSelectableFlags_ = (
+    ImGuiSelectableFlags_None = 0,
+    ImGuiSelectableFlags_DontClosePopups = 1,
+    ImGuiSelectableFlags_SpanAllColumns = 2,
+    ImGuiSelectableFlags_AllowDoubleClick = 4,
+    ImGuiSelectableFlags_Disabled = 8,
+    ImGuiSelectableFlags_AllowOverlap = 16);
+  PImGuiSelectableFlags_ = ^ImGuiSelectableFlags_;
+
+  ImGuiComboFlags_ = (
+    ImGuiComboFlags_None = 0,
+    ImGuiComboFlags_PopupAlignLeft = 1,
+    ImGuiComboFlags_HeightSmall = 2,
+    ImGuiComboFlags_HeightRegular = 4,
+    ImGuiComboFlags_HeightLarge = 8,
+    ImGuiComboFlags_HeightLargest = 16,
+    ImGuiComboFlags_NoArrowButton = 32,
+    ImGuiComboFlags_NoPreview = 64,
+    ImGuiComboFlags_WidthFitPreview = 128,
+    ImGuiComboFlags_HeightMask_ = 30);
+  PImGuiComboFlags_ = ^ImGuiComboFlags_;
+
+  ImGuiTabBarFlags_ = (
+    ImGuiTabBarFlags_None = 0,
+    ImGuiTabBarFlags_Reorderable = 1,
+    ImGuiTabBarFlags_AutoSelectNewTabs = 2,
+    ImGuiTabBarFlags_TabListPopupButton = 4,
+    ImGuiTabBarFlags_NoCloseWithMiddleMouseButton = 8,
+    ImGuiTabBarFlags_NoTabListScrollingButtons = 16,
+    ImGuiTabBarFlags_NoTooltip = 32,
+    ImGuiTabBarFlags_FittingPolicyResizeDown = 64,
+    ImGuiTabBarFlags_FittingPolicyScroll = 128,
+    ImGuiTabBarFlags_FittingPolicyMask_ = 192,
+    ImGuiTabBarFlags_FittingPolicyDefault_ = 64);
+  PImGuiTabBarFlags_ = ^ImGuiTabBarFlags_;
+
+  ImGuiTabItemFlags_ = (
+    ImGuiTabItemFlags_None = 0,
+    ImGuiTabItemFlags_UnsavedDocument = 1,
+    ImGuiTabItemFlags_SetSelected = 2,
+    ImGuiTabItemFlags_NoCloseWithMiddleMouseButton = 4,
+    ImGuiTabItemFlags_NoPushId = 8,
+    ImGuiTabItemFlags_NoTooltip = 16,
+    ImGuiTabItemFlags_NoReorder = 32,
+    ImGuiTabItemFlags_Leading = 64,
+    ImGuiTabItemFlags_Trailing = 128,
+    ImGuiTabItemFlags_NoAssumedClosure = 256);
+  PImGuiTabItemFlags_ = ^ImGuiTabItemFlags_;
+
+  ImGuiFocusedFlags_ = (
+    ImGuiFocusedFlags_None = 0,
+    ImGuiFocusedFlags_ChildWindows = 1,
+    ImGuiFocusedFlags_RootWindow = 2,
+    ImGuiFocusedFlags_AnyWindow = 4,
+    ImGuiFocusedFlags_NoPopupHierarchy = 8,
+    ImGuiFocusedFlags_DockHierarchy = 16,
+    ImGuiFocusedFlags_RootAndChildWindows = 3);
+  PImGuiFocusedFlags_ = ^ImGuiFocusedFlags_;
+
+  ImGuiHoveredFlags_ = (
+    ImGuiHoveredFlags_None = 0,
+    ImGuiHoveredFlags_ChildWindows = 1,
+    ImGuiHoveredFlags_RootWindow = 2,
+    ImGuiHoveredFlags_AnyWindow = 4,
+    ImGuiHoveredFlags_NoPopupHierarchy = 8,
+    ImGuiHoveredFlags_DockHierarchy = 16,
+    ImGuiHoveredFlags_AllowWhenBlockedByPopup = 32,
+    ImGuiHoveredFlags_AllowWhenBlockedByActiveItem = 128,
+    ImGuiHoveredFlags_AllowWhenOverlappedByItem = 256,
+    ImGuiHoveredFlags_AllowWhenOverlappedByWindow = 512,
+    ImGuiHoveredFlags_AllowWhenDisabled = 1024,
+    ImGuiHoveredFlags_NoNavOverride = 2048,
+    ImGuiHoveredFlags_AllowWhenOverlapped = 768,
+    ImGuiHoveredFlags_RectOnly = 928,
+    ImGuiHoveredFlags_RootAndChildWindows = 3,
+    ImGuiHoveredFlags_ForTooltip = 4096,
+    ImGuiHoveredFlags_Stationary = 8192,
+    ImGuiHoveredFlags_DelayNone = 16384,
+    ImGuiHoveredFlags_DelayShort = 32768,
+    ImGuiHoveredFlags_DelayNormal = 65536,
+    ImGuiHoveredFlags_NoSharedDelay = 131072);
+  PImGuiHoveredFlags_ = ^ImGuiHoveredFlags_;
+
+  ImGuiDockNodeFlags_ = (
+    ImGuiDockNodeFlags_None = 0,
+    ImGuiDockNodeFlags_KeepAliveOnly = 1,
+    ImGuiDockNodeFlags_NoDockingOverCentralNode = 4,
+    ImGuiDockNodeFlags_PassthruCentralNode = 8,
+    ImGuiDockNodeFlags_NoDockingSplit = 16,
+    ImGuiDockNodeFlags_NoResize = 32,
+    ImGuiDockNodeFlags_AutoHideTabBar = 64,
+    ImGuiDockNodeFlags_NoUndocking = 128);
+  PImGuiDockNodeFlags_ = ^ImGuiDockNodeFlags_;
+
+  ImGuiDragDropFlags_ = (
+    ImGuiDragDropFlags_None = 0,
+    ImGuiDragDropFlags_SourceNoPreviewTooltip = 1,
+    ImGuiDragDropFlags_SourceNoDisableHover = 2,
+    ImGuiDragDropFlags_SourceNoHoldToOpenOthers = 4,
+    ImGuiDragDropFlags_SourceAllowNullID = 8,
+    ImGuiDragDropFlags_SourceExtern = 16,
+    ImGuiDragDropFlags_SourceAutoExpirePayload = 32,
+    ImGuiDragDropFlags_AcceptBeforeDelivery = 1024,
+    ImGuiDragDropFlags_AcceptNoDrawDefaultRect = 2048,
+    ImGuiDragDropFlags_AcceptNoPreviewTooltip = 4096,
+    ImGuiDragDropFlags_AcceptPeekOnly = 3072);
+  PImGuiDragDropFlags_ = ^ImGuiDragDropFlags_;
+
+  ImGuiDataType_ = (
+    ImGuiDataType_S8 = 0,
+    ImGuiDataType_U8 = 1,
+    ImGuiDataType_S16 = 2,
+    ImGuiDataType_U16 = 3,
+    ImGuiDataType_S32 = 4,
+    ImGuiDataType_U32 = 5,
+    ImGuiDataType_S64 = 6,
+    ImGuiDataType_U64 = 7,
+    ImGuiDataType_Float = 8,
+    ImGuiDataType_Double = 9,
+    ImGuiDataType_COUNT = 10);
+  PImGuiDataType_ = ^ImGuiDataType_;
+
+  ImGuiDir_ = (
+    ImGuiDir_None = -1,
+    ImGuiDir_Left = 0,
+    ImGuiDir_Right = 1,
+    ImGuiDir_Up = 2,
+    ImGuiDir_Down = 3,
+    ImGuiDir_COUNT = 4);
+  PImGuiDir_ = ^ImGuiDir_;
+
+  ImGuiSortDirection_ = (
+    ImGuiSortDirection_None = 0,
+    ImGuiSortDirection_Ascending = 1,
+    ImGuiSortDirection_Descending = 2);
+  PImGuiSortDirection_ = ^ImGuiSortDirection_;
+
+  ImGuiKey = (
+    ImGuiKey_None = 0,
+    ImGuiKey_Tab = 512,
+    ImGuiKey_LeftArrow = 513,
+    ImGuiKey_RightArrow = 514,
+    ImGuiKey_UpArrow = 515,
+    ImGuiKey_DownArrow = 516,
+    ImGuiKey_PageUp = 517,
+    ImGuiKey_PageDown = 518,
+    ImGuiKey_Home = 519,
+    ImGuiKey_End = 520,
+    ImGuiKey_Insert = 521,
+    ImGuiKey_Delete = 522,
+    ImGuiKey_Backspace = 523,
+    ImGuiKey_Space = 524,
+    ImGuiKey_Enter = 525,
+    ImGuiKey_Escape = 526,
+    ImGuiKey_LeftCtrl = 527,
+    ImGuiKey_LeftShift = 528,
+    ImGuiKey_LeftAlt = 529,
+    ImGuiKey_LeftSuper = 530,
+    ImGuiKey_RightCtrl = 531,
+    ImGuiKey_RightShift = 532,
+    ImGuiKey_RightAlt = 533,
+    ImGuiKey_RightSuper = 534,
+    ImGuiKey_Menu = 535,
+    ImGuiKey_0 = 536,
+    ImGuiKey_1 = 537,
+    ImGuiKey_2 = 538,
+    ImGuiKey_3 = 539,
+    ImGuiKey_4 = 540,
+    ImGuiKey_5 = 541,
+    ImGuiKey_6 = 542,
+    ImGuiKey_7 = 543,
+    ImGuiKey_8 = 544,
+    ImGuiKey_9 = 545,
+    ImGuiKey_A = 546,
+    ImGuiKey_B = 547,
+    ImGuiKey_C = 548,
+    ImGuiKey_D = 549,
+    ImGuiKey_E = 550,
+    ImGuiKey_F = 551,
+    ImGuiKey_G = 552,
+    ImGuiKey_H = 553,
+    ImGuiKey_I = 554,
+    ImGuiKey_J = 555,
+    ImGuiKey_K = 556,
+    ImGuiKey_L = 557,
+    ImGuiKey_M = 558,
+    ImGuiKey_N = 559,
+    ImGuiKey_O = 560,
+    ImGuiKey_P = 561,
+    ImGuiKey_Q = 562,
+    ImGuiKey_R = 563,
+    ImGuiKey_S = 564,
+    ImGuiKey_T = 565,
+    ImGuiKey_U = 566,
+    ImGuiKey_V = 567,
+    ImGuiKey_W = 568,
+    ImGuiKey_X = 569,
+    ImGuiKey_Y = 570,
+    ImGuiKey_Z = 571,
+    ImGuiKey_F1 = 572,
+    ImGuiKey_F2 = 573,
+    ImGuiKey_F3 = 574,
+    ImGuiKey_F4 = 575,
+    ImGuiKey_F5 = 576,
+    ImGuiKey_F6 = 577,
+    ImGuiKey_F7 = 578,
+    ImGuiKey_F8 = 579,
+    ImGuiKey_F9 = 580,
+    ImGuiKey_F10 = 581,
+    ImGuiKey_F11 = 582,
+    ImGuiKey_F12 = 583,
+    ImGuiKey_F13 = 584,
+    ImGuiKey_F14 = 585,
+    ImGuiKey_F15 = 586,
+    ImGuiKey_F16 = 587,
+    ImGuiKey_F17 = 588,
+    ImGuiKey_F18 = 589,
+    ImGuiKey_F19 = 590,
+    ImGuiKey_F20 = 591,
+    ImGuiKey_F21 = 592,
+    ImGuiKey_F22 = 593,
+    ImGuiKey_F23 = 594,
+    ImGuiKey_F24 = 595,
+    ImGuiKey_Apostrophe = 596,
+    ImGuiKey_Comma = 597,
+    ImGuiKey_Minus = 598,
+    ImGuiKey_Period = 599,
+    ImGuiKey_Slash = 600,
+    ImGuiKey_Semicolon = 601,
+    ImGuiKey_Equal = 602,
+    ImGuiKey_LeftBracket = 603,
+    ImGuiKey_Backslash = 604,
+    ImGuiKey_RightBracket = 605,
+    ImGuiKey_GraveAccent = 606,
+    ImGuiKey_CapsLock = 607,
+    ImGuiKey_ScrollLock = 608,
+    ImGuiKey_NumLock = 609,
+    ImGuiKey_PrintScreen = 610,
+    ImGuiKey_Pause = 611,
+    ImGuiKey_Keypad0 = 612,
+    ImGuiKey_Keypad1 = 613,
+    ImGuiKey_Keypad2 = 614,
+    ImGuiKey_Keypad3 = 615,
+    ImGuiKey_Keypad4 = 616,
+    ImGuiKey_Keypad5 = 617,
+    ImGuiKey_Keypad6 = 618,
+    ImGuiKey_Keypad7 = 619,
+    ImGuiKey_Keypad8 = 620,
+    ImGuiKey_Keypad9 = 621,
+    ImGuiKey_KeypadDecimal = 622,
+    ImGuiKey_KeypadDivide = 623,
+    ImGuiKey_KeypadMultiply = 624,
+    ImGuiKey_KeypadSubtract = 625,
+    ImGuiKey_KeypadAdd = 626,
+    ImGuiKey_KeypadEnter = 627,
+    ImGuiKey_KeypadEqual = 628,
+    ImGuiKey_AppBack = 629,
+    ImGuiKey_AppForward = 630,
+    ImGuiKey_GamepadStart = 631,
+    ImGuiKey_GamepadBack = 632,
+    ImGuiKey_GamepadFaceLeft = 633,
+    ImGuiKey_GamepadFaceRight = 634,
+    ImGuiKey_GamepadFaceUp = 635,
+    ImGuiKey_GamepadFaceDown = 636,
+    ImGuiKey_GamepadDpadLeft = 637,
+    ImGuiKey_GamepadDpadRight = 638,
+    ImGuiKey_GamepadDpadUp = 639,
+    ImGuiKey_GamepadDpadDown = 640,
+    ImGuiKey_GamepadL1 = 641,
+    ImGuiKey_GamepadR1 = 642,
+    ImGuiKey_GamepadL2 = 643,
+    ImGuiKey_GamepadR2 = 644,
+    ImGuiKey_GamepadL3 = 645,
+    ImGuiKey_GamepadR3 = 646,
+    ImGuiKey_GamepadLStickLeft = 647,
+    ImGuiKey_GamepadLStickRight = 648,
+    ImGuiKey_GamepadLStickUp = 649,
+    ImGuiKey_GamepadLStickDown = 650,
+    ImGuiKey_GamepadRStickLeft = 651,
+    ImGuiKey_GamepadRStickRight = 652,
+    ImGuiKey_GamepadRStickUp = 653,
+    ImGuiKey_GamepadRStickDown = 654,
+    ImGuiKey_MouseLeft = 655,
+    ImGuiKey_MouseRight = 656,
+    ImGuiKey_MouseMiddle = 657,
+    ImGuiKey_MouseX1 = 658,
+    ImGuiKey_MouseX2 = 659,
+    ImGuiKey_MouseWheelX = 660,
+    ImGuiKey_MouseWheelY = 661,
+    ImGuiKey_ReservedForModCtrl = 662,
+    ImGuiKey_ReservedForModShift = 663,
+    ImGuiKey_ReservedForModAlt = 664,
+    ImGuiKey_ReservedForModSuper = 665,
+    ImGuiKey_COUNT = 666,
+    ImGuiMod_None = 0,
+    ImGuiMod_Ctrl = 4096,
+    ImGuiMod_Shift = 8192,
+    ImGuiMod_Alt = 16384,
+    ImGuiMod_Super = 32768,
+    ImGuiMod_Shortcut = 2048,
+    ImGuiMod_Mask_ = 63488,
+    ImGuiKey_NamedKey_BEGIN = 512,
+    ImGuiKey_NamedKey_END = 666,
+    ImGuiKey_NamedKey_COUNT = 154,
+    ImGuiKey_KeysData_SIZE = 154,
+    ImGuiKey_KeysData_OFFSET = 512);
+  PImGuiKey = ^ImGuiKey;
+
+  ImGuiConfigFlags_ = (
+    ImGuiConfigFlags_None = 0,
+    ImGuiConfigFlags_NavEnableKeyboard = 1,
+    ImGuiConfigFlags_NavEnableGamepad = 2,
+    ImGuiConfigFlags_NavEnableSetMousePos = 4,
+    ImGuiConfigFlags_NavNoCaptureKeyboard = 8,
+    ImGuiConfigFlags_NoMouse = 16,
+    ImGuiConfigFlags_NoMouseCursorChange = 32,
+    ImGuiConfigFlags_DockingEnable = 64,
+    ImGuiConfigFlags_ViewportsEnable = 1024,
+    ImGuiConfigFlags_DpiEnableScaleViewports = 16384,
+    ImGuiConfigFlags_DpiEnableScaleFonts = 32768,
+    ImGuiConfigFlags_IsSRGB = 1048576,
+    ImGuiConfigFlags_IsTouchScreen = 2097152);
+  PImGuiConfigFlags_ = ^ImGuiConfigFlags_;
+
+  ImGuiBackendFlags_ = (
+    ImGuiBackendFlags_None = 0,
+    ImGuiBackendFlags_HasGamepad = 1,
+    ImGuiBackendFlags_HasMouseCursors = 2,
+    ImGuiBackendFlags_HasSetMousePos = 4,
+    ImGuiBackendFlags_RendererHasVtxOffset = 8,
+    ImGuiBackendFlags_PlatformHasViewports = 1024,
+    ImGuiBackendFlags_HasMouseHoveredViewport = 2048,
+    ImGuiBackendFlags_RendererHasViewports = 4096);
+  PImGuiBackendFlags_ = ^ImGuiBackendFlags_;
+
+  ImGuiCol_ = (
+    ImGuiCol_Text = 0,
+    ImGuiCol_TextDisabled = 1,
+    ImGuiCol_WindowBg = 2,
+    ImGuiCol_ChildBg = 3,
+    ImGuiCol_PopupBg = 4,
+    ImGuiCol_Border = 5,
+    ImGuiCol_BorderShadow = 6,
+    ImGuiCol_FrameBg = 7,
+    ImGuiCol_FrameBgHovered = 8,
+    ImGuiCol_FrameBgActive = 9,
+    ImGuiCol_TitleBg = 10,
+    ImGuiCol_TitleBgActive = 11,
+    ImGuiCol_TitleBgCollapsed = 12,
+    ImGuiCol_MenuBarBg = 13,
+    ImGuiCol_ScrollbarBg = 14,
+    ImGuiCol_ScrollbarGrab = 15,
+    ImGuiCol_ScrollbarGrabHovered = 16,
+    ImGuiCol_ScrollbarGrabActive = 17,
+    ImGuiCol_CheckMark = 18,
+    ImGuiCol_SliderGrab = 19,
+    ImGuiCol_SliderGrabActive = 20,
+    ImGuiCol_Button = 21,
+    ImGuiCol_ButtonHovered = 22,
+    ImGuiCol_ButtonActive = 23,
+    ImGuiCol_Header = 24,
+    ImGuiCol_HeaderHovered = 25,
+    ImGuiCol_HeaderActive = 26,
+    ImGuiCol_Separator = 27,
+    ImGuiCol_SeparatorHovered = 28,
+    ImGuiCol_SeparatorActive = 29,
+    ImGuiCol_ResizeGrip = 30,
+    ImGuiCol_ResizeGripHovered = 31,
+    ImGuiCol_ResizeGripActive = 32,
+    ImGuiCol_Tab = 33,
+    ImGuiCol_TabHovered = 34,
+    ImGuiCol_TabActive = 35,
+    ImGuiCol_TabUnfocused = 36,
+    ImGuiCol_TabUnfocusedActive = 37,
+    ImGuiCol_DockingPreview = 38,
+    ImGuiCol_DockingEmptyBg = 39,
+    ImGuiCol_PlotLines = 40,
+    ImGuiCol_PlotLinesHovered = 41,
+    ImGuiCol_PlotHistogram = 42,
+    ImGuiCol_PlotHistogramHovered = 43,
+    ImGuiCol_TableHeaderBg = 44,
+    ImGuiCol_TableBorderStrong = 45,
+    ImGuiCol_TableBorderLight = 46,
+    ImGuiCol_TableRowBg = 47,
+    ImGuiCol_TableRowBgAlt = 48,
+    ImGuiCol_TextSelectedBg = 49,
+    ImGuiCol_DragDropTarget = 50,
+    ImGuiCol_NavHighlight = 51,
+    ImGuiCol_NavWindowingHighlight = 52,
+    ImGuiCol_NavWindowingDimBg = 53,
+    ImGuiCol_ModalWindowDimBg = 54,
+    ImGuiCol_COUNT = 55);
+  PImGuiCol_ = ^ImGuiCol_;
+
+  ImGuiStyleVar_ = (
+    ImGuiStyleVar_Alpha = 0,
+    ImGuiStyleVar_DisabledAlpha = 1,
+    ImGuiStyleVar_WindowPadding = 2,
+    ImGuiStyleVar_WindowRounding = 3,
+    ImGuiStyleVar_WindowBorderSize = 4,
+    ImGuiStyleVar_WindowMinSize = 5,
+    ImGuiStyleVar_WindowTitleAlign = 6,
+    ImGuiStyleVar_ChildRounding = 7,
+    ImGuiStyleVar_ChildBorderSize = 8,
+    ImGuiStyleVar_PopupRounding = 9,
+    ImGuiStyleVar_PopupBorderSize = 10,
+    ImGuiStyleVar_FramePadding = 11,
+    ImGuiStyleVar_FrameRounding = 12,
+    ImGuiStyleVar_FrameBorderSize = 13,
+    ImGuiStyleVar_ItemSpacing = 14,
+    ImGuiStyleVar_ItemInnerSpacing = 15,
+    ImGuiStyleVar_IndentSpacing = 16,
+    ImGuiStyleVar_CellPadding = 17,
+    ImGuiStyleVar_ScrollbarSize = 18,
+    ImGuiStyleVar_ScrollbarRounding = 19,
+    ImGuiStyleVar_GrabMinSize = 20,
+    ImGuiStyleVar_GrabRounding = 21,
+    ImGuiStyleVar_TabRounding = 22,
+    ImGuiStyleVar_TabBarBorderSize = 23,
+    ImGuiStyleVar_ButtonTextAlign = 24,
+    ImGuiStyleVar_SelectableTextAlign = 25,
+    ImGuiStyleVar_SeparatorTextBorderSize = 26,
+    ImGuiStyleVar_SeparatorTextAlign = 27,
+    ImGuiStyleVar_SeparatorTextPadding = 28,
+    ImGuiStyleVar_DockingSeparatorSize = 29,
+    ImGuiStyleVar_COUNT = 30);
+  PImGuiStyleVar_ = ^ImGuiStyleVar_;
+
+  ImGuiButtonFlags_ = (
+    ImGuiButtonFlags_None = 0,
+    ImGuiButtonFlags_MouseButtonLeft = 1,
+    ImGuiButtonFlags_MouseButtonRight = 2,
+    ImGuiButtonFlags_MouseButtonMiddle = 4,
+    ImGuiButtonFlags_MouseButtonMask_ = 7,
+    ImGuiButtonFlags_MouseButtonDefault_ = 1);
+  PImGuiButtonFlags_ = ^ImGuiButtonFlags_;
+
+  ImGuiColorEditFlags_ = (
+    ImGuiColorEditFlags_None = 0,
+    ImGuiColorEditFlags_NoAlpha = 2,
+    ImGuiColorEditFlags_NoPicker = 4,
+    ImGuiColorEditFlags_NoOptions = 8,
+    ImGuiColorEditFlags_NoSmallPreview = 16,
+    ImGuiColorEditFlags_NoInputs = 32,
+    ImGuiColorEditFlags_NoTooltip = 64,
+    ImGuiColorEditFlags_NoLabel = 128,
+    ImGuiColorEditFlags_NoSidePreview = 256,
+    ImGuiColorEditFlags_NoDragDrop = 512,
+    ImGuiColorEditFlags_NoBorder = 1024,
+    ImGuiColorEditFlags_AlphaBar = 65536,
+    ImGuiColorEditFlags_AlphaPreview = 131072,
+    ImGuiColorEditFlags_AlphaPreviewHalf = 262144,
+    ImGuiColorEditFlags_HDR = 524288,
+    ImGuiColorEditFlags_DisplayRGB = 1048576,
+    ImGuiColorEditFlags_DisplayHSV = 2097152,
+    ImGuiColorEditFlags_DisplayHex = 4194304,
+    ImGuiColorEditFlags_Uint8 = 8388608,
+    ImGuiColorEditFlags_Float = 16777216,
+    ImGuiColorEditFlags_PickerHueBar = 33554432,
+    ImGuiColorEditFlags_PickerHueWheel = 67108864,
+    ImGuiColorEditFlags_InputRGB = 134217728,
+    ImGuiColorEditFlags_InputHSV = 268435456,
+    ImGuiColorEditFlags_DefaultOptions_ = 177209344,
+    ImGuiColorEditFlags_DisplayMask_ = 7340032,
+    ImGuiColorEditFlags_DataTypeMask_ = 25165824,
+    ImGuiColorEditFlags_PickerMask_ = 100663296,
+    ImGuiColorEditFlags_InputMask_ = 402653184);
+  PImGuiColorEditFlags_ = ^ImGuiColorEditFlags_;
+
+  ImGuiSliderFlags_ = (
+    ImGuiSliderFlags_None = 0,
+    ImGuiSliderFlags_AlwaysClamp = 16,
+    ImGuiSliderFlags_Logarithmic = 32,
+    ImGuiSliderFlags_NoRoundToFormat = 64,
+    ImGuiSliderFlags_NoInput = 128,
+    ImGuiSliderFlags_InvalidMask_ = 1879048207);
+  PImGuiSliderFlags_ = ^ImGuiSliderFlags_;
+
+  ImGuiMouseButton_ = (
+    ImGuiMouseButton_Left = 0,
+    ImGuiMouseButton_Right = 1,
+    ImGuiMouseButton_Middle = 2,
+    ImGuiMouseButton_COUNT = 5);
+  PImGuiMouseButton_ = ^ImGuiMouseButton_;
+
+  ImGuiMouseCursor_ = (
+    ImGuiMouseCursor_None = -1,
+    ImGuiMouseCursor_Arrow = 0,
+    ImGuiMouseCursor_TextInput = 1,
+    ImGuiMouseCursor_ResizeAll = 2,
+    ImGuiMouseCursor_ResizeNS = 3,
+    ImGuiMouseCursor_ResizeEW = 4,
+    ImGuiMouseCursor_ResizeNESW = 5,
+    ImGuiMouseCursor_ResizeNWSE = 6,
+    ImGuiMouseCursor_Hand = 7,
+    ImGuiMouseCursor_NotAllowed = 8,
+    ImGuiMouseCursor_COUNT = 9);
+  PImGuiMouseCursor_ = ^ImGuiMouseCursor_;
+
+  ImGuiMouseSource = (
+    ImGuiMouseSource_Mouse = 0,
+    ImGuiMouseSource_TouchScreen = 1,
+    ImGuiMouseSource_Pen = 2,
+    ImGuiMouseSource_COUNT = 3);
+  PImGuiMouseSource = ^ImGuiMouseSource;
+
+  ImGuiCond_ = (
+    ImGuiCond_None = 0,
+    ImGuiCond_Always = 1,
+    ImGuiCond_Once = 2,
+    ImGuiCond_FirstUseEver = 4,
+    ImGuiCond_Appearing = 8);
+  PImGuiCond_ = ^ImGuiCond_;
+
+  ImGuiTableFlags_ = (
+    ImGuiTableFlags_None = 0,
+    ImGuiTableFlags_Resizable = 1,
+    ImGuiTableFlags_Reorderable = 2,
+    ImGuiTableFlags_Hideable = 4,
+    ImGuiTableFlags_Sortable = 8,
+    ImGuiTableFlags_NoSavedSettings = 16,
+    ImGuiTableFlags_ContextMenuInBody = 32,
+    ImGuiTableFlags_RowBg = 64,
+    ImGuiTableFlags_BordersInnerH = 128,
+    ImGuiTableFlags_BordersOuterH = 256,
+    ImGuiTableFlags_BordersInnerV = 512,
+    ImGuiTableFlags_BordersOuterV = 1024,
+    ImGuiTableFlags_BordersH = 384,
+    ImGuiTableFlags_BordersV = 1536,
+    ImGuiTableFlags_BordersInner = 640,
+    ImGuiTableFlags_BordersOuter = 1280,
+    ImGuiTableFlags_Borders = 1920,
+    ImGuiTableFlags_NoBordersInBody = 2048,
+    ImGuiTableFlags_NoBordersInBodyUntilResize = 4096,
+    ImGuiTableFlags_SizingFixedFit = 8192,
+    ImGuiTableFlags_SizingFixedSame = 16384,
+    ImGuiTableFlags_SizingStretchProp = 24576,
+    ImGuiTableFlags_SizingStretchSame = 32768,
+    ImGuiTableFlags_NoHostExtendX = 65536,
+    ImGuiTableFlags_NoHostExtendY = 131072,
+    ImGuiTableFlags_NoKeepColumnsVisible = 262144,
+    ImGuiTableFlags_PreciseWidths = 524288,
+    ImGuiTableFlags_NoClip = 1048576,
+    ImGuiTableFlags_PadOuterX = 2097152,
+    ImGuiTableFlags_NoPadOuterX = 4194304,
+    ImGuiTableFlags_NoPadInnerX = 8388608,
+    ImGuiTableFlags_ScrollX = 16777216,
+    ImGuiTableFlags_ScrollY = 33554432,
+    ImGuiTableFlags_SortMulti = 67108864,
+    ImGuiTableFlags_SortTristate = 134217728,
+    ImGuiTableFlags_HighlightHoveredColumn = 268435456,
+    ImGuiTableFlags_SizingMask_ = 57344);
+  PImGuiTableFlags_ = ^ImGuiTableFlags_;
+
+  ImGuiTableColumnFlags_ = (
+    ImGuiTableColumnFlags_None = 0,
+    ImGuiTableColumnFlags_Disabled = 1,
+    ImGuiTableColumnFlags_DefaultHide = 2,
+    ImGuiTableColumnFlags_DefaultSort = 4,
+    ImGuiTableColumnFlags_WidthStretch = 8,
+    ImGuiTableColumnFlags_WidthFixed = 16,
+    ImGuiTableColumnFlags_NoResize = 32,
+    ImGuiTableColumnFlags_NoReorder = 64,
+    ImGuiTableColumnFlags_NoHide = 128,
+    ImGuiTableColumnFlags_NoClip = 256,
+    ImGuiTableColumnFlags_NoSort = 512,
+    ImGuiTableColumnFlags_NoSortAscending = 1024,
+    ImGuiTableColumnFlags_NoSortDescending = 2048,
+    ImGuiTableColumnFlags_NoHeaderLabel = 4096,
+    ImGuiTableColumnFlags_NoHeaderWidth = 8192,
+    ImGuiTableColumnFlags_PreferSortAscending = 16384,
+    ImGuiTableColumnFlags_PreferSortDescending = 32768,
+    ImGuiTableColumnFlags_IndentEnable = 65536,
+    ImGuiTableColumnFlags_IndentDisable = 131072,
+    ImGuiTableColumnFlags_AngledHeader = 262144,
+    ImGuiTableColumnFlags_IsEnabled = 16777216,
+    ImGuiTableColumnFlags_IsVisible = 33554432,
+    ImGuiTableColumnFlags_IsSorted = 67108864,
+    ImGuiTableColumnFlags_IsHovered = 134217728,
+    ImGuiTableColumnFlags_WidthMask_ = 24,
+    ImGuiTableColumnFlags_IndentMask_ = 196608,
+    ImGuiTableColumnFlags_StatusMask_ = 251658240,
+    ImGuiTableColumnFlags_NoDirectResize_ = 1073741824);
+  PImGuiTableColumnFlags_ = ^ImGuiTableColumnFlags_;
+
+  ImGuiTableRowFlags_ = (
+    ImGuiTableRowFlags_None = 0,
+    ImGuiTableRowFlags_Headers = 1);
+  PImGuiTableRowFlags_ = ^ImGuiTableRowFlags_;
+
+  ImGuiTableBgTarget_ = (
+    ImGuiTableBgTarget_None = 0,
+    ImGuiTableBgTarget_RowBg0 = 1,
+    ImGuiTableBgTarget_RowBg1 = 2,
+    ImGuiTableBgTarget_CellBg = 3);
+  PImGuiTableBgTarget_ = ^ImGuiTableBgTarget_;
+
+  ImGuiTableSortSpecs = record
+    Specs: PImGuiTableColumnSortSpecs;
+    SpecsCount: Integer;
+    SpecsDirty: Boolean;
+  end;
+
+  ImGuiTableColumnSortSpecs = record
+    ColumnUserID: ImGuiID;
+    ColumnIndex: ImS16;
+    SortOrder: ImS16;
+  private
+    Data0: Cardinal;
+    function GetData0Value(const AIndex: Integer): Cardinal;
+    procedure SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property SortDirection: Cardinal index $0008 read GetData0Value write SetData0Value; // 8 bits at offset 0 in Data0
+  end;
+
+  ImGuiStyle = record
+    Alpha: Single;
+    DisabledAlpha: Single;
+    WindowPadding: ImVec2;
+    WindowRounding: Single;
+    WindowBorderSize: Single;
+    WindowMinSize: ImVec2;
+    WindowTitleAlign: ImVec2;
+    WindowMenuButtonPosition: ImGuiDir;
+    ChildRounding: Single;
+    ChildBorderSize: Single;
+    PopupRounding: Single;
+    PopupBorderSize: Single;
+    FramePadding: ImVec2;
+    FrameRounding: Single;
+    FrameBorderSize: Single;
+    ItemSpacing: ImVec2;
+    ItemInnerSpacing: ImVec2;
+    CellPadding: ImVec2;
+    TouchExtraPadding: ImVec2;
+    IndentSpacing: Single;
+    ColumnsMinSpacing: Single;
+    ScrollbarSize: Single;
+    ScrollbarRounding: Single;
+    GrabMinSize: Single;
+    GrabRounding: Single;
+    LogSliderDeadzone: Single;
+    TabRounding: Single;
+    TabBorderSize: Single;
+    TabMinWidthForCloseButton: Single;
+    TabBarBorderSize: Single;
+    TableAngledHeadersAngle: Single;
+    ColorButtonPosition: ImGuiDir;
+    ButtonTextAlign: ImVec2;
+    SelectableTextAlign: ImVec2;
+    SeparatorTextBorderSize: Single;
+    SeparatorTextAlign: ImVec2;
+    SeparatorTextPadding: ImVec2;
+    DisplayWindowPadding: ImVec2;
+    DisplaySafeAreaPadding: ImVec2;
+    DockingSeparatorSize: Single;
+    MouseCursorScale: Single;
+    AntiAliasedLines: Boolean;
+    AntiAliasedLinesUseTex: Boolean;
+    AntiAliasedFill: Boolean;
+    CurveTessellationTol: Single;
+    CircleTessellationMaxError: Single;
+    Colors: array [0..54] of ImVec4;
+    HoverStationaryDelay: Single;
+    HoverDelayShort: Single;
+    HoverDelayNormal: Single;
+    HoverFlagsForTooltipMouse: ImGuiHoveredFlags;
+    HoverFlagsForTooltipNav: ImGuiHoveredFlags;
+  end;
+
+  ImGuiKeyData = record
+    Down: Boolean;
+    DownDuration: Single;
+    DownDurationPrev: Single;
+    AnalogValue: Single;
+  end;
+
+  ImVector_ImWchar = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImWchar;
+  end;
+
+  ImGuiIO = record
+    ConfigFlags: ImGuiConfigFlags;
+    BackendFlags: ImGuiBackendFlags;
+    DisplaySize: ImVec2;
+    DeltaTime: Single;
+    IniSavingRate: Single;
+    IniFilename: PUTF8Char;
+    LogFilename: PUTF8Char;
+    UserData: Pointer;
+    Fonts: PImFontAtlas;
+    FontGlobalScale: Single;
+    FontAllowUserScaling: Boolean;
+    FontDefault: PImFont;
+    DisplayFramebufferScale: ImVec2;
+    ConfigDockingNoSplit: Boolean;
+    ConfigDockingWithShift: Boolean;
+    ConfigDockingAlwaysTabBar: Boolean;
+    ConfigDockingTransparentPayload: Boolean;
+    ConfigViewportsNoAutoMerge: Boolean;
+    ConfigViewportsNoTaskBarIcon: Boolean;
+    ConfigViewportsNoDecoration: Boolean;
+    ConfigViewportsNoDefaultParent: Boolean;
+    MouseDrawCursor: Boolean;
+    ConfigMacOSXBehaviors: Boolean;
+    ConfigInputTrickleEventQueue: Boolean;
+    ConfigInputTextCursorBlink: Boolean;
+    ConfigInputTextEnterKeepActive: Boolean;
+    ConfigDragClickToInputText: Boolean;
+    ConfigWindowsResizeFromEdges: Boolean;
+    ConfigWindowsMoveFromTitleBarOnly: Boolean;
+    ConfigMemoryCompactTimer: Single;
+    MouseDoubleClickTime: Single;
+    MouseDoubleClickMaxDist: Single;
+    MouseDragThreshold: Single;
+    KeyRepeatDelay: Single;
+    KeyRepeatRate: Single;
+    ConfigDebugIsDebuggerPresent: Boolean;
+    ConfigDebugBeginReturnValueOnce: Boolean;
+    ConfigDebugBeginReturnValueLoop: Boolean;
+    ConfigDebugIgnoreFocusLoss: Boolean;
+    ConfigDebugIniSettings: Boolean;
+    BackendPlatformName: PUTF8Char;
+    BackendRendererName: PUTF8Char;
+    BackendPlatformUserData: Pointer;
+    BackendRendererUserData: Pointer;
+    BackendLanguageUserData: Pointer;
+    GetClipboardTextFn: function(user_data: Pointer): PUTF8Char; cdecl;
+    SetClipboardTextFn: procedure(user_data: Pointer; const text: PUTF8Char); cdecl;
+    ClipboardUserData: Pointer;
+    SetPlatformImeDataFn: procedure(viewport: PImGuiViewport; data: PImGuiPlatformImeData); cdecl;
+    PlatformLocaleDecimalPoint: ImWchar;
+    WantCaptureMouse: Boolean;
+    WantCaptureKeyboard: Boolean;
+    WantTextInput: Boolean;
+    WantSetMousePos: Boolean;
+    WantSaveIniSettings: Boolean;
+    NavActive: Boolean;
+    NavVisible: Boolean;
+    Framerate: Single;
+    MetricsRenderVertices: Integer;
+    MetricsRenderIndices: Integer;
+    MetricsRenderWindows: Integer;
+    MetricsActiveWindows: Integer;
+    MouseDelta: ImVec2;
+    _UnusedPadding: Pointer;
+    Ctx: PImGuiContext;
+    MousePos: ImVec2;
+    MouseDown: array [0..4] of Boolean;
+    MouseWheel: Single;
+    MouseWheelH: Single;
+    MouseSource: ImGuiMouseSource;
+    MouseHoveredViewport: ImGuiID;
+    KeyCtrl: Boolean;
+    KeyShift: Boolean;
+    KeyAlt: Boolean;
+    KeySuper: Boolean;
+    KeyMods: ImGuiKeyChord;
+    KeysData: array [0..153] of ImGuiKeyData;
+    WantCaptureMouseUnlessPopupClose: Boolean;
+    MousePosPrev: ImVec2;
+    MouseClickedPos: array [0..4] of ImVec2;
+    MouseClickedTime: array [0..4] of Double;
+    MouseClicked: array [0..4] of Boolean;
+    MouseDoubleClicked: array [0..4] of Boolean;
+    MouseClickedCount: array [0..4] of ImU16;
+    MouseClickedLastCount: array [0..4] of ImU16;
+    MouseReleased: array [0..4] of Boolean;
+    MouseDownOwned: array [0..4] of Boolean;
+    MouseDownOwnedUnlessPopupClose: array [0..4] of Boolean;
+    MouseWheelRequestAxisSwap: Boolean;
+    MouseDownDuration: array [0..4] of Single;
+    MouseDownDurationPrev: array [0..4] of Single;
+    MouseDragMaxDistanceAbs: array [0..4] of ImVec2;
+    MouseDragMaxDistanceSqr: array [0..4] of Single;
+    PenPressure: Single;
+    AppFocusLost: Boolean;
+    AppAcceptingEvents: Boolean;
+    BackendUsingLegacyKeyArrays: ImS8;
+    BackendUsingLegacyNavInputArray: Boolean;
+    InputQueueSurrogate: ImWchar16;
+    InputQueueCharacters: ImVector_ImWchar;
+  end;
+
+  ImGuiInputTextCallbackData = record
+    Ctx: PImGuiContext;
+    EventFlag: ImGuiInputTextFlags;
+    Flags: ImGuiInputTextFlags;
+    UserData: Pointer;
+    EventChar: ImWchar;
+    EventKey: ImGuiKey;
+    Buf: PUTF8Char;
+    BufTextLen: Integer;
+    BufSize: Integer;
+    BufDirty: Boolean;
+    CursorPos: Integer;
+    SelectionStart: Integer;
+    SelectionEnd: Integer;
+  end;
+
+  ImGuiSizeCallbackData = record
+    UserData: Pointer;
+    Pos: ImVec2;
+    CurrentSize: ImVec2;
+    DesiredSize: ImVec2;
+  end;
+
+  ImGuiWindowClass = record
+    ClassId: ImGuiID;
+    ParentViewportId: ImGuiID;
+    ViewportFlagsOverrideSet: ImGuiViewportFlags;
+    ViewportFlagsOverrideClear: ImGuiViewportFlags;
+    TabItemFlagsOverrideSet: ImGuiTabItemFlags;
+    DockNodeFlagsOverrideSet: ImGuiDockNodeFlags;
+    DockingAlwaysTabBar: Boolean;
+    DockingAllowUnclassed: Boolean;
+  end;
+
+  ImGuiPayload = record
+    Data: Pointer;
+    DataSize: Integer;
+    SourceId: ImGuiID;
+    SourceParentId: ImGuiID;
+    DataFrameCount: Integer;
+    DataType: array [0..32] of UTF8Char;
+    Preview: Boolean;
+    Delivery: Boolean;
+  end;
+
+  ImGuiOnceUponAFrame = record
+    RefFrame: Integer;
+  end;
+
+  ImGuiTextRange = record
+    b: PUTF8Char;
+    e: PUTF8Char;
+  end;
+
+  ImVector_ImGuiTextRange = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiTextRange;
+  end;
+
+  ImGuiTextFilter = record
+    InputBuf: array [0..255] of UTF8Char;
+    Filters: ImVector_ImGuiTextRange;
+    CountGrep: Integer;
+  end;
+
+  ImVector_char = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PUTF8Char;
+  end;
+
+  ImGuiTextBuffer = record
+    Buf: ImVector_char;
+  end;
+
+  P_anonymous_type_2 = ^_anonymous_type_2;
+  _anonymous_type_2 = record
+    case Integer of
+      0: (val_i: Integer);
+      1: (val_f: Single);
+      2: (val_p: Pointer);
+  end;
+
+  ImGuiStoragePair = record
+    key: ImGuiID;
+    f2: _anonymous_type_2;
+  end;
+
+  ImVector_ImGuiStoragePair = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiStoragePair;
+  end;
+
+  ImGuiStorage = record
+    Data: ImVector_ImGuiStoragePair;
+  end;
+
+  ImGuiListClipper = record
+    Ctx: PImGuiContext;
+    DisplayStart: Integer;
+    DisplayEnd: Integer;
+    ItemsCount: Integer;
+    ItemsHeight: Single;
+    StartPosY: Single;
+    TempData: Pointer;
+  end;
+
+  ImColor = record
+    Value: ImVec4;
+  end;
+
+  ImDrawCallback = procedure(const parent_list: PImDrawList; const cmd: PImDrawCmd); cdecl;
+
+  ImDrawCmd = record
+    ClipRect: ImVec4;
+    TextureId: ImTextureID;
+    VtxOffset: Cardinal;
+    IdxOffset: Cardinal;
+    ElemCount: Cardinal;
+    UserCallback: ImDrawCallback;
+    UserCallbackData: Pointer;
+  end;
+
+  ImDrawVert = record
+    pos: ImVec2;
+    uv: ImVec2;
+    col: ImU32;
+  end;
+
+  ImDrawCmdHeader = record
+    ClipRect: ImVec4;
+    TextureId: ImTextureID;
+    VtxOffset: Cardinal;
+  end;
+
+  ImVector_ImDrawCmd = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImDrawCmd;
+  end;
+
+  ImVector_ImDrawIdx = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImDrawIdx;
+  end;
+
+  ImDrawChannel = record
+    _CmdBuffer: ImVector_ImDrawCmd;
+    _IdxBuffer: ImVector_ImDrawIdx;
+  end;
+
+  ImVector_ImDrawChannel = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImDrawChannel;
+  end;
+
+  ImDrawListSplitter = record
+    _Current: Integer;
+    _Count: Integer;
+    _Channels: ImVector_ImDrawChannel;
+  end;
+
+  ImDrawFlags_ = (
+    ImDrawFlags_None = 0,
+    ImDrawFlags_Closed = 1,
+    ImDrawFlags_RoundCornersTopLeft = 16,
+    ImDrawFlags_RoundCornersTopRight = 32,
+    ImDrawFlags_RoundCornersBottomLeft = 64,
+    ImDrawFlags_RoundCornersBottomRight = 128,
+    ImDrawFlags_RoundCornersNone = 256,
+    ImDrawFlags_RoundCornersTop = 48,
+    ImDrawFlags_RoundCornersBottom = 192,
+    ImDrawFlags_RoundCornersLeft = 80,
+    ImDrawFlags_RoundCornersRight = 160,
+    ImDrawFlags_RoundCornersAll = 240,
+    ImDrawFlags_RoundCornersDefault_ = 240,
+    ImDrawFlags_RoundCornersMask_ = 496);
+  PImDrawFlags_ = ^ImDrawFlags_;
+
+  ImDrawListFlags_ = (
+    ImDrawListFlags_None = 0,
+    ImDrawListFlags_AntiAliasedLines = 1,
+    ImDrawListFlags_AntiAliasedLinesUseTex = 2,
+    ImDrawListFlags_AntiAliasedFill = 4,
+    ImDrawListFlags_AllowVtxOffset = 8);
+  PImDrawListFlags_ = ^ImDrawListFlags_;
+
+  ImVector_ImDrawVert = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImDrawVert;
+  end;
+
+  ImVector_ImVec4 = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImVec4;
+  end;
+
+  ImVector_ImTextureID = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImTextureID;
+  end;
+
+  ImVector_ImVec2 = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImVec2;
+  end;
+
+  ImDrawList = record
+    CmdBuffer: ImVector_ImDrawCmd;
+    IdxBuffer: ImVector_ImDrawIdx;
+    VtxBuffer: ImVector_ImDrawVert;
+    Flags: ImDrawListFlags;
+    _VtxCurrentIdx: Cardinal;
+    _Data: PImDrawListSharedData;
+    _OwnerName: PUTF8Char;
+    _VtxWritePtr: PImDrawVert;
+    _IdxWritePtr: PImDrawIdx;
+    _ClipRectStack: ImVector_ImVec4;
+    _TextureIdStack: ImVector_ImTextureID;
+    _Path: ImVector_ImVec2;
+    _CmdHeader: ImDrawCmdHeader;
+    _Splitter: ImDrawListSplitter;
+    _FringeScale: Single;
+  end;
+
+  ImVector_ImDrawListPtr = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PPImDrawList;
+  end;
+
+  ImDrawData = record
+    Valid: Boolean;
+    CmdListsCount: Integer;
+    TotalIdxCount: Integer;
+    TotalVtxCount: Integer;
+    CmdLists: ImVector_ImDrawListPtr;
+    DisplayPos: ImVec2;
+    DisplaySize: ImVec2;
+    FramebufferScale: ImVec2;
+    OwnerViewport: PImGuiViewport;
+  end;
+
+  ImFontConfig = record
+    FontData: Pointer;
+    FontDataSize: Integer;
+    FontDataOwnedByAtlas: Boolean;
+    FontNo: Integer;
+    SizePixels: Single;
+    OversampleH: Integer;
+    OversampleV: Integer;
+    PixelSnapH: Boolean;
+    GlyphExtraSpacing: ImVec2;
+    GlyphOffset: ImVec2;
+    GlyphRanges: PImWchar;
+    GlyphMinAdvanceX: Single;
+    GlyphMaxAdvanceX: Single;
+    MergeMode: Boolean;
+    FontBuilderFlags: Cardinal;
+    RasterizerMultiply: Single;
+    RasterizerDensity: Single;
+    EllipsisChar: ImWchar;
+    Name: array [0..39] of UTF8Char;
+    DstFont: PImFont;
+  end;
+
+  ImFontGlyph = record
+  private
+    Data0: Cardinal;
+    function GetData0Value(const AIndex: Integer): Cardinal;
+    procedure SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property Colored: Cardinal index $0001 read GetData0Value write SetData0Value; // 1 bits at offset 0 in Data0
+    property Visible: Cardinal index $0101 read GetData0Value write SetData0Value; // 1 bits at offset 1 in Data0
+    property Codepoint: Cardinal index $021E read GetData0Value write SetData0Value; // 30 bits at offset 2 in Data0
+  var
+    AdvanceX: Single;
+    X0: Single;
+    Y0: Single;
+    X1: Single;
+    Y1: Single;
+    U0: Single;
+    V0: Single;
+    U1: Single;
+    V1: Single;
+  end;
+
+  ImVector_ImU32 = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImU32;
+  end;
+
+  ImFontGlyphRangesBuilder = record
+    UsedChars: ImVector_ImU32;
+  end;
+
+  ImFontAtlasCustomRect = record
+    Width: Word;
+    Height: Word;
+    X: Word;
+    Y: Word;
+    GlyphID: Cardinal;
+    GlyphAdvanceX: Single;
+    GlyphOffset: ImVec2;
+    Font: PImFont;
+  end;
+
+  ImFontAtlasFlags_ = (
+    ImFontAtlasFlags_None = 0,
+    ImFontAtlasFlags_NoPowerOfTwoHeight = 1,
+    ImFontAtlasFlags_NoMouseCursors = 2,
+    ImFontAtlasFlags_NoBakedLines = 4);
+  PImFontAtlasFlags_ = ^ImFontAtlasFlags_;
+
+  ImVector_ImFontPtr = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PPImFont;
+  end;
+
+  ImVector_ImFontAtlasCustomRect = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImFontAtlasCustomRect;
+  end;
+
+  ImVector_ImFontConfig = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImFontConfig;
+  end;
+
+  ImFontAtlas = record
+    Flags: ImFontAtlasFlags;
+    TexID: ImTextureID;
+    TexDesiredWidth: Integer;
+    TexGlyphPadding: Integer;
+    Locked: Boolean;
+    UserData: Pointer;
+    TexReady: Boolean;
+    TexPixelsUseColors: Boolean;
+    TexPixelsAlpha8: PByte;
+    TexPixelsRGBA32: PCardinal;
+    TexWidth: Integer;
+    TexHeight: Integer;
+    TexUvScale: ImVec2;
+    TexUvWhitePixel: ImVec2;
+    Fonts: ImVector_ImFontPtr;
+    CustomRects: ImVector_ImFontAtlasCustomRect;
+    ConfigData: ImVector_ImFontConfig;
+    TexUvLines: array [0..63] of ImVec4;
+    FontBuilderIO: PImFontBuilderIO;
+    FontBuilderFlags: Cardinal;
+    PackIdMouseCursors: Integer;
+    PackIdLines: Integer;
+  end;
+
+  ImVector_float = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PSingle;
+  end;
+
+  ImVector_ImFontGlyph = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImFontGlyph;
+  end;
+
+  ImFont = record
+    IndexAdvanceX: ImVector_float;
+    FallbackAdvanceX: Single;
+    FontSize: Single;
+    IndexLookup: ImVector_ImWchar;
+    Glyphs: ImVector_ImFontGlyph;
+    FallbackGlyph: PImFontGlyph;
+    ContainerAtlas: PImFontAtlas;
+    ConfigData: PImFontConfig;
+    ConfigDataCount: Smallint;
+    FallbackChar: ImWchar;
+    EllipsisChar: ImWchar;
+    EllipsisCharCount: Smallint;
+    EllipsisWidth: Single;
+    EllipsisCharStep: Single;
+    DirtyLookupTables: Boolean;
+    Scale: Single;
+    Ascent: Single;
+    Descent: Single;
+    MetricsTotalSurface: Integer;
+    Used4kPagesMap: array [0..1] of ImU8;
+  end;
+
+  ImGuiViewportFlags_ = (
+    ImGuiViewportFlags_None = 0,
+    ImGuiViewportFlags_IsPlatformWindow = 1,
+    ImGuiViewportFlags_IsPlatformMonitor = 2,
+    ImGuiViewportFlags_OwnedByApp = 4,
+    ImGuiViewportFlags_NoDecoration = 8,
+    ImGuiViewportFlags_NoTaskBarIcon = 16,
+    ImGuiViewportFlags_NoFocusOnAppearing = 32,
+    ImGuiViewportFlags_NoFocusOnClick = 64,
+    ImGuiViewportFlags_NoInputs = 128,
+    ImGuiViewportFlags_NoRendererClear = 256,
+    ImGuiViewportFlags_NoAutoMerge = 512,
+    ImGuiViewportFlags_TopMost = 1024,
+    ImGuiViewportFlags_CanHostOtherWindows = 2048,
+    ImGuiViewportFlags_IsMinimized = 4096,
+    ImGuiViewportFlags_IsFocused = 8192);
+  PImGuiViewportFlags_ = ^ImGuiViewportFlags_;
+
+  ImGuiViewport = record
+    ID: ImGuiID;
+    Flags: ImGuiViewportFlags;
+    Pos: ImVec2;
+    Size: ImVec2;
+    WorkPos: ImVec2;
+    WorkSize: ImVec2;
+    DpiScale: Single;
+    ParentViewportId: ImGuiID;
+    DrawData: PImDrawData;
+    RendererUserData: Pointer;
+    PlatformUserData: Pointer;
+    PlatformHandle: Pointer;
+    PlatformHandleRaw: Pointer;
+    PlatformWindowCreated: Boolean;
+    PlatformRequestMove: Boolean;
+    PlatformRequestResize: Boolean;
+    PlatformRequestClose: Boolean;
+  end;
+
+  ImVector_ImGuiPlatformMonitor = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiPlatformMonitor;
+  end;
+
+  ImVector_ImGuiViewportPtr = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PPImGuiViewport;
+  end;
+
+  ImGuiPlatformIO = record
+    Platform_CreateWindow: procedure(vp: PImGuiViewport); cdecl;
+    Platform_DestroyWindow: procedure(vp: PImGuiViewport); cdecl;
+    Platform_ShowWindow: procedure(vp: PImGuiViewport); cdecl;
+    Platform_SetWindowPos: procedure(vp: PImGuiViewport; pos: ImVec2); cdecl;
+    Platform_GetWindowPos: function(vp: PImGuiViewport): ImVec2; cdecl;
+    Platform_SetWindowSize: procedure(vp: PImGuiViewport; size: ImVec2); cdecl;
+    Platform_GetWindowSize: function(vp: PImGuiViewport): ImVec2; cdecl;
+    Platform_SetWindowFocus: procedure(vp: PImGuiViewport); cdecl;
+    Platform_GetWindowFocus: function(vp: PImGuiViewport): Boolean; cdecl;
+    Platform_GetWindowMinimized: function(vp: PImGuiViewport): Boolean; cdecl;
+    Platform_SetWindowTitle: procedure(vp: PImGuiViewport; const str: PUTF8Char); cdecl;
+    Platform_SetWindowAlpha: procedure(vp: PImGuiViewport; alpha: Single); cdecl;
+    Platform_UpdateWindow: procedure(vp: PImGuiViewport); cdecl;
+    Platform_RenderWindow: procedure(vp: PImGuiViewport; render_arg: Pointer); cdecl;
+    Platform_SwapBuffers: procedure(vp: PImGuiViewport; render_arg: Pointer); cdecl;
+    Platform_GetWindowDpiScale: function(vp: PImGuiViewport): Single; cdecl;
+    Platform_OnChangedViewport: procedure(vp: PImGuiViewport); cdecl;
+    Platform_CreateVkSurface: function(vp: PImGuiViewport; vk_inst: ImU64; const vk_allocators: Pointer; out_vk_surface: PImU64): Integer; cdecl;
+    Renderer_CreateWindow: procedure(vp: PImGuiViewport); cdecl;
+    Renderer_DestroyWindow: procedure(vp: PImGuiViewport); cdecl;
+    Renderer_SetWindowSize: procedure(vp: PImGuiViewport; size: ImVec2); cdecl;
+    Renderer_RenderWindow: procedure(vp: PImGuiViewport; render_arg: Pointer); cdecl;
+    Renderer_SwapBuffers: procedure(vp: PImGuiViewport; render_arg: Pointer); cdecl;
+    Monitors: ImVector_ImGuiPlatformMonitor;
+    Viewports: ImVector_ImGuiViewportPtr;
+  end;
+
+  ImGuiPlatformMonitor = record
+    MainPos: ImVec2;
+    MainSize: ImVec2;
+    WorkPos: ImVec2;
+    WorkSize: ImVec2;
+    DpiScale: Single;
+    PlatformHandle: Pointer;
+  end;
+
+  ImGuiPlatformImeData = record
+    WantVisible: Boolean;
+    InputPos: ImVec2;
+    InputLineHeight: Single;
+  end;
+
+  ImGuiDataAuthority = Integer;
+  ImGuiLayoutType = Integer;
+  ImGuiActivateFlags = Integer;
+  ImGuiDebugLogFlags = Integer;
+  ImGuiFocusRequestFlags = Integer;
+  ImGuiInputFlags = Integer;
+  ImGuiItemFlags = Integer;
+  PImGuiItemFlags = ^ImGuiItemFlags;
+  ImGuiItemStatusFlags = Integer;
+  ImGuiOldColumnFlags = Integer;
+  ImGuiNavHighlightFlags = Integer;
+  ImGuiNavMoveFlags = Integer;
+  ImGuiNextItemDataFlags = Integer;
+  ImGuiNextWindowDataFlags = Integer;
+  ImGuiScrollFlags = Integer;
+  ImGuiSeparatorFlags = Integer;
+  ImGuiTextFlags = Integer;
+  ImGuiTooltipFlags = Integer;
+  ImGuiTypingSelectFlags = Integer;
+
+  ImGuiErrorLogCallback = procedure(user_data: Pointer; const fmt: PUTF8Char) varargs; cdecl;
+
+  StbUndoRecord = record
+    where: Integer;
+    insert_length: Integer;
+    delete_length: Integer;
+    char_storage: Integer;
+  end;
+
+  StbUndoState = record
+    undo_rec: array [0..98] of StbUndoRecord;
+    undo_char: array [0..998] of ImWchar;
+    undo_point: Smallint;
+    redo_point: Smallint;
+    undo_char_point: Integer;
+    redo_char_point: Integer;
+  end;
+
+  STB_TexteditState = record
+    cursor: Integer;
+    select_start: Integer;
+    select_end: Integer;
+    insert_mode: Byte;
+    row_count_per_page: Integer;
+    cursor_at_end_of_line: Byte;
+    initialized: Byte;
+    has_preferred_x: Byte;
+    single_line: Byte;
+    padding1: Byte;
+    padding2: Byte;
+    padding3: Byte;
+    preferred_x: Single;
+    undostate: StbUndoState;
+  end;
+
+  StbTexteditRow = record
+    x0: Single;
+    x1: Single;
+    baseline_y_delta: Single;
+    ymin: Single;
+    ymax: Single;
+    num_chars: Integer;
+  end;
+
+  ImFileHandle = PPointer;
+
+  ImVec1 = record
+    x: Single;
+  end;
+
+  ImVec2ih = record
+    x: Smallint;
+    y: Smallint;
+  end;
+
+  ImRect = record
+    Min: ImVec2;
+    Max: ImVec2;
+  end;
+
+  ImBitArrayPtr = PImU32;
+
+  ImBitVector = record
+    Storage: ImVector_ImU32;
+  end;
+
+  ImPoolIdx = Integer;
+
+  ImVector_int = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PInteger;
+  end;
+
+  ImGuiTextIndex = record
+    LineOffsets: ImVector_int;
+    EndOffset: Integer;
+  end;
+
+  ImDrawListSharedData = record
+    TexUvWhitePixel: ImVec2;
+    Font: PImFont;
+    FontSize: Single;
+    CurveTessellationTol: Single;
+    CircleSegmentMaxError: Single;
+    ClipRectFullscreen: ImVec4;
+    InitialFlags: ImDrawListFlags;
+    TempBuffer: ImVector_ImVec2;
+    ArcFastVtx: array [0..47] of ImVec2;
+    ArcFastRadiusCutoff: Single;
+    CircleSegmentCounts: array [0..63] of ImU8;
+    TexUvLines: PImVec4;
+  end;
+
+  ImDrawDataBuilder = record
+    Layers: array [0..1] of PImVector_ImDrawListPtr;
+    LayerData1: ImVector_ImDrawListPtr;
+  end;
+
+  ImGuiItemFlags_ = (
+    ImGuiItemFlags_None = 0,
+    ImGuiItemFlags_NoTabStop = 1,
+    ImGuiItemFlags_ButtonRepeat = 2,
+    ImGuiItemFlags_Disabled = 4,
+    ImGuiItemFlags_NoNav = 8,
+    ImGuiItemFlags_NoNavDefaultFocus = 16,
+    ImGuiItemFlags_SelectableDontClosePopup = 32,
+    ImGuiItemFlags_MixedValue = 64,
+    ImGuiItemFlags_ReadOnly = 128,
+    ImGuiItemFlags_NoWindowHoverableCheck = 256,
+    ImGuiItemFlags_AllowOverlap = 512,
+    ImGuiItemFlags_Inputable = 1024,
+    ImGuiItemFlags_HasSelectionUserData = 2048);
+  PImGuiItemFlags_ = ^ImGuiItemFlags_;
+
+  ImGuiItemStatusFlags_ = (
+    ImGuiItemStatusFlags_None = 0,
+    ImGuiItemStatusFlags_HoveredRect = 1,
+    ImGuiItemStatusFlags_HasDisplayRect = 2,
+    ImGuiItemStatusFlags_Edited = 4,
+    ImGuiItemStatusFlags_ToggledSelection = 8,
+    ImGuiItemStatusFlags_ToggledOpen = 16,
+    ImGuiItemStatusFlags_HasDeactivated = 32,
+    ImGuiItemStatusFlags_Deactivated = 64,
+    ImGuiItemStatusFlags_HoveredWindow = 128,
+    ImGuiItemStatusFlags_Visible = 256,
+    ImGuiItemStatusFlags_HasClipRect = 512);
+  PImGuiItemStatusFlags_ = ^ImGuiItemStatusFlags_;
+
+  ImGuiHoveredFlagsPrivate_ = (
+    ImGuiHoveredFlags_DelayMask_ = 245760,
+    ImGuiHoveredFlags_AllowedMaskForIsWindowHovered = 12479,
+    ImGuiHoveredFlags_AllowedMaskForIsItemHovered = 262048);
+  PImGuiHoveredFlagsPrivate_ = ^ImGuiHoveredFlagsPrivate_;
+
+  ImGuiInputTextFlagsPrivate_ = (
+    ImGuiInputTextFlags_Multiline = 67108864,
+    ImGuiInputTextFlags_NoMarkEdited = 134217728,
+    ImGuiInputTextFlags_MergedItem = 268435456);
+  PImGuiInputTextFlagsPrivate_ = ^ImGuiInputTextFlagsPrivate_;
+
+  ImGuiButtonFlagsPrivate_ = (
+    ImGuiButtonFlags_PressedOnClick = 16,
+    ImGuiButtonFlags_PressedOnClickRelease = 32,
+    ImGuiButtonFlags_PressedOnClickReleaseAnywhere = 64,
+    ImGuiButtonFlags_PressedOnRelease = 128,
+    ImGuiButtonFlags_PressedOnDoubleClick = 256,
+    ImGuiButtonFlags_PressedOnDragDropHold = 512,
+    ImGuiButtonFlags_Repeat = 1024,
+    ImGuiButtonFlags_FlattenChildren = 2048,
+    ImGuiButtonFlags_AllowOverlap = 4096,
+    ImGuiButtonFlags_DontClosePopups = 8192,
+    ImGuiButtonFlags_AlignTextBaseLine = 32768,
+    ImGuiButtonFlags_NoKeyModifiers = 65536,
+    ImGuiButtonFlags_NoHoldingActiveId = 131072,
+    ImGuiButtonFlags_NoNavFocus = 262144,
+    ImGuiButtonFlags_NoHoveredOnFocus = 524288,
+    ImGuiButtonFlags_NoSetKeyOwner = 1048576,
+    ImGuiButtonFlags_NoTestKeyOwner = 2097152,
+    ImGuiButtonFlags_PressedOnMask_ = 1008,
+    ImGuiButtonFlags_PressedOnDefault_ = 32);
+  PImGuiButtonFlagsPrivate_ = ^ImGuiButtonFlagsPrivate_;
+
+  ImGuiComboFlagsPrivate_ = (
+    ImGuiComboFlags_CustomPreview = 1048576);
+  PImGuiComboFlagsPrivate_ = ^ImGuiComboFlagsPrivate_;
+
+  ImGuiSliderFlagsPrivate_ = (
+    ImGuiSliderFlags_Vertical = 1048576,
+    ImGuiSliderFlags_ReadOnly = 2097152);
+  PImGuiSliderFlagsPrivate_ = ^ImGuiSliderFlagsPrivate_;
+
+  ImGuiSelectableFlagsPrivate_ = (
+    ImGuiSelectableFlags_NoHoldingActiveID = 1048576,
+    ImGuiSelectableFlags_SelectOnNav = 2097152,
+    ImGuiSelectableFlags_SelectOnClick = 4194304,
+    ImGuiSelectableFlags_SelectOnRelease = 8388608,
+    ImGuiSelectableFlags_SpanAvailWidth = 16777216,
+    ImGuiSelectableFlags_SetNavIdOnHover = 33554432,
+    ImGuiSelectableFlags_NoPadWithHalfSpacing = 67108864,
+    ImGuiSelectableFlags_NoSetKeyOwner = 134217728);
+  PImGuiSelectableFlagsPrivate_ = ^ImGuiSelectableFlagsPrivate_;
+
+  ImGuiTreeNodeFlagsPrivate_ = (
+    ImGuiTreeNodeFlags_ClipLabelForTrailingButton = 1048576,
+    ImGuiTreeNodeFlags_UpsideDownArrow = 2097152);
+  PImGuiTreeNodeFlagsPrivate_ = ^ImGuiTreeNodeFlagsPrivate_;
+
+  ImGuiSeparatorFlags_ = (
+    ImGuiSeparatorFlags_None = 0,
+    ImGuiSeparatorFlags_Horizontal = 1,
+    ImGuiSeparatorFlags_Vertical = 2,
+    ImGuiSeparatorFlags_SpanAllColumns = 4);
+  PImGuiSeparatorFlags_ = ^ImGuiSeparatorFlags_;
+
+  ImGuiFocusRequestFlags_ = (
+    ImGuiFocusRequestFlags_None = 0,
+    ImGuiFocusRequestFlags_RestoreFocusedChild = 1,
+    ImGuiFocusRequestFlags_UnlessBelowModal = 2);
+  PImGuiFocusRequestFlags_ = ^ImGuiFocusRequestFlags_;
+
+  ImGuiTextFlags_ = (
+    ImGuiTextFlags_None = 0,
+    ImGuiTextFlags_NoWidthForLargeClippedText = 1);
+  PImGuiTextFlags_ = ^ImGuiTextFlags_;
+
+  ImGuiTooltipFlags_ = (
+    ImGuiTooltipFlags_None = 0,
+    ImGuiTooltipFlags_OverridePrevious = 2);
+  PImGuiTooltipFlags_ = ^ImGuiTooltipFlags_;
+
+  ImGuiLayoutType_ = (
+    ImGuiLayoutType_Horizontal = 0,
+    ImGuiLayoutType_Vertical = 1);
+  PImGuiLayoutType_ = ^ImGuiLayoutType_;
+
+  ImGuiLogType = (
+    ImGuiLogType_None = 0,
+    ImGuiLogType_TTY = 1,
+    ImGuiLogType_File = 2,
+    ImGuiLogType_Buffer = 3,
+    ImGuiLogType_Clipboard = 4);
+  PImGuiLogType = ^ImGuiLogType;
+
+  ImGuiAxis = (
+    ImGuiAxis_None = -1,
+    ImGuiAxis_X = 0,
+    ImGuiAxis_Y = 1);
+  PImGuiAxis = ^ImGuiAxis;
+
+  ImGuiPlotType = (
+    ImGuiPlotType_Lines = 0,
+    ImGuiPlotType_Histogram = 1);
+  PImGuiPlotType = ^ImGuiPlotType;
+
+  ImGuiPopupPositionPolicy = (
+    ImGuiPopupPositionPolicy_Default = 0,
+    ImGuiPopupPositionPolicy_ComboBox = 1,
+    ImGuiPopupPositionPolicy_Tooltip = 2);
+  PImGuiPopupPositionPolicy = ^ImGuiPopupPositionPolicy;
+
+  ImGuiDataVarInfo = record
+    &Type: ImGuiDataType;
+    Count: ImU32;
+    Offset: ImU32;
+  end;
+
+  ImGuiDataTypeTempStorage = record
+    Data: array [0..7] of ImU8;
+  end;
+
+  ImGuiDataTypeInfo = record
+    Size: NativeUInt;
+    Name: PUTF8Char;
+    PrintFmt: PUTF8Char;
+    ScanFmt: PUTF8Char;
+  end;
+
+  ImGuiDataTypePrivate_ = (
+    ImGuiDataType_String = 11,
+    ImGuiDataType_Pointer = 12,
+    ImGuiDataType_ID = 13);
+  PImGuiDataTypePrivate_ = ^ImGuiDataTypePrivate_;
+
+  ImGuiColorMod = record
+    Col: ImGuiCol;
+    BackupValue: ImVec4;
+  end;
+
+  P_anonymous_type_3 = ^_anonymous_type_3;
+  _anonymous_type_3 = record
+    case Integer of
+      0: (BackupInt: array [0..1] of Integer);
+      1: (BackupFloat: array [0..1] of Single);
+  end;
+
+  ImGuiStyleMod = record
+    VarIdx: ImGuiStyleVar;
+    f2: _anonymous_type_3;
+  end;
+
+  ImGuiComboPreviewData = record
+    PreviewRect: ImRect;
+    BackupCursorPos: ImVec2;
+    BackupCursorMaxPos: ImVec2;
+    BackupCursorPosPrevLine: ImVec2;
+    BackupPrevLineTextBaseOffset: Single;
+    BackupLayout: ImGuiLayoutType;
+  end;
+
+  ImGuiGroupData = record
+    WindowID: ImGuiID;
+    BackupCursorPos: ImVec2;
+    BackupCursorMaxPos: ImVec2;
+    BackupCursorPosPrevLine: ImVec2;
+    BackupIndent: ImVec1;
+    BackupGroupOffset: ImVec1;
+    BackupCurrLineSize: ImVec2;
+    BackupCurrLineTextBaseOffset: Single;
+    BackupActiveIdIsAlive: ImGuiID;
+    BackupActiveIdPreviousFrameIsAlive: Boolean;
+    BackupHoveredIdIsAlive: Boolean;
+    BackupIsSameLine: Boolean;
+    EmitItem: Boolean;
+  end;
+
+  ImGuiMenuColumns = record
+    TotalWidth: ImU32;
+    NextTotalWidth: ImU32;
+    Spacing: ImU16;
+    OffsetIcon: ImU16;
+    OffsetLabel: ImU16;
+    OffsetShortcut: ImU16;
+    OffsetMark: ImU16;
+    Widths: array [0..3] of ImU16;
+  end;
+
+  ImGuiInputTextDeactivatedState = record
+    ID: ImGuiID;
+    TextA: ImVector_char;
+  end;
+
+  ImGuiInputTextState = record
+    Ctx: PImGuiContext;
+    ID: ImGuiID;
+    CurLenW: Integer;
+    CurLenA: Integer;
+    TextW: ImVector_ImWchar;
+    TextA: ImVector_char;
+    InitialTextA: ImVector_char;
+    TextAIsValid: Boolean;
+    BufCapacityA: Integer;
+    ScrollX: Single;
+    Stb: STB_TexteditState;
+    CursorAnim: Single;
+    CursorFollow: Boolean;
+    SelectedAllMouseLock: Boolean;
+    Edited: Boolean;
+    Flags: ImGuiInputTextFlags;
+  end;
+
+  ImGuiPopupData = record
+    PopupId: ImGuiID;
+    Window: PImGuiWindow;
+    BackupNavWindow: PImGuiWindow;
+    ParentNavLayer: Integer;
+    OpenFrameCount: Integer;
+    OpenParentId: ImGuiID;
+    OpenPopupPos: ImVec2;
+    OpenMousePos: ImVec2;
+  end;
+
+  ImGuiNextWindowDataFlags_ = (
+    ImGuiNextWindowDataFlags_None = 0,
+    ImGuiNextWindowDataFlags_HasPos = 1,
+    ImGuiNextWindowDataFlags_HasSize = 2,
+    ImGuiNextWindowDataFlags_HasContentSize = 4,
+    ImGuiNextWindowDataFlags_HasCollapsed = 8,
+    ImGuiNextWindowDataFlags_HasSizeConstraint = 16,
+    ImGuiNextWindowDataFlags_HasFocus = 32,
+    ImGuiNextWindowDataFlags_HasBgAlpha = 64,
+    ImGuiNextWindowDataFlags_HasScroll = 128,
+    ImGuiNextWindowDataFlags_HasChildFlags = 256,
+    ImGuiNextWindowDataFlags_HasViewport = 512,
+    ImGuiNextWindowDataFlags_HasDock = 1024,
+    ImGuiNextWindowDataFlags_HasWindowClass = 2048);
+  PImGuiNextWindowDataFlags_ = ^ImGuiNextWindowDataFlags_;
+
+  ImGuiNextWindowData = record
+    Flags: ImGuiNextWindowDataFlags;
+    PosCond: ImGuiCond;
+    SizeCond: ImGuiCond;
+    CollapsedCond: ImGuiCond;
+    DockCond: ImGuiCond;
+    PosVal: ImVec2;
+    PosPivotVal: ImVec2;
+    SizeVal: ImVec2;
+    ContentSizeVal: ImVec2;
+    ScrollVal: ImVec2;
+    ChildFlags: ImGuiChildFlags;
+    PosUndock: Boolean;
+    CollapsedVal: Boolean;
+    SizeConstraintRect: ImRect;
+    SizeCallback: ImGuiSizeCallback;
+    SizeCallbackUserData: Pointer;
+    BgAlphaVal: Single;
+    ViewportId: ImGuiID;
+    DockId: ImGuiID;
+    WindowClass: ImGuiWindowClass;
+    MenuBarOffsetMinVal: ImVec2;
+  end;
+
+  ImGuiSelectionUserData = ImS64;
+
+  ImGuiNextItemDataFlags_ = (
+    ImGuiNextItemDataFlags_None = 0,
+    ImGuiNextItemDataFlags_HasWidth = 1,
+    ImGuiNextItemDataFlags_HasOpen = 2);
+  PImGuiNextItemDataFlags_ = ^ImGuiNextItemDataFlags_;
+
+  ImGuiNextItemData = record
+    Flags: ImGuiNextItemDataFlags;
+    ItemFlags: ImGuiItemFlags;
+    Width: Single;
+    SelectionUserData: ImGuiSelectionUserData;
+    OpenCond: ImGuiCond;
+    OpenVal: Boolean;
+  end;
+
+  ImGuiLastItemData = record
+    ID: ImGuiID;
+    InFlags: ImGuiItemFlags;
+    StatusFlags: ImGuiItemStatusFlags;
+    Rect: ImRect;
+    NavRect: ImRect;
+    DisplayRect: ImRect;
+    ClipRect: ImRect;
+  end;
+
+  ImGuiNavTreeNodeData = record
+    ID: ImGuiID;
+    InFlags: ImGuiItemFlags;
+    NavRect: ImRect;
+  end;
+
+  ImGuiStackSizes = record
+    SizeOfIDStack: Smallint;
+    SizeOfColorStack: Smallint;
+    SizeOfStyleVarStack: Smallint;
+    SizeOfFontStack: Smallint;
+    SizeOfFocusScopeStack: Smallint;
+    SizeOfGroupStack: Smallint;
+    SizeOfItemFlagsStack: Smallint;
+    SizeOfBeginPopupStack: Smallint;
+    SizeOfDisabledStack: Smallint;
+  end;
+
+  ImGuiWindowStackData = record
+    Window: PImGuiWindow;
+    ParentLastItemDataBackup: ImGuiLastItemData;
+    StackSizesOnBegin: ImGuiStackSizes;
+  end;
+
+  ImGuiShrinkWidthItem = record
+    Index: Integer;
+    Width: Single;
+    InitialWidth: Single;
+  end;
+
+  ImGuiPtrOrIndex = record
+    Ptr: Pointer;
+    Index: Integer;
+  end;
+
+  ImBitArray_ImGuiKey_NamedKey_COUNT__lessImGuiKey_NamedKey_BEGIN = record
+    Storage: array [0..4] of ImU32;
+  end;
+
+  ImBitArrayForNamedKeys = ImBitArray_ImGuiKey_NamedKey_COUNT__lessImGuiKey_NamedKey_BEGIN;
+
+  ImGuiInputEventType = (
+    ImGuiInputEventType_None = 0,
+    ImGuiInputEventType_MousePos = 1,
+    ImGuiInputEventType_MouseWheel = 2,
+    ImGuiInputEventType_MouseButton = 3,
+    ImGuiInputEventType_MouseViewport = 4,
+    ImGuiInputEventType_Key = 5,
+    ImGuiInputEventType_Text = 6,
+    ImGuiInputEventType_Focus = 7,
+    ImGuiInputEventType_COUNT = 8);
+  PImGuiInputEventType = ^ImGuiInputEventType;
+
+  ImGuiInputSource = (
+    ImGuiInputSource_None = 0,
+    ImGuiInputSource_Mouse = 1,
+    ImGuiInputSource_Keyboard = 2,
+    ImGuiInputSource_Gamepad = 3,
+    ImGuiInputSource_Clipboard = 4,
+    ImGuiInputSource_COUNT = 5);
+  PImGuiInputSource = ^ImGuiInputSource;
+
+  ImGuiInputEventMousePos = record
+    PosX: Single;
+    PosY: Single;
+    MouseSource: ImGuiMouseSource;
+  end;
+
+  ImGuiInputEventMouseWheel = record
+    WheelX: Single;
+    WheelY: Single;
+    MouseSource: ImGuiMouseSource;
+  end;
+
+  ImGuiInputEventMouseButton = record
+    Button: Integer;
+    Down: Boolean;
+    MouseSource: ImGuiMouseSource;
+  end;
+
+  ImGuiInputEventMouseViewport = record
+    HoveredViewportID: ImGuiID;
+  end;
+
+  ImGuiInputEventKey = record
+    Key: ImGuiKey;
+    Down: Boolean;
+    AnalogValue: Single;
+  end;
+
+  ImGuiInputEventText = record
+    Char: Cardinal;
+  end;
+
+  ImGuiInputEventAppFocused = record
+    Focused: Boolean;
+  end;
+
+  P_anonymous_type_4 = ^_anonymous_type_4;
+  _anonymous_type_4 = record
+    case Integer of
+      0: (MousePos: ImGuiInputEventMousePos);
+      1: (MouseWheel: ImGuiInputEventMouseWheel);
+      2: (MouseButton: ImGuiInputEventMouseButton);
+      3: (MouseViewport: ImGuiInputEventMouseViewport);
+      4: (Key: ImGuiInputEventKey);
+      5: (Text: ImGuiInputEventText);
+      6: (AppFocused: ImGuiInputEventAppFocused);
+  end;
+
+  ImGuiInputEvent = record
+    &Type: ImGuiInputEventType;
+    Source: ImGuiInputSource;
+    EventId: ImU32;
+    f4: _anonymous_type_4;
+    AddedByTestEngine: Boolean;
+  end;
+
+  ImGuiKeyRoutingIndex = ImS16;
+
+  ImGuiKeyRoutingData = record
+    NextEntryIndex: ImGuiKeyRoutingIndex;
+    Mods: ImU16;
+    RoutingNextScore: ImU8;
+    RoutingCurr: ImGuiID;
+    RoutingNext: ImGuiID;
+  end;
+
+  ImVector_ImGuiKeyRoutingData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiKeyRoutingData;
+  end;
+
+  ImGuiKeyRoutingTable = record
+    Index: array [0..153] of ImGuiKeyRoutingIndex;
+    Entries: ImVector_ImGuiKeyRoutingData;
+    EntriesNext: ImVector_ImGuiKeyRoutingData;
+  end;
+
+  ImGuiKeyOwnerData = record
+    OwnerCurr: ImGuiID;
+    OwnerNext: ImGuiID;
+    LockThisFrame: Boolean;
+    LockUntilRelease: Boolean;
+  end;
+
+  ImGuiInputFlags_ = (
+    ImGuiInputFlags_None = 0,
+    ImGuiInputFlags_Repeat = 1,
+    ImGuiInputFlags_RepeatRateDefault = 2,
+    ImGuiInputFlags_RepeatRateNavMove = 4,
+    ImGuiInputFlags_RepeatRateNavTweak = 8,
+    ImGuiInputFlags_RepeatUntilRelease = 16,
+    ImGuiInputFlags_RepeatUntilKeyModsChange = 32,
+    ImGuiInputFlags_RepeatUntilKeyModsChangeFromNone = 64,
+    ImGuiInputFlags_RepeatUntilOtherKeyPress = 128,
+    ImGuiInputFlags_CondHovered = 256,
+    ImGuiInputFlags_CondActive = 512,
+    ImGuiInputFlags_CondDefault_ = 768,
+    ImGuiInputFlags_CondMask_ = 768,
+    ImGuiInputFlags_LockThisFrame = 1024,
+    ImGuiInputFlags_LockUntilRelease = 2048,
+    ImGuiInputFlags_RouteFocused = 4096,
+    ImGuiInputFlags_RouteGlobalLow = 8192,
+    ImGuiInputFlags_RouteGlobal = 16384,
+    ImGuiInputFlags_RouteGlobalHigh = 32768,
+    ImGuiInputFlags_RouteMask_ = 61440,
+    ImGuiInputFlags_RouteAlways = 65536,
+    ImGuiInputFlags_RouteUnlessBgFocused = 131072,
+    ImGuiInputFlags_RouteExtraMask_ = 196608,
+    ImGuiInputFlags_RepeatRateMask_ = 14,
+    ImGuiInputFlags_RepeatUntilMask_ = 240,
+    ImGuiInputFlags_RepeatMask_ = 255,
+    ImGuiInputFlags_SupportedByIsKeyPressed = 255,
+    ImGuiInputFlags_SupportedByIsMouseClicked = 1,
+    ImGuiInputFlags_SupportedByShortcut = 258303,
+    ImGuiInputFlags_SupportedBySetKeyOwner = 3072,
+    ImGuiInputFlags_SupportedBySetItemKeyOwner = 3840);
+  PImGuiInputFlags_ = ^ImGuiInputFlags_;
+
+  ImGuiListClipperRange = record
+    Min: Integer;
+    Max: Integer;
+    PosToIndexConvert: Boolean;
+    PosToIndexOffsetMin: ImS8;
+    PosToIndexOffsetMax: ImS8;
+  end;
+
+  ImVector_ImGuiListClipperRange = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiListClipperRange;
+  end;
+
+  ImGuiListClipperData = record
+    ListClipper: PImGuiListClipper;
+    LossynessOffset: Single;
+    StepNo: Integer;
+    ItemsFrozen: Integer;
+    Ranges: ImVector_ImGuiListClipperRange;
+  end;
+
+  ImGuiActivateFlags_ = (
+    ImGuiActivateFlags_None = 0,
+    ImGuiActivateFlags_PreferInput = 1,
+    ImGuiActivateFlags_PreferTweak = 2,
+    ImGuiActivateFlags_TryToPreserveState = 4,
+    ImGuiActivateFlags_FromTabbing = 8);
+  PImGuiActivateFlags_ = ^ImGuiActivateFlags_;
+
+  ImGuiScrollFlags_ = (
+    ImGuiScrollFlags_None = 0,
+    ImGuiScrollFlags_KeepVisibleEdgeX = 1,
+    ImGuiScrollFlags_KeepVisibleEdgeY = 2,
+    ImGuiScrollFlags_KeepVisibleCenterX = 4,
+    ImGuiScrollFlags_KeepVisibleCenterY = 8,
+    ImGuiScrollFlags_AlwaysCenterX = 16,
+    ImGuiScrollFlags_AlwaysCenterY = 32,
+    ImGuiScrollFlags_NoScrollParent = 64,
+    ImGuiScrollFlags_MaskX_ = 21,
+    ImGuiScrollFlags_MaskY_ = 42);
+  PImGuiScrollFlags_ = ^ImGuiScrollFlags_;
+
+  ImGuiNavHighlightFlags_ = (
+    ImGuiNavHighlightFlags_None = 0,
+    ImGuiNavHighlightFlags_TypeDefault = 1,
+    ImGuiNavHighlightFlags_TypeThin = 2,
+    ImGuiNavHighlightFlags_AlwaysDraw = 4,
+    ImGuiNavHighlightFlags_NoRounding = 8);
+  PImGuiNavHighlightFlags_ = ^ImGuiNavHighlightFlags_;
+
+  ImGuiNavMoveFlags_ = (
+    ImGuiNavMoveFlags_None = 0,
+    ImGuiNavMoveFlags_LoopX = 1,
+    ImGuiNavMoveFlags_LoopY = 2,
+    ImGuiNavMoveFlags_WrapX = 4,
+    ImGuiNavMoveFlags_WrapY = 8,
+    ImGuiNavMoveFlags_WrapMask_ = 15,
+    ImGuiNavMoveFlags_AllowCurrentNavId = 16,
+    ImGuiNavMoveFlags_AlsoScoreVisibleSet = 32,
+    ImGuiNavMoveFlags_ScrollToEdgeY = 64,
+    ImGuiNavMoveFlags_Forwarded = 128,
+    ImGuiNavMoveFlags_DebugNoResult = 256,
+    ImGuiNavMoveFlags_FocusApi = 512,
+    ImGuiNavMoveFlags_IsTabbing = 1024,
+    ImGuiNavMoveFlags_IsPageMove = 2048,
+    ImGuiNavMoveFlags_Activate = 4096,
+    ImGuiNavMoveFlags_NoSelect = 8192,
+    ImGuiNavMoveFlags_NoSetNavHighlight = 16384);
+  PImGuiNavMoveFlags_ = ^ImGuiNavMoveFlags_;
+
+  ImGuiNavLayer = (
+    ImGuiNavLayer_Main = 0,
+    ImGuiNavLayer_Menu = 1,
+    ImGuiNavLayer_COUNT = 2);
+  PImGuiNavLayer = ^ImGuiNavLayer;
+
+  ImGuiNavItemData = record
+    Window: PImGuiWindow;
+    ID: ImGuiID;
+    FocusScopeId: ImGuiID;
+    RectRel: ImRect;
+    InFlags: ImGuiItemFlags;
+    SelectionUserData: ImGuiSelectionUserData;
+    DistBox: Single;
+    DistCenter: Single;
+    DistAxial: Single;
+  end;
+
+  ImGuiTypingSelectFlags_ = (
+    ImGuiTypingSelectFlags_None = 0,
+    ImGuiTypingSelectFlags_AllowBackspace = 1,
+    ImGuiTypingSelectFlags_AllowSingleCharMode = 2);
+  PImGuiTypingSelectFlags_ = ^ImGuiTypingSelectFlags_;
+
+  ImGuiTypingSelectRequest = record
+    Flags: ImGuiTypingSelectFlags;
+    SearchBufferLen: Integer;
+    SearchBuffer: PUTF8Char;
+    SelectRequest: Boolean;
+    SingleCharMode: Boolean;
+    SingleCharSize: ImS8;
+  end;
+
+  ImGuiTypingSelectState = record
+    Request: ImGuiTypingSelectRequest;
+    SearchBuffer: array [0..63] of UTF8Char;
+    FocusScope: ImGuiID;
+    LastRequestFrame: Integer;
+    LastRequestTime: Single;
+    SingleCharModeLock: Boolean;
+  end;
+
+  ImGuiOldColumnFlags_ = (
+    ImGuiOldColumnFlags_None = 0,
+    ImGuiOldColumnFlags_NoBorder = 1,
+    ImGuiOldColumnFlags_NoResize = 2,
+    ImGuiOldColumnFlags_NoPreserveWidths = 4,
+    ImGuiOldColumnFlags_NoForceWithinWindow = 8,
+    ImGuiOldColumnFlags_GrowParentContentsSize = 16);
+  PImGuiOldColumnFlags_ = ^ImGuiOldColumnFlags_;
+
+  ImGuiOldColumnData = record
+    OffsetNorm: Single;
+    OffsetNormBeforeResize: Single;
+    Flags: ImGuiOldColumnFlags;
+    ClipRect: ImRect;
+  end;
+
+  ImVector_ImGuiOldColumnData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiOldColumnData;
+  end;
+
+  ImGuiOldColumns = record
+    ID: ImGuiID;
+    Flags: ImGuiOldColumnFlags;
+    IsFirstFrame: Boolean;
+    IsBeingResized: Boolean;
+    Current: Integer;
+    Count: Integer;
+    OffMinX: Single;
+    OffMaxX: Single;
+    LineMinY: Single;
+    LineMaxY: Single;
+    HostCursorPosY: Single;
+    HostCursorMaxPosX: Single;
+    HostInitialClipRect: ImRect;
+    HostBackupClipRect: ImRect;
+    HostBackupParentWorkRect: ImRect;
+    Columns: ImVector_ImGuiOldColumnData;
+    Splitter: ImDrawListSplitter;
+  end;
+
+  ImGuiDockNodeFlagsPrivate_ = (
+    ImGuiDockNodeFlags_DockSpace = 1024,
+    ImGuiDockNodeFlags_CentralNode = 2048,
+    ImGuiDockNodeFlags_NoTabBar = 4096,
+    ImGuiDockNodeFlags_HiddenTabBar = 8192,
+    ImGuiDockNodeFlags_NoWindowMenuButton = 16384,
+    ImGuiDockNodeFlags_NoCloseButton = 32768,
+    ImGuiDockNodeFlags_NoResizeX = 65536,
+    ImGuiDockNodeFlags_NoResizeY = 131072,
+    ImGuiDockNodeFlags_NoDockingSplitOther = 524288,
+    ImGuiDockNodeFlags_NoDockingOverMe = 1048576,
+    ImGuiDockNodeFlags_NoDockingOverOther = 2097152,
+    ImGuiDockNodeFlags_NoDockingOverEmpty = 4194304,
+    ImGuiDockNodeFlags_NoDocking = 7864336,
+    ImGuiDockNodeFlags_SharedFlagsInheritMask_ = -1,
+    ImGuiDockNodeFlags_NoResizeFlagsMask_ = 196640,
+    ImGuiDockNodeFlags_LocalFlagsTransferMask_ = 260208,
+    ImGuiDockNodeFlags_SavedFlagsMask_ = 261152);
+  PImGuiDockNodeFlagsPrivate_ = ^ImGuiDockNodeFlagsPrivate_;
+
+  ImGuiDataAuthority_ = (
+    ImGuiDataAuthority_Auto = 0,
+    ImGuiDataAuthority_DockNode = 1,
+    ImGuiDataAuthority_Window = 2);
+  PImGuiDataAuthority_ = ^ImGuiDataAuthority_;
+
+  ImGuiDockNodeState = (
+    ImGuiDockNodeState_Unknown = 0,
+    ImGuiDockNodeState_HostWindowHiddenBecauseSingleWindow = 1,
+    ImGuiDockNodeState_HostWindowHiddenBecauseWindowsAreResizing = 2,
+    ImGuiDockNodeState_HostWindowVisible = 3);
+  PImGuiDockNodeState = ^ImGuiDockNodeState;
+
+  ImVector_ImGuiWindowPtr = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PPImGuiWindow;
+  end;
+
+  ImGuiDockNode = record
+    ID: ImGuiID;
+    SharedFlags: ImGuiDockNodeFlags;
+    LocalFlags: ImGuiDockNodeFlags;
+    LocalFlagsInWindows: ImGuiDockNodeFlags;
+    MergedFlags: ImGuiDockNodeFlags;
+    State: ImGuiDockNodeState;
+    ParentNode: PImGuiDockNode;
+    ChildNodes: array [0..1] of PImGuiDockNode;
+    Windows: ImVector_ImGuiWindowPtr;
+    TabBar: PImGuiTabBar;
+    Pos: ImVec2;
+    Size: ImVec2;
+    SizeRef: ImVec2;
+    SplitAxis: ImGuiAxis;
+    WindowClass: ImGuiWindowClass;
+    LastBgColor: ImU32;
+    HostWindow: PImGuiWindow;
+    VisibleWindow: PImGuiWindow;
+    CentralNode: PImGuiDockNode;
+    OnlyNodeWithWindows: PImGuiDockNode;
+    CountNodeWithWindows: Integer;
+    LastFrameAlive: Integer;
+    LastFrameActive: Integer;
+    LastFrameFocused: Integer;
+    LastFocusedNodeId: ImGuiID;
+    SelectedTabId: ImGuiID;
+    WantCloseTabId: ImGuiID;
+    RefViewportId: ImGuiID;
+  private
+    Data0: Cardinal;
+    function GetData0Value(const AIndex: Integer): Cardinal;
+    procedure SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property AuthorityForPos: Cardinal index $0003 read GetData0Value write SetData0Value; // 3 bits at offset 0 in Data0
+    property AuthorityForSize: Cardinal index $0303 read GetData0Value write SetData0Value; // 3 bits at offset 3 in Data0
+    property AuthorityForViewport: Cardinal index $0603 read GetData0Value write SetData0Value; // 3 bits at offset 6 in Data0
+    property IsVisible: Cardinal index $901 read GetData0Value write SetData0Value; // 1 bits at offset 9 in Data0
+    property IsFocused: Cardinal index $A01 read GetData0Value write SetData0Value; // 1 bits at offset 10 in Data0
+    property IsBgDrawnThisFrame: Cardinal index $B01 read GetData0Value write SetData0Value; // 1 bits at offset 11 in Data0
+    property HasCloseButton: Cardinal index $C01 read GetData0Value write SetData0Value; // 1 bits at offset 12 in Data0
+    property HasWindowMenuButton: Cardinal index $D01 read GetData0Value write SetData0Value; // 1 bits at offset 13 in Data0
+    property HasCentralNodeChild: Cardinal index $E01 read GetData0Value write SetData0Value; // 1 bits at offset 14 in Data0
+    property WantCloseAll: Cardinal index $F01 read GetData0Value write SetData0Value; // 1 bits at offset 15 in Data0
+    property WantLockSizeOnce: Cardinal index $1001 read GetData0Value write SetData0Value; // 1 bits at offset 16 in Data0
+    property WantMouseMove: Cardinal index $1101 read GetData0Value write SetData0Value; // 1 bits at offset 17 in Data0
+    property WantHiddenTabBarUpdate: Cardinal index $1201 read GetData0Value write SetData0Value; // 1 bits at offset 18 in Data0
+    property WantHiddenTabBarToggle: Cardinal index $1301 read GetData0Value write SetData0Value; // 1 bits at offset 19 in Data0
+  end;
+
+  ImGuiWindowDockStyleCol = (
+    ImGuiWindowDockStyleCol_Text = 0,
+    ImGuiWindowDockStyleCol_Tab = 1,
+    ImGuiWindowDockStyleCol_TabHovered = 2,
+    ImGuiWindowDockStyleCol_TabActive = 3,
+    ImGuiWindowDockStyleCol_TabUnfocused = 4,
+    ImGuiWindowDockStyleCol_TabUnfocusedActive = 5,
+    ImGuiWindowDockStyleCol_COUNT = 6);
+  PImGuiWindowDockStyleCol = ^ImGuiWindowDockStyleCol;
+
+  ImGuiWindowDockStyle = record
+    Colors: array [0..5] of ImU32;
+  end;
+
+  ImVector_ImGuiDockRequest = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiDockRequest;
+  end;
+
+  ImVector_ImGuiDockNodeSettings = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiDockNodeSettings;
+  end;
+
+  ImGuiDockContext = record
+    Nodes: ImGuiStorage;
+    Requests: ImVector_ImGuiDockRequest;
+    NodesSettings: ImVector_ImGuiDockNodeSettings;
+    WantFullRebuild: Boolean;
+  end;
+
+  ImGuiViewportP = record
+    _ImGuiViewport: ImGuiViewport;
+    Window: PImGuiWindow;
+    Idx: Integer;
+    LastFrameActive: Integer;
+    LastFocusedStampCount: Integer;
+    LastNameHash: ImGuiID;
+    LastPos: ImVec2;
+    Alpha: Single;
+    LastAlpha: Single;
+    LastFocusedHadNavWindow: Boolean;
+    PlatformMonitor: Smallint;
+    BgFgDrawListsLastFrame: array [0..1] of Integer;
+    BgFgDrawLists: array [0..1] of PImDrawList;
+    DrawDataP: ImDrawData;
+    DrawDataBuilder: ImDrawDataBuilder;
+    LastPlatformPos: ImVec2;
+    LastPlatformSize: ImVec2;
+    LastRendererSize: ImVec2;
+    WorkOffsetMin: ImVec2;
+    WorkOffsetMax: ImVec2;
+    BuildWorkOffsetMin: ImVec2;
+    BuildWorkOffsetMax: ImVec2;
+  end;
+
+  ImGuiWindowSettings = record
+    ID: ImGuiID;
+    Pos: ImVec2ih;
+    Size: ImVec2ih;
+    ViewportPos: ImVec2ih;
+    ViewportId: ImGuiID;
+    DockId: ImGuiID;
+    ClassId: ImGuiID;
+    DockOrder: Smallint;
+    Collapsed: Boolean;
+    IsChild: Boolean;
+    WantApply: Boolean;
+    WantDelete: Boolean;
+  end;
+
+  ImGuiSettingsHandler = record
+    TypeName: PUTF8Char;
+    TypeHash: ImGuiID;
+    ClearAllFn: procedure(ctx: PImGuiContext; handler: PImGuiSettingsHandler); cdecl;
+    ReadInitFn: procedure(ctx: PImGuiContext; handler: PImGuiSettingsHandler); cdecl;
+    ReadOpenFn: function(ctx: PImGuiContext; handler: PImGuiSettingsHandler; const name: PUTF8Char): Pointer; cdecl;
+    ReadLineFn: procedure(ctx: PImGuiContext; handler: PImGuiSettingsHandler; entry: Pointer; const line: PUTF8Char); cdecl;
+    ApplyAllFn: procedure(ctx: PImGuiContext; handler: PImGuiSettingsHandler); cdecl;
+    WriteAllFn: procedure(ctx: PImGuiContext; handler: PImGuiSettingsHandler; out_buf: PImGuiTextBuffer); cdecl;
+    UserData: Pointer;
+  end;
+
+  ImGuiLocKey = (
+    ImGuiLocKey_VersionStr = 0,
+    ImGuiLocKey_TableSizeOne = 1,
+    ImGuiLocKey_TableSizeAllFit = 2,
+    ImGuiLocKey_TableSizeAllDefault = 3,
+    ImGuiLocKey_TableResetOrder = 4,
+    ImGuiLocKey_WindowingMainMenuBar = 5,
+    ImGuiLocKey_WindowingPopup = 6,
+    ImGuiLocKey_WindowingUntitled = 7,
+    ImGuiLocKey_DockingHideTabBar = 8,
+    ImGuiLocKey_DockingHoldShiftToDock = 9,
+    ImGuiLocKey_DockingDragToUndockOrMoveNode = 10,
+    ImGuiLocKey_COUNT = 11);
+  PImGuiLocKey = ^ImGuiLocKey;
+
+  ImGuiLocEntry = record
+    Key: ImGuiLocKey;
+    Text: PUTF8Char;
+  end;
+
+  ImGuiDebugLogFlags_ = (
+    ImGuiDebugLogFlags_None = 0,
+    ImGuiDebugLogFlags_EventActiveId = 1,
+    ImGuiDebugLogFlags_EventFocus = 2,
+    ImGuiDebugLogFlags_EventPopup = 4,
+    ImGuiDebugLogFlags_EventNav = 8,
+    ImGuiDebugLogFlags_EventClipper = 16,
+    ImGuiDebugLogFlags_EventSelection = 32,
+    ImGuiDebugLogFlags_EventIO = 64,
+    ImGuiDebugLogFlags_EventDocking = 128,
+    ImGuiDebugLogFlags_EventViewport = 256,
+    ImGuiDebugLogFlags_EventMask_ = 511,
+    ImGuiDebugLogFlags_OutputToTTY = 1048576,
+    ImGuiDebugLogFlags_OutputToTestEngine = 2097152);
+  PImGuiDebugLogFlags_ = ^ImGuiDebugLogFlags_;
+
+  ImGuiDebugAllocEntry = record
+    FrameCount: Integer;
+    AllocCount: ImS16;
+    FreeCount: ImS16;
+  end;
+
+  ImGuiDebugAllocInfo = record
+    TotalAllocCount: Integer;
+    TotalFreeCount: Integer;
+    LastEntriesIdx: ImS16;
+    LastEntriesBuf: array [0..5] of ImGuiDebugAllocEntry;
+  end;
+
+  ImGuiMetricsConfig = record
+    ShowDebugLog: Boolean;
+    ShowIDStackTool: Boolean;
+    ShowWindowsRects: Boolean;
+    ShowWindowsBeginOrder: Boolean;
+    ShowTablesRects: Boolean;
+    ShowDrawCmdMesh: Boolean;
+    ShowDrawCmdBoundingBoxes: Boolean;
+    ShowTextEncodingViewer: Boolean;
+    ShowAtlasTintedWithTextColor: Boolean;
+    ShowDockingNodes: Boolean;
+    ShowWindowsRectsType: Integer;
+    ShowTablesRectsType: Integer;
+  end;
+
+  ImGuiStackLevelInfo = record
+    ID: ImGuiID;
+    QueryFrameCount: ImS8;
+    QuerySuccess: Boolean;
+  private
+    Data0: Cardinal;
+    function GetData0Value(const AIndex: Integer): Cardinal;
+    procedure SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property DataType: Cardinal index $0008 read GetData0Value write SetData0Value; // 8 bits at offset 0 in Data0
+  var
+    Desc: array [0..56] of UTF8Char;
+  end;
+
+  ImVector_ImGuiStackLevelInfo = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiStackLevelInfo;
+  end;
+
+  ImGuiIDStackTool = record
+    LastActiveFrame: Integer;
+    StackLevel: Integer;
+    QueryId: ImGuiID;
+    Results: ImVector_ImGuiStackLevelInfo;
+    CopyToClipboardOnCtrlC: Boolean;
+    CopyToClipboardLastTime: Single;
+  end;
+
+  ImGuiContextHookCallback = procedure(ctx: PImGuiContext; hook: PImGuiContextHook); cdecl;
+
+  ImGuiContextHookType = (
+    ImGuiContextHookType_NewFramePre = 0,
+    ImGuiContextHookType_NewFramePost = 1,
+    ImGuiContextHookType_EndFramePre = 2,
+    ImGuiContextHookType_EndFramePost = 3,
+    ImGuiContextHookType_RenderPre = 4,
+    ImGuiContextHookType_RenderPost = 5,
+    ImGuiContextHookType_Shutdown = 6,
+    ImGuiContextHookType_PendingRemoval_ = 7);
+  PImGuiContextHookType = ^ImGuiContextHookType;
+
+  ImGuiContextHook = record
+    HookId: ImGuiID;
+    &Type: ImGuiContextHookType;
+    Owner: ImGuiID;
+    Callback: ImGuiContextHookCallback;
+    UserData: Pointer;
+  end;
+
+  ImVector_ImGuiInputEvent = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiInputEvent;
+  end;
+
+  ImVector_ImGuiWindowStackData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiWindowStackData;
+  end;
+
+  ImVector_ImGuiColorMod = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiColorMod;
+  end;
+
+  ImVector_ImGuiStyleMod = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiStyleMod;
+  end;
+
+  ImVector_ImGuiID = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiID;
+  end;
+
+  ImVector_ImGuiItemFlags = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiItemFlags;
+  end;
+
+  ImVector_ImGuiGroupData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiGroupData;
+  end;
+
+  ImVector_ImGuiPopupData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiPopupData;
+  end;
+
+  ImVector_ImGuiNavTreeNodeData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiNavTreeNodeData;
+  end;
+
+  ImVector_ImGuiViewportPPtr = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PPImGuiViewportP;
+  end;
+
+  ImVector_unsigned_char = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PByte;
+  end;
+
+  ImVector_ImGuiListClipperData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiListClipperData;
+  end;
+
+  ImVector_ImGuiTableTempData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiTableTempData;
+  end;
+
+  ImVector_ImGuiTable = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiTable;
+  end;
+
+  ImPool_ImGuiTable = record
+    Buf: ImVector_ImGuiTable;
+    Map: ImGuiStorage;
+    FreeIdx: ImPoolIdx;
+    AliveCount: ImPoolIdx;
+  end;
+
+  ImVector_ImGuiTabBar = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiTabBar;
+  end;
+
+  ImPool_ImGuiTabBar = record
+    Buf: ImVector_ImGuiTabBar;
+    Map: ImGuiStorage;
+    FreeIdx: ImPoolIdx;
+    AliveCount: ImPoolIdx;
+  end;
+
+  ImVector_ImGuiPtrOrIndex = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiPtrOrIndex;
+  end;
+
+  ImVector_ImGuiShrinkWidthItem = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiShrinkWidthItem;
+  end;
+
+  ImVector_ImGuiSettingsHandler = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiSettingsHandler;
+  end;
+
+  ImChunkStream_ImGuiWindowSettings = record
+    Buf: ImVector_char;
+  end;
+
+  ImChunkStream_ImGuiTableSettings = record
+    Buf: ImVector_char;
+  end;
+
+  ImVector_ImGuiContextHook = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiContextHook;
+  end;
+
+  ImGuiContext = record
+    Initialized: Boolean;
+    FontAtlasOwnedByContext: Boolean;
+    IO: ImGuiIO;
+    PlatformIO: ImGuiPlatformIO;
+    Style: ImGuiStyle;
+    ConfigFlagsCurrFrame: ImGuiConfigFlags;
+    ConfigFlagsLastFrame: ImGuiConfigFlags;
+    Font: PImFont;
+    FontSize: Single;
+    FontBaseSize: Single;
+    DrawListSharedData: ImDrawListSharedData;
+    Time: Double;
+    FrameCount: Integer;
+    FrameCountEnded: Integer;
+    FrameCountPlatformEnded: Integer;
+    FrameCountRendered: Integer;
+    WithinFrameScope: Boolean;
+    WithinFrameScopeWithImplicitWindow: Boolean;
+    WithinEndChild: Boolean;
+    GcCompactAll: Boolean;
+    TestEngineHookItems: Boolean;
+    TestEngine: Pointer;
+    InputEventsQueue: ImVector_ImGuiInputEvent;
+    InputEventsTrail: ImVector_ImGuiInputEvent;
+    InputEventsNextMouseSource: ImGuiMouseSource;
+    InputEventsNextEventId: ImU32;
+    Windows: ImVector_ImGuiWindowPtr;
+    WindowsFocusOrder: ImVector_ImGuiWindowPtr;
+    WindowsTempSortBuffer: ImVector_ImGuiWindowPtr;
+    CurrentWindowStack: ImVector_ImGuiWindowStackData;
+    WindowsById: ImGuiStorage;
+    WindowsActiveCount: Integer;
+    WindowsHoverPadding: ImVec2;
+    DebugBreakInWindow: ImGuiID;
+    CurrentWindow: PImGuiWindow;
+    HoveredWindow: PImGuiWindow;
+    HoveredWindowUnderMovingWindow: PImGuiWindow;
+    MovingWindow: PImGuiWindow;
+    WheelingWindow: PImGuiWindow;
+    WheelingWindowRefMousePos: ImVec2;
+    WheelingWindowStartFrame: Integer;
+    WheelingWindowScrolledFrame: Integer;
+    WheelingWindowReleaseTimer: Single;
+    WheelingWindowWheelRemainder: ImVec2;
+    WheelingAxisAvg: ImVec2;
+    DebugHookIdInfo: ImGuiID;
+    HoveredId: ImGuiID;
+    HoveredIdPreviousFrame: ImGuiID;
+    HoveredIdAllowOverlap: Boolean;
+    HoveredIdDisabled: Boolean;
+    HoveredIdTimer: Single;
+    HoveredIdNotActiveTimer: Single;
+    ActiveId: ImGuiID;
+    ActiveIdIsAlive: ImGuiID;
+    ActiveIdTimer: Single;
+    ActiveIdIsJustActivated: Boolean;
+    ActiveIdAllowOverlap: Boolean;
+    ActiveIdNoClearOnFocusLoss: Boolean;
+    ActiveIdHasBeenPressedBefore: Boolean;
+    ActiveIdHasBeenEditedBefore: Boolean;
+    ActiveIdHasBeenEditedThisFrame: Boolean;
+    ActiveIdClickOffset: ImVec2;
+    ActiveIdWindow: PImGuiWindow;
+    ActiveIdSource: ImGuiInputSource;
+    ActiveIdMouseButton: Integer;
+    ActiveIdPreviousFrame: ImGuiID;
+    ActiveIdPreviousFrameIsAlive: Boolean;
+    ActiveIdPreviousFrameHasBeenEditedBefore: Boolean;
+    ActiveIdPreviousFrameWindow: PImGuiWindow;
+    LastActiveId: ImGuiID;
+    LastActiveIdTimer: Single;
+    LastKeyModsChangeTime: Double;
+    LastKeyModsChangeFromNoneTime: Double;
+    LastKeyboardKeyPressTime: Double;
+    KeysOwnerData: array [0..153] of ImGuiKeyOwnerData;
+    KeysRoutingTable: ImGuiKeyRoutingTable;
+    ActiveIdUsingNavDirMask: ImU32;
+    ActiveIdUsingAllKeyboardKeys: Boolean;
+    DebugBreakInShortcutRouting: ImGuiKeyChord;
+    CurrentFocusScopeId: ImGuiID;
+    CurrentItemFlags: ImGuiItemFlags;
+    DebugLocateId: ImGuiID;
+    NextItemData: ImGuiNextItemData;
+    LastItemData: ImGuiLastItemData;
+    NextWindowData: ImGuiNextWindowData;
+    DebugShowGroupRects: Boolean;
+    DebugFlashStyleColorIdx: ImGuiCol;
+    ColorStack: ImVector_ImGuiColorMod;
+    StyleVarStack: ImVector_ImGuiStyleMod;
+    FontStack: ImVector_ImFontPtr;
+    FocusScopeStack: ImVector_ImGuiID;
+    ItemFlagsStack: ImVector_ImGuiItemFlags;
+    GroupStack: ImVector_ImGuiGroupData;
+    OpenPopupStack: ImVector_ImGuiPopupData;
+    BeginPopupStack: ImVector_ImGuiPopupData;
+    NavTreeNodeStack: ImVector_ImGuiNavTreeNodeData;
+    BeginMenuCount: Integer;
+    Viewports: ImVector_ImGuiViewportPPtr;
+    CurrentDpiScale: Single;
+    CurrentViewport: PImGuiViewportP;
+    MouseViewport: PImGuiViewportP;
+    MouseLastHoveredViewport: PImGuiViewportP;
+    PlatformLastFocusedViewportId: ImGuiID;
+    FallbackMonitor: ImGuiPlatformMonitor;
+    ViewportCreatedCount: Integer;
+    PlatformWindowsCreatedCount: Integer;
+    ViewportFocusedStampCount: Integer;
+    NavWindow: PImGuiWindow;
+    NavId: ImGuiID;
+    NavFocusScopeId: ImGuiID;
+    NavActivateId: ImGuiID;
+    NavActivateDownId: ImGuiID;
+    NavActivatePressedId: ImGuiID;
+    NavActivateFlags: ImGuiActivateFlags;
+    NavJustMovedToId: ImGuiID;
+    NavJustMovedToFocusScopeId: ImGuiID;
+    NavJustMovedToKeyMods: ImGuiKeyChord;
+    NavNextActivateId: ImGuiID;
+    NavNextActivateFlags: ImGuiActivateFlags;
+    NavInputSource: ImGuiInputSource;
+    NavLayer: ImGuiNavLayer;
+    NavLastValidSelectionUserData: ImGuiSelectionUserData;
+    NavIdIsAlive: Boolean;
+    NavMousePosDirty: Boolean;
+    NavDisableHighlight: Boolean;
+    NavDisableMouseHover: Boolean;
+    NavAnyRequest: Boolean;
+    NavInitRequest: Boolean;
+    NavInitRequestFromMove: Boolean;
+    NavInitResult: ImGuiNavItemData;
+    NavMoveSubmitted: Boolean;
+    NavMoveScoringItems: Boolean;
+    NavMoveForwardToNextFrame: Boolean;
+    NavMoveFlags: ImGuiNavMoveFlags;
+    NavMoveScrollFlags: ImGuiScrollFlags;
+    NavMoveKeyMods: ImGuiKeyChord;
+    NavMoveDir: ImGuiDir;
+    NavMoveDirForDebug: ImGuiDir;
+    NavMoveClipDir: ImGuiDir;
+    NavScoringRect: ImRect;
+    NavScoringNoClipRect: ImRect;
+    NavScoringDebugCount: Integer;
+    NavTabbingDir: Integer;
+    NavTabbingCounter: Integer;
+    NavMoveResultLocal: ImGuiNavItemData;
+    NavMoveResultLocalVisible: ImGuiNavItemData;
+    NavMoveResultOther: ImGuiNavItemData;
+    NavTabbingResultFirst: ImGuiNavItemData;
+    ConfigNavWindowingKeyNext: ImGuiKeyChord;
+    ConfigNavWindowingKeyPrev: ImGuiKeyChord;
+    NavWindowingTarget: PImGuiWindow;
+    NavWindowingTargetAnim: PImGuiWindow;
+    NavWindowingListWindow: PImGuiWindow;
+    NavWindowingTimer: Single;
+    NavWindowingHighlightAlpha: Single;
+    NavWindowingToggleLayer: Boolean;
+    NavWindowingAccumDeltaPos: ImVec2;
+    NavWindowingAccumDeltaSize: ImVec2;
+    DimBgRatio: Single;
+    DragDropActive: Boolean;
+    DragDropWithinSource: Boolean;
+    DragDropWithinTarget: Boolean;
+    DragDropSourceFlags: ImGuiDragDropFlags;
+    DragDropSourceFrameCount: Integer;
+    DragDropMouseButton: Integer;
+    DragDropPayload: ImGuiPayload;
+    DragDropTargetRect: ImRect;
+    DragDropTargetClipRect: ImRect;
+    DragDropTargetId: ImGuiID;
+    DragDropAcceptFlags: ImGuiDragDropFlags;
+    DragDropAcceptIdCurrRectSurface: Single;
+    DragDropAcceptIdCurr: ImGuiID;
+    DragDropAcceptIdPrev: ImGuiID;
+    DragDropAcceptFrameCount: Integer;
+    DragDropHoldJustPressedId: ImGuiID;
+    DragDropPayloadBufHeap: ImVector_unsigned_char;
+    DragDropPayloadBufLocal: array [0..15] of Byte;
+    ClipperTempDataStacked: Integer;
+    ClipperTempData: ImVector_ImGuiListClipperData;
+    CurrentTable: PImGuiTable;
+    DebugBreakInTable: ImGuiID;
+    TablesTempDataStacked: Integer;
+    TablesTempData: ImVector_ImGuiTableTempData;
+    Tables: ImPool_ImGuiTable;
+    TablesLastTimeActive: ImVector_float;
+    DrawChannelsTempMergeBuffer: ImVector_ImDrawChannel;
+    CurrentTabBar: PImGuiTabBar;
+    TabBars: ImPool_ImGuiTabBar;
+    CurrentTabBarStack: ImVector_ImGuiPtrOrIndex;
+    ShrinkWidthBuffer: ImVector_ImGuiShrinkWidthItem;
+    HoverItemDelayId: ImGuiID;
+    HoverItemDelayIdPreviousFrame: ImGuiID;
+    HoverItemDelayTimer: Single;
+    HoverItemDelayClearTimer: Single;
+    HoverItemUnlockedStationaryId: ImGuiID;
+    HoverWindowUnlockedStationaryId: ImGuiID;
+    MouseCursor: ImGuiMouseCursor;
+    MouseStationaryTimer: Single;
+    MouseLastValidPos: ImVec2;
+    InputTextState: ImGuiInputTextState;
+    InputTextDeactivatedState: ImGuiInputTextDeactivatedState;
+    InputTextPasswordFont: ImFont;
+    TempInputId: ImGuiID;
+    ColorEditOptions: ImGuiColorEditFlags;
+    ColorEditCurrentID: ImGuiID;
+    ColorEditSavedID: ImGuiID;
+    ColorEditSavedHue: Single;
+    ColorEditSavedSat: Single;
+    ColorEditSavedColor: ImU32;
+    ColorPickerRef: ImVec4;
+    ComboPreviewData: ImGuiComboPreviewData;
+    WindowResizeBorderExpectedRect: ImRect;
+    WindowResizeRelativeMode: Boolean;
+    SliderGrabClickOffset: Single;
+    SliderCurrentAccum: Single;
+    SliderCurrentAccumDirty: Boolean;
+    DragCurrentAccumDirty: Boolean;
+    DragCurrentAccum: Single;
+    DragSpeedDefaultRatio: Single;
+    ScrollbarClickDeltaToGrabCenter: Single;
+    DisabledAlphaBackup: Single;
+    DisabledStackSize: Smallint;
+    LockMarkEdited: Smallint;
+    TooltipOverrideCount: Smallint;
+    ClipboardHandlerData: ImVector_char;
+    MenusIdSubmittedThisFrame: ImVector_ImGuiID;
+    TypingSelectState: ImGuiTypingSelectState;
+    PlatformImeData: ImGuiPlatformImeData;
+    PlatformImeDataPrev: ImGuiPlatformImeData;
+    PlatformImeViewport: ImGuiID;
+    DockContext: ImGuiDockContext;
+    DockNodeWindowMenuHandler: procedure(ctx: PImGuiContext; node: PImGuiDockNode; tab_bar: PImGuiTabBar); cdecl;
+    SettingsLoaded: Boolean;
+    SettingsDirtyTimer: Single;
+    SettingsIniData: ImGuiTextBuffer;
+    SettingsHandlers: ImVector_ImGuiSettingsHandler;
+    SettingsWindows: ImChunkStream_ImGuiWindowSettings;
+    SettingsTables: ImChunkStream_ImGuiTableSettings;
+    Hooks: ImVector_ImGuiContextHook;
+    HookIdNext: ImGuiID;
+    LocalizationTable: array [0..10] of PUTF8Char;
+    LogEnabled: Boolean;
+    LogType: ImGuiLogType;
+    LogFile: ImFileHandle;
+    LogBuffer: ImGuiTextBuffer;
+    LogNextPrefix: PUTF8Char;
+    LogNextSuffix: PUTF8Char;
+    LogLinePosY: Single;
+    LogLineFirstItem: Boolean;
+    LogDepthRef: Integer;
+    LogDepthToExpand: Integer;
+    LogDepthToExpandDefault: Integer;
+    DebugLogFlags: ImGuiDebugLogFlags;
+    DebugLogBuf: ImGuiTextBuffer;
+    DebugLogIndex: ImGuiTextIndex;
+    DebugLogAutoDisableFlags: ImGuiDebugLogFlags;
+    DebugLogAutoDisableFrames: ImU8;
+    DebugLocateFrames: ImU8;
+    DebugBreakInLocateId: Boolean;
+    DebugBreakKeyChord: ImGuiKeyChord;
+    DebugBeginReturnValueCullDepth: ImS8;
+    DebugItemPickerActive: Boolean;
+    DebugItemPickerMouseButton: ImU8;
+    DebugItemPickerBreakId: ImGuiID;
+    DebugFlashStyleColorTime: Single;
+    DebugFlashStyleColorBackup: ImVec4;
+    DebugMetricsConfig: ImGuiMetricsConfig;
+    DebugIDStackTool: ImGuiIDStackTool;
+    DebugAllocInfo: ImGuiDebugAllocInfo;
+    DebugHoveredDockNode: PImGuiDockNode;
+    FramerateSecPerFrame: array [0..59] of Single;
+    FramerateSecPerFrameIdx: Integer;
+    FramerateSecPerFrameCount: Integer;
+    FramerateSecPerFrameAccum: Single;
+    WantCaptureMouseNextFrame: Integer;
+    WantCaptureKeyboardNextFrame: Integer;
+    WantTextInputNextFrame: Integer;
+    TempBuffer: ImVector_char;
+  end;
+
+  ImGuiWindowTempData = record
+    CursorPos: ImVec2;
+    CursorPosPrevLine: ImVec2;
+    CursorStartPos: ImVec2;
+    CursorMaxPos: ImVec2;
+    IdealMaxPos: ImVec2;
+    CurrLineSize: ImVec2;
+    PrevLineSize: ImVec2;
+    CurrLineTextBaseOffset: Single;
+    PrevLineTextBaseOffset: Single;
+    IsSameLine: Boolean;
+    IsSetPos: Boolean;
+    Indent: ImVec1;
+    ColumnsOffset: ImVec1;
+    GroupOffset: ImVec1;
+    CursorStartPosLossyness: ImVec2;
+    NavLayerCurrent: ImGuiNavLayer;
+    NavLayersActiveMask: Smallint;
+    NavLayersActiveMaskNext: Smallint;
+    NavIsScrollPushableX: Boolean;
+    NavHideHighlightOneFrame: Boolean;
+    NavWindowHasScrollY: Boolean;
+    MenuBarAppending: Boolean;
+    MenuBarOffset: ImVec2;
+    MenuColumns: ImGuiMenuColumns;
+    TreeDepth: Integer;
+    TreeJumpToParentOnPopMask: ImU32;
+    ChildWindows: ImVector_ImGuiWindowPtr;
+    StateStorage: PImGuiStorage;
+    CurrentColumns: PImGuiOldColumns;
+    CurrentTableIdx: Integer;
+    LayoutType: ImGuiLayoutType;
+    ParentLayoutType: ImGuiLayoutType;
+    ItemWidth: Single;
+    TextWrapPos: Single;
+    ItemWidthStack: ImVector_float;
+    TextWrapPosStack: ImVector_float;
+  end;
+
+  ImVector_ImGuiOldColumns = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiOldColumns;
+  end;
+
+  ImGuiWindow = record
+    Ctx: PImGuiContext;
+    Name: PUTF8Char;
+    ID: ImGuiID;
+    Flags: ImGuiWindowFlags;
+    FlagsPreviousFrame: ImGuiWindowFlags;
+    ChildFlags: ImGuiChildFlags;
+    WindowClass: ImGuiWindowClass;
+    Viewport: PImGuiViewportP;
+    ViewportId: ImGuiID;
+    ViewportPos: ImVec2;
+    ViewportAllowPlatformMonitorExtend: Integer;
+    Pos: ImVec2;
+    Size: ImVec2;
+    SizeFull: ImVec2;
+    ContentSize: ImVec2;
+    ContentSizeIdeal: ImVec2;
+    ContentSizeExplicit: ImVec2;
+    WindowPadding: ImVec2;
+    WindowRounding: Single;
+    WindowBorderSize: Single;
+    DecoOuterSizeX1: Single;
+    DecoOuterSizeY1: Single;
+    DecoOuterSizeX2: Single;
+    DecoOuterSizeY2: Single;
+    DecoInnerSizeX1: Single;
+    DecoInnerSizeY1: Single;
+    NameBufLen: Integer;
+    MoveId: ImGuiID;
+    TabId: ImGuiID;
+    ChildId: ImGuiID;
+    Scroll: ImVec2;
+    ScrollMax: ImVec2;
+    ScrollTarget: ImVec2;
+    ScrollTargetCenterRatio: ImVec2;
+    ScrollTargetEdgeSnapDist: ImVec2;
+    ScrollbarSizes: ImVec2;
+    ScrollbarX: Boolean;
+    ScrollbarY: Boolean;
+    ViewportOwned: Boolean;
+    Active: Boolean;
+    WasActive: Boolean;
+    WriteAccessed: Boolean;
+    Collapsed: Boolean;
+    WantCollapseToggle: Boolean;
+    SkipItems: Boolean;
+    Appearing: Boolean;
+    Hidden: Boolean;
+    IsFallbackWindow: Boolean;
+    IsExplicitChild: Boolean;
+    HasCloseButton: Boolean;
+    ResizeBorderHovered: UTF8Char;
+    ResizeBorderHeld: UTF8Char;
+    BeginCount: Smallint;
+    BeginCountPreviousFrame: Smallint;
+    BeginOrderWithinParent: Smallint;
+    BeginOrderWithinContext: Smallint;
+    FocusOrder: Smallint;
+    PopupId: ImGuiID;
+    AutoFitFramesX: ImS8;
+    AutoFitFramesY: ImS8;
+    AutoFitOnlyGrows: Boolean;
+    AutoPosLastDirection: ImGuiDir;
+    HiddenFramesCanSkipItems: ImS8;
+    HiddenFramesCannotSkipItems: ImS8;
+    HiddenFramesForRenderOnly: ImS8;
+    DisableInputsFrames: ImS8;
+  private
+    Data0: Cardinal;
+    function GetData0Value(const AIndex: Integer): Cardinal;
+    procedure SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property SetWindowPosAllowFlags: Cardinal index $0008 read GetData0Value write SetData0Value; // 8 bits at offset 0 in Data0
+    property SetWindowSizeAllowFlags: Cardinal index $0808 read GetData0Value write SetData0Value; // 8 bits at offset 8 in Data0
+    property SetWindowCollapsedAllowFlags: Cardinal index $1008 read GetData0Value write SetData0Value; // 8 bits at offset 16 in Data0
+    property SetWindowDockAllowFlags: Cardinal index $1808 read GetData0Value write SetData0Value; // 8 bits at offset 24 in Data0
+  var
+    SetWindowPosVal: ImVec2;
+    SetWindowPosPivot: ImVec2;
+    IDStack: ImVector_ImGuiID;
+    DC: ImGuiWindowTempData;
+    OuterRectClipped: ImRect;
+    InnerRect: ImRect;
+    InnerClipRect: ImRect;
+    WorkRect: ImRect;
+    ParentWorkRect: ImRect;
+    ClipRect: ImRect;
+    ContentRegionRect: ImRect;
+    HitTestHoleSize: ImVec2ih;
+    HitTestHoleOffset: ImVec2ih;
+    LastFrameActive: Integer;
+    LastFrameJustFocused: Integer;
+    LastTimeActive: Single;
+    ItemWidthDefault: Single;
+    StateStorage: ImGuiStorage;
+    ColumnsStorage: ImVector_ImGuiOldColumns;
+    FontWindowScale: Single;
+    FontDpiScale: Single;
+    SettingsOffset: Integer;
+    DrawList: PImDrawList;
+    DrawListInst: ImDrawList;
+    ParentWindow: PImGuiWindow;
+    ParentWindowInBeginStack: PImGuiWindow;
+    RootWindow: PImGuiWindow;
+    RootWindowPopupTree: PImGuiWindow;
+    RootWindowDockTree: PImGuiWindow;
+    RootWindowForTitleBarHighlight: PImGuiWindow;
+    RootWindowForNav: PImGuiWindow;
+    NavLastChildNavWindow: PImGuiWindow;
+    NavLastIds: array [0..1] of ImGuiID;
+    NavRectRel: array [0..1] of ImRect;
+    NavPreferredScoringPosRel: array [0..1] of ImVec2;
+    NavRootFocusScopeId: ImGuiID;
+    MemoryDrawListIdxCapacity: Integer;
+    MemoryDrawListVtxCapacity: Integer;
+    MemoryCompacted: Boolean;
+  private
+    Data1: Cardinal;
+    function GetData1Value(const AIndex: Integer): Cardinal;
+    procedure SetData1Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property DockIsActive: Cardinal index $1 read GetData1Value write SetData1Value; // 1 bits at offset 0 in Data1
+    property DockNodeIsVisible: Cardinal index $101 read GetData1Value write SetData1Value; // 1 bits at offset 1 in Data1
+    property DockTabIsVisible: Cardinal index $201 read GetData1Value write SetData1Value; // 1 bits at offset 2 in Data1
+    property DockTabWantClose: Cardinal index $301 read GetData1Value write SetData1Value; // 1 bits at offset 3 in Data1
+  var
+    DockOrder: Smallint;
+    DockStyle: ImGuiWindowDockStyle;
+    DockNode: PImGuiDockNode;
+    DockNodeAsHost: PImGuiDockNode;
+    DockId: ImGuiID;
+    DockTabItemStatusFlags: ImGuiItemStatusFlags;
+    DockTabItemRect: ImRect;
+  end;
+
+  ImGuiTabBarFlagsPrivate_ = (
+    ImGuiTabBarFlags_DockNode = 1048576,
+    ImGuiTabBarFlags_IsFocused = 2097152,
+    ImGuiTabBarFlags_SaveSettings = 4194304);
+  PImGuiTabBarFlagsPrivate_ = ^ImGuiTabBarFlagsPrivate_;
+
+  ImGuiTabItemFlagsPrivate_ = (
+    ImGuiTabItemFlags_SectionMask_ = 192,
+    ImGuiTabItemFlags_NoCloseButton = 1048576,
+    ImGuiTabItemFlags_Button = 2097152,
+    ImGuiTabItemFlags_Unsorted = 4194304);
+  PImGuiTabItemFlagsPrivate_ = ^ImGuiTabItemFlagsPrivate_;
+
+  ImGuiTabItem = record
+    ID: ImGuiID;
+    Flags: ImGuiTabItemFlags;
+    Window: PImGuiWindow;
+    LastFrameVisible: Integer;
+    LastFrameSelected: Integer;
+    Offset: Single;
+    Width: Single;
+    ContentWidth: Single;
+    RequestedWidth: Single;
+    NameOffset: ImS32;
+    BeginOrder: ImS16;
+    IndexDuringLayout: ImS16;
+    WantClose: Boolean;
+  end;
+
+  ImVector_ImGuiTabItem = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiTabItem;
+  end;
+
+  ImGuiTabBar = record
+    Tabs: ImVector_ImGuiTabItem;
+    Flags: ImGuiTabBarFlags;
+    ID: ImGuiID;
+    SelectedTabId: ImGuiID;
+    NextSelectedTabId: ImGuiID;
+    VisibleTabId: ImGuiID;
+    CurrFrameVisible: Integer;
+    PrevFrameVisible: Integer;
+    BarRect: ImRect;
+    CurrTabsContentsHeight: Single;
+    PrevTabsContentsHeight: Single;
+    WidthAllTabs: Single;
+    WidthAllTabsIdeal: Single;
+    ScrollingAnim: Single;
+    ScrollingTarget: Single;
+    ScrollingTargetDistToVisibility: Single;
+    ScrollingSpeed: Single;
+    ScrollingRectMinX: Single;
+    ScrollingRectMaxX: Single;
+    SeparatorMinX: Single;
+    SeparatorMaxX: Single;
+    ReorderRequestTabId: ImGuiID;
+    ReorderRequestOffset: ImS16;
+    BeginCount: ImS8;
+    WantLayout: Boolean;
+    VisibleTabWasSubmitted: Boolean;
+    TabsAddedNew: Boolean;
+    TabsActiveCount: ImS16;
+    LastTabItemIdx: ImS16;
+    ItemSpacingY: Single;
+    FramePadding: ImVec2;
+    BackupCursorPos: ImVec2;
+    TabsNames: ImGuiTextBuffer;
+  end;
+
+  ImGuiTableColumnIdx = ImS16;
+  PImGuiTableColumnIdx = ^ImGuiTableColumnIdx;
+  ImGuiTableDrawChannelIdx = ImU16;
+
+  ImGuiTableColumn = record
+    Flags: ImGuiTableColumnFlags;
+    WidthGiven: Single;
+    MinX: Single;
+    MaxX: Single;
+    WidthRequest: Single;
+    WidthAuto: Single;
+    StretchWeight: Single;
+    InitStretchWeightOrWidth: Single;
+    ClipRect: ImRect;
+    UserID: ImGuiID;
+    WorkMinX: Single;
+    WorkMaxX: Single;
+    ItemWidth: Single;
+    ContentMaxXFrozen: Single;
+    ContentMaxXUnfrozen: Single;
+    ContentMaxXHeadersUsed: Single;
+    ContentMaxXHeadersIdeal: Single;
+    NameOffset: ImS16;
+    DisplayOrder: ImGuiTableColumnIdx;
+    IndexWithinEnabledSet: ImGuiTableColumnIdx;
+    PrevEnabledColumn: ImGuiTableColumnIdx;
+    NextEnabledColumn: ImGuiTableColumnIdx;
+    SortOrder: ImGuiTableColumnIdx;
+    DrawChannelCurrent: ImGuiTableDrawChannelIdx;
+    DrawChannelFrozen: ImGuiTableDrawChannelIdx;
+    DrawChannelUnfrozen: ImGuiTableDrawChannelIdx;
+    IsEnabled: Boolean;
+    IsUserEnabled: Boolean;
+    IsUserEnabledNextFrame: Boolean;
+    IsVisibleX: Boolean;
+    IsVisibleY: Boolean;
+    IsRequestOutput: Boolean;
+    IsSkipItems: Boolean;
+    IsPreserveWidthAuto: Boolean;
+    NavLayerCurrent: ImS8;
+    AutoFitQueue: ImU8;
+    CannotSkipItemsQueue: ImU8;
+  private
+    Data0: Cardinal;
+    function GetData0Value(const AIndex: Integer): Cardinal;
+    procedure SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property SortDirection: Cardinal index $2 read GetData0Value write SetData0Value; // 2 bits at offset 0 in Data0
+    property SortDirectionsAvailCount: Cardinal index $202 read GetData0Value write SetData0Value; // 2 bits at offset 2 in Data0
+    property SortDirectionsAvailMask: Cardinal index $404 read GetData0Value write SetData0Value; // 4 bits at offset 4 in Data0
+  var
+    SortDirectionsAvailList: ImU8;
+  end;
+
+  ImGuiTableCellData = record
+    BgColor: ImU32;
+    Column: ImGuiTableColumnIdx;
+  end;
+
+  ImGuiTableInstanceData = record
+    TableInstanceID: ImGuiID;
+    LastOuterHeight: Single;
+    LastTopHeadersRowHeight: Single;
+    LastFrozenHeight: Single;
+    HoveredRowLast: Integer;
+    HoveredRowNext: Integer;
+  end;
+
+  ImSpan_ImGuiTableColumn = record
+    Data: PImGuiTableColumn;
+    DataEnd: PImGuiTableColumn;
+  end;
+
+  ImSpan_ImGuiTableColumnIdx = record
+    Data: PImGuiTableColumnIdx;
+    DataEnd: PImGuiTableColumnIdx;
+  end;
+
+  ImSpan_ImGuiTableCellData = record
+    Data: PImGuiTableCellData;
+    DataEnd: PImGuiTableCellData;
+  end;
+
+  ImVector_ImGuiTableInstanceData = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiTableInstanceData;
+  end;
+
+  ImVector_ImGuiTableColumnSortSpecs = record
+    Size: Integer;
+    Capacity: Integer;
+    Data: PImGuiTableColumnSortSpecs;
+  end;
+
+  ImGuiTable = record
+    ID: ImGuiID;
+    Flags: ImGuiTableFlags;
+    RawData: Pointer;
+    TempData: PImGuiTableTempData;
+    Columns: ImSpan_ImGuiTableColumn;
+    DisplayOrderToIndex: ImSpan_ImGuiTableColumnIdx;
+    RowCellData: ImSpan_ImGuiTableCellData;
+    EnabledMaskByDisplayOrder: ImBitArrayPtr;
+    EnabledMaskByIndex: ImBitArrayPtr;
+    VisibleMaskByIndex: ImBitArrayPtr;
+    SettingsLoadedFlags: ImGuiTableFlags;
+    SettingsOffset: Integer;
+    LastFrameActive: Integer;
+    ColumnsCount: Integer;
+    CurrentRow: Integer;
+    CurrentColumn: Integer;
+    InstanceCurrent: ImS16;
+    InstanceInteracted: ImS16;
+    RowPosY1: Single;
+    RowPosY2: Single;
+    RowMinHeight: Single;
+    RowCellPaddingY: Single;
+    RowTextBaseline: Single;
+    RowIndentOffsetX: Single;
+  private
+    Data0: Cardinal;
+    function GetData0Value(const AIndex: Integer): Cardinal;
+    procedure SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property RowFlags: Cardinal index $0010 read GetData0Value write SetData0Value; // 16 bits at offset 0 in Data0
+    property LastRowFlags: Cardinal index $1010 read GetData0Value write SetData0Value; // 16 bits at offset 16 in Data0
+  var
+    RowBgColorCounter: Integer;
+    RowBgColor: array [0..1] of ImU32;
+    BorderColorStrong: ImU32;
+    BorderColorLight: ImU32;
+    BorderX1: Single;
+    BorderX2: Single;
+    HostIndentX: Single;
+    MinColumnWidth: Single;
+    OuterPaddingX: Single;
+    CellPaddingX: Single;
+    CellSpacingX1: Single;
+    CellSpacingX2: Single;
+    InnerWidth: Single;
+    ColumnsGivenWidth: Single;
+    ColumnsAutoFitWidth: Single;
+    ColumnsStretchSumWeights: Single;
+    ResizedColumnNextWidth: Single;
+    ResizeLockMinContentsX2: Single;
+    RefScale: Single;
+    AngledHeadersHeight: Single;
+    AngledHeadersSlope: Single;
+    OuterRect: ImRect;
+    InnerRect: ImRect;
+    WorkRect: ImRect;
+    InnerClipRect: ImRect;
+    BgClipRect: ImRect;
+    Bg0ClipRectForDrawCmd: ImRect;
+    Bg2ClipRectForDrawCmd: ImRect;
+    HostClipRect: ImRect;
+    HostBackupInnerClipRect: ImRect;
+    OuterWindow: PImGuiWindow;
+    InnerWindow: PImGuiWindow;
+    ColumnsNames: ImGuiTextBuffer;
+    DrawSplitter: PImDrawListSplitter;
+    InstanceDataFirst: ImGuiTableInstanceData;
+    InstanceDataExtra: ImVector_ImGuiTableInstanceData;
+    SortSpecsSingle: ImGuiTableColumnSortSpecs;
+    SortSpecsMulti: ImVector_ImGuiTableColumnSortSpecs;
+    SortSpecs: ImGuiTableSortSpecs;
+    SortSpecsCount: ImGuiTableColumnIdx;
+    ColumnsEnabledCount: ImGuiTableColumnIdx;
+    ColumnsEnabledFixedCount: ImGuiTableColumnIdx;
+    DeclColumnsCount: ImGuiTableColumnIdx;
+    AngledHeadersCount: ImGuiTableColumnIdx;
+    HoveredColumnBody: ImGuiTableColumnIdx;
+    HoveredColumnBorder: ImGuiTableColumnIdx;
+    HighlightColumnHeader: ImGuiTableColumnIdx;
+    AutoFitSingleColumn: ImGuiTableColumnIdx;
+    ResizedColumn: ImGuiTableColumnIdx;
+    LastResizedColumn: ImGuiTableColumnIdx;
+    HeldHeaderColumn: ImGuiTableColumnIdx;
+    ReorderColumn: ImGuiTableColumnIdx;
+    ReorderColumnDir: ImGuiTableColumnIdx;
+    LeftMostEnabledColumn: ImGuiTableColumnIdx;
+    RightMostEnabledColumn: ImGuiTableColumnIdx;
+    LeftMostStretchedColumn: ImGuiTableColumnIdx;
+    RightMostStretchedColumn: ImGuiTableColumnIdx;
+    ContextPopupColumn: ImGuiTableColumnIdx;
+    FreezeRowsRequest: ImGuiTableColumnIdx;
+    FreezeRowsCount: ImGuiTableColumnIdx;
+    FreezeColumnsRequest: ImGuiTableColumnIdx;
+    FreezeColumnsCount: ImGuiTableColumnIdx;
+    RowCellDataCurrent: ImGuiTableColumnIdx;
+    DummyDrawChannel: ImGuiTableDrawChannelIdx;
+    Bg2DrawChannelCurrent: ImGuiTableDrawChannelIdx;
+    Bg2DrawChannelUnfrozen: ImGuiTableDrawChannelIdx;
+    IsLayoutLocked: Boolean;
+    IsInsideRow: Boolean;
+    IsInitializing: Boolean;
+    IsSortSpecsDirty: Boolean;
+    IsUsingHeaders: Boolean;
+    IsContextPopupOpen: Boolean;
+    DisableDefaultContextMenu: Boolean;
+    IsSettingsRequestLoad: Boolean;
+    IsSettingsDirty: Boolean;
+    IsDefaultDisplayOrder: Boolean;
+    IsResetAllRequest: Boolean;
+    IsResetDisplayOrderRequest: Boolean;
+    IsUnfrozenRows: Boolean;
+    IsDefaultSizingPolicy: Boolean;
+    IsActiveIdAliveBeforeTable: Boolean;
+    IsActiveIdInTable: Boolean;
+    HasScrollbarYCurr: Boolean;
+    HasScrollbarYPrev: Boolean;
+    MemoryCompacted: Boolean;
+    HostSkipItems: Boolean;
+  end;
+
+  ImGuiTableTempData = record
+    TableIndex: Integer;
+    LastTimeActive: Single;
+    AngledheadersExtraWidth: Single;
+    UserOuterSize: ImVec2;
+    DrawSplitter: ImDrawListSplitter;
+    HostBackupWorkRect: ImRect;
+    HostBackupParentWorkRect: ImRect;
+    HostBackupPrevLineSize: ImVec2;
+    HostBackupCurrLineSize: ImVec2;
+    HostBackupCursorMaxPos: ImVec2;
+    HostBackupColumnsOffset: ImVec1;
+    HostBackupItemWidth: Single;
+    HostBackupItemWidthStackSize: Integer;
+  end;
+
+  ImGuiTableColumnSettings = record
+    WidthOrWeight: Single;
+    UserID: ImGuiID;
+    Index: ImGuiTableColumnIdx;
+    DisplayOrder: ImGuiTableColumnIdx;
+    SortOrder: ImGuiTableColumnIdx;
+  private
+    Data0: Cardinal;
+    function GetData0Value(const AIndex: Integer): Cardinal;
+    procedure SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+  public
+    property SortDirection: Cardinal index $2 read GetData0Value write SetData0Value; // 2 bits at offset 0 in Data0
+    property IsEnabled: Cardinal index $201 read GetData0Value write SetData0Value; // 1 bits at offset 2 in Data0
+    property IsStretch: Cardinal index $301 read GetData0Value write SetData0Value; // 1 bits at offset 3 in Data0
+  end;
+
+  ImGuiTableSettings = record
+    ID: ImGuiID;
+    SaveFlags: ImGuiTableFlags;
+    RefScale: Single;
+    ColumnsCount: ImGuiTableColumnIdx;
+    ColumnsCountMax: ImGuiTableColumnIdx;
+    WantApply: Boolean;
+  end;
+
+  ImFontBuilderIO = record
+    FontBuilder_Build: function(atlas: PImFontAtlas): Boolean; cdecl;
+  end;
 
 const
   PLM_DEMUX_PACKET_PRIVATE: Integer = $BD;
@@ -13252,6 +16903,4484 @@ function zipCloseFileInZip(&file: zipFile): Integer; cdecl;
 function zipClose(&file: zipFile; const global_comment: PUTF8Char): Integer; cdecl;
   external PSFML_DLL name _PU + 'zipClose';
 
+function ImVec2_ImVec2_Nil(): PImVec2; cdecl;
+  external PSFML_DLL name _PU + 'ImVec2_ImVec2_Nil';
+
+procedure ImVec2_destroy(self: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImVec2_destroy';
+
+function ImVec2_ImVec2_Float(_x: Single; _y: Single): PImVec2; cdecl;
+  external PSFML_DLL name _PU + 'ImVec2_ImVec2_Float';
+
+function ImVec4_ImVec4_Nil(): PImVec4; cdecl;
+  external PSFML_DLL name _PU + 'ImVec4_ImVec4_Nil';
+
+procedure ImVec4_destroy(self: PImVec4); cdecl;
+  external PSFML_DLL name _PU + 'ImVec4_destroy';
+
+function ImVec4_ImVec4_Float(_x: Single; _y: Single; _z: Single; _w: Single): PImVec4; cdecl;
+  external PSFML_DLL name _PU + 'ImVec4_ImVec4_Float';
+
+function igCreateContext(shared_font_atlas: PImFontAtlas): PImGuiContext; cdecl;
+  external PSFML_DLL name _PU + 'igCreateContext';
+
+procedure igDestroyContext(ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'igDestroyContext';
+
+function igGetCurrentContext(): PImGuiContext; cdecl;
+  external PSFML_DLL name _PU + 'igGetCurrentContext';
+
+procedure igSetCurrentContext(ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'igSetCurrentContext';
+
+function igGetIO(): PImGuiIO; cdecl;
+  external PSFML_DLL name _PU + 'igGetIO';
+
+function igGetStyle(): PImGuiStyle; cdecl;
+  external PSFML_DLL name _PU + 'igGetStyle';
+
+procedure igNewFrame(); cdecl;
+  external PSFML_DLL name _PU + 'igNewFrame';
+
+procedure igEndFrame(); cdecl;
+  external PSFML_DLL name _PU + 'igEndFrame';
+
+procedure igRender(); cdecl;
+  external PSFML_DLL name _PU + 'igRender';
+
+function igGetDrawData(): PImDrawData; cdecl;
+  external PSFML_DLL name _PU + 'igGetDrawData';
+
+procedure igShowDemoWindow(p_open: PBoolean); cdecl;
+  external PSFML_DLL name _PU + 'igShowDemoWindow';
+
+procedure igShowMetricsWindow(p_open: PBoolean); cdecl;
+  external PSFML_DLL name _PU + 'igShowMetricsWindow';
+
+procedure igShowDebugLogWindow(p_open: PBoolean); cdecl;
+  external PSFML_DLL name _PU + 'igShowDebugLogWindow';
+
+procedure igShowIDStackToolWindow(p_open: PBoolean); cdecl;
+  external PSFML_DLL name _PU + 'igShowIDStackToolWindow';
+
+procedure igShowAboutWindow(p_open: PBoolean); cdecl;
+  external PSFML_DLL name _PU + 'igShowAboutWindow';
+
+procedure igShowStyleEditor(ref: PImGuiStyle); cdecl;
+  external PSFML_DLL name _PU + 'igShowStyleEditor';
+
+function igShowStyleSelector(const &label: PUTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igShowStyleSelector';
+
+procedure igShowFontSelector(const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igShowFontSelector';
+
+procedure igShowUserGuide(); cdecl;
+  external PSFML_DLL name _PU + 'igShowUserGuide';
+
+function igGetVersion(): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igGetVersion';
+
+procedure igStyleColorsDark(dst: PImGuiStyle); cdecl;
+  external PSFML_DLL name _PU + 'igStyleColorsDark';
+
+procedure igStyleColorsLight(dst: PImGuiStyle); cdecl;
+  external PSFML_DLL name _PU + 'igStyleColorsLight';
+
+procedure igStyleColorsClassic(dst: PImGuiStyle); cdecl;
+  external PSFML_DLL name _PU + 'igStyleColorsClassic';
+
+function igBegin(const name: PUTF8Char; p_open: PBoolean; flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBegin';
+
+procedure igEnd(); cdecl;
+  external PSFML_DLL name _PU + 'igEnd';
+
+function igBeginChild_Str(const str_id: PUTF8Char; size: ImVec2; child_flags: ImGuiChildFlags; window_flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginChild_Str';
+
+function igBeginChild_ID(id: ImGuiID; size: ImVec2; child_flags: ImGuiChildFlags; window_flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginChild_ID';
+
+procedure igEndChild(); cdecl;
+  external PSFML_DLL name _PU + 'igEndChild';
+
+function igIsWindowAppearing(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowAppearing';
+
+function igIsWindowCollapsed(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowCollapsed';
+
+function igIsWindowFocused(flags: ImGuiFocusedFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowFocused';
+
+function igIsWindowHovered(flags: ImGuiHoveredFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowHovered';
+
+function igGetWindowDrawList(): PImDrawList; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowDrawList';
+
+function igGetWindowDpiScale(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowDpiScale';
+
+procedure igGetWindowPos(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowPos';
+
+procedure igGetWindowSize(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowSize';
+
+function igGetWindowWidth(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowWidth';
+
+function igGetWindowHeight(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowHeight';
+
+function igGetWindowViewport(): PImGuiViewport; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowViewport';
+
+procedure igSetNextWindowPos(pos: ImVec2; cond: ImGuiCond; pivot: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowPos';
+
+procedure igSetNextWindowSize(size: ImVec2; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowSize';
+
+procedure igSetNextWindowSizeConstraints(size_min: ImVec2; size_max: ImVec2; custom_callback: ImGuiSizeCallback; custom_callback_data: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowSizeConstraints';
+
+procedure igSetNextWindowContentSize(size: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowContentSize';
+
+procedure igSetNextWindowCollapsed(collapsed: Boolean; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowCollapsed';
+
+procedure igSetNextWindowFocus(); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowFocus';
+
+procedure igSetNextWindowScroll(scroll: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowScroll';
+
+procedure igSetNextWindowBgAlpha(alpha: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowBgAlpha';
+
+procedure igSetNextWindowViewport(viewport_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowViewport';
+
+procedure igSetWindowPos_Vec2(pos: ImVec2; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowPos_Vec2';
+
+procedure igSetWindowSize_Vec2(size: ImVec2; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowSize_Vec2';
+
+procedure igSetWindowCollapsed_Bool(collapsed: Boolean; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowCollapsed_Bool';
+
+procedure igSetWindowFocus_Nil(); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowFocus_Nil';
+
+procedure igSetWindowFontScale(scale: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowFontScale';
+
+procedure igSetWindowPos_Str(const name: PUTF8Char; pos: ImVec2; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowPos_Str';
+
+procedure igSetWindowSize_Str(const name: PUTF8Char; size: ImVec2; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowSize_Str';
+
+procedure igSetWindowCollapsed_Str(const name: PUTF8Char; collapsed: Boolean; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowCollapsed_Str';
+
+procedure igSetWindowFocus_Str(const name: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowFocus_Str';
+
+procedure igGetContentRegionAvail(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetContentRegionAvail';
+
+procedure igGetContentRegionMax(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetContentRegionMax';
+
+procedure igGetWindowContentRegionMin(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowContentRegionMin';
+
+procedure igGetWindowContentRegionMax(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowContentRegionMax';
+
+function igGetScrollX(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetScrollX';
+
+function igGetScrollY(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetScrollY';
+
+procedure igSetScrollX_Float(scroll_x: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollX_Float';
+
+procedure igSetScrollY_Float(scroll_y: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollY_Float';
+
+function igGetScrollMaxX(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetScrollMaxX';
+
+function igGetScrollMaxY(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetScrollMaxY';
+
+procedure igSetScrollHereX(center_x_ratio: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollHereX';
+
+procedure igSetScrollHereY(center_y_ratio: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollHereY';
+
+procedure igSetScrollFromPosX_Float(local_x: Single; center_x_ratio: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollFromPosX_Float';
+
+procedure igSetScrollFromPosY_Float(local_y: Single; center_y_ratio: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollFromPosY_Float';
+
+procedure igPushFont(font: PImFont); cdecl;
+  external PSFML_DLL name _PU + 'igPushFont';
+
+procedure igPopFont(); cdecl;
+  external PSFML_DLL name _PU + 'igPopFont';
+
+procedure igPushStyleColor_U32(idx: ImGuiCol; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igPushStyleColor_U32';
+
+procedure igPushStyleColor_Vec4(idx: ImGuiCol; col: ImVec4); cdecl;
+  external PSFML_DLL name _PU + 'igPushStyleColor_Vec4';
+
+procedure igPopStyleColor(count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igPopStyleColor';
+
+procedure igPushStyleVar_Float(idx: ImGuiStyleVar; val: Single); cdecl;
+  external PSFML_DLL name _PU + 'igPushStyleVar_Float';
+
+procedure igPushStyleVar_Vec2(idx: ImGuiStyleVar; val: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igPushStyleVar_Vec2';
+
+procedure igPopStyleVar(count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igPopStyleVar';
+
+procedure igPushTabStop(tab_stop: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igPushTabStop';
+
+procedure igPopTabStop(); cdecl;
+  external PSFML_DLL name _PU + 'igPopTabStop';
+
+procedure igPushButtonRepeat(&repeat: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igPushButtonRepeat';
+
+procedure igPopButtonRepeat(); cdecl;
+  external PSFML_DLL name _PU + 'igPopButtonRepeat';
+
+procedure igPushItemWidth(item_width: Single); cdecl;
+  external PSFML_DLL name _PU + 'igPushItemWidth';
+
+procedure igPopItemWidth(); cdecl;
+  external PSFML_DLL name _PU + 'igPopItemWidth';
+
+procedure igSetNextItemWidth(item_width: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextItemWidth';
+
+function igCalcItemWidth(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igCalcItemWidth';
+
+procedure igPushTextWrapPos(wrap_local_pos_x: Single); cdecl;
+  external PSFML_DLL name _PU + 'igPushTextWrapPos';
+
+procedure igPopTextWrapPos(); cdecl;
+  external PSFML_DLL name _PU + 'igPopTextWrapPos';
+
+function igGetFont(): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'igGetFont';
+
+function igGetFontSize(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetFontSize';
+
+procedure igGetFontTexUvWhitePixel(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetFontTexUvWhitePixel';
+
+function igGetColorU32_Col(idx: ImGuiCol; alpha_mul: Single): ImU32; cdecl;
+  external PSFML_DLL name _PU + 'igGetColorU32_Col';
+
+function igGetColorU32_Vec4(col: ImVec4): ImU32; cdecl;
+  external PSFML_DLL name _PU + 'igGetColorU32_Vec4';
+
+function igGetColorU32_U32(col: ImU32): ImU32; cdecl;
+  external PSFML_DLL name _PU + 'igGetColorU32_U32';
+
+function igGetStyleColorVec4(idx: ImGuiCol): PImVec4; cdecl;
+  external PSFML_DLL name _PU + 'igGetStyleColorVec4';
+
+procedure igGetCursorScreenPos(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetCursorScreenPos';
+
+procedure igSetCursorScreenPos(pos: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igSetCursorScreenPos';
+
+procedure igGetCursorPos(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetCursorPos';
+
+function igGetCursorPosX(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetCursorPosX';
+
+function igGetCursorPosY(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetCursorPosY';
+
+procedure igSetCursorPos(local_pos: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igSetCursorPos';
+
+procedure igSetCursorPosX(local_x: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetCursorPosX';
+
+procedure igSetCursorPosY(local_y: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetCursorPosY';
+
+procedure igGetCursorStartPos(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetCursorStartPos';
+
+procedure igSeparator(); cdecl;
+  external PSFML_DLL name _PU + 'igSeparator';
+
+procedure igSameLine(offset_from_start_x: Single; spacing: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSameLine';
+
+procedure igNewLine(); cdecl;
+  external PSFML_DLL name _PU + 'igNewLine';
+
+procedure igSpacing(); cdecl;
+  external PSFML_DLL name _PU + 'igSpacing';
+
+procedure igDummy(size: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igDummy';
+
+procedure igIndent(indent_w: Single); cdecl;
+  external PSFML_DLL name _PU + 'igIndent';
+
+procedure igUnindent(indent_w: Single); cdecl;
+  external PSFML_DLL name _PU + 'igUnindent';
+
+procedure igBeginGroup(); cdecl;
+  external PSFML_DLL name _PU + 'igBeginGroup';
+
+procedure igEndGroup(); cdecl;
+  external PSFML_DLL name _PU + 'igEndGroup';
+
+procedure igAlignTextToFramePadding(); cdecl;
+  external PSFML_DLL name _PU + 'igAlignTextToFramePadding';
+
+function igGetTextLineHeight(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetTextLineHeight';
+
+function igGetTextLineHeightWithSpacing(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetTextLineHeightWithSpacing';
+
+function igGetFrameHeight(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetFrameHeight';
+
+function igGetFrameHeightWithSpacing(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetFrameHeightWithSpacing';
+
+procedure igPushID_Str(const str_id: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igPushID_Str';
+
+procedure igPushID_StrStr(const str_id_begin: PUTF8Char; const str_id_end: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igPushID_StrStr';
+
+procedure igPushID_Ptr(const ptr_id: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igPushID_Ptr';
+
+procedure igPushID_Int(int_id: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igPushID_Int';
+
+procedure igPopID(); cdecl;
+  external PSFML_DLL name _PU + 'igPopID';
+
+function igGetID_Str(const str_id: PUTF8Char): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetID_Str';
+
+function igGetID_StrStr(const str_id_begin: PUTF8Char; const str_id_end: PUTF8Char): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetID_StrStr';
+
+function igGetID_Ptr(const ptr_id: Pointer): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetID_Ptr';
+
+procedure igTextUnformatted(const text: PUTF8Char; const text_end: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igTextUnformatted';
+
+procedure igText(const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igText';
+
+procedure igTextV(const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igTextV';
+
+procedure igTextColored(col: ImVec4; const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igTextColored';
+
+procedure igTextColoredV(col: ImVec4; const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igTextColoredV';
+
+procedure igTextDisabled(const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igTextDisabled';
+
+procedure igTextDisabledV(const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igTextDisabledV';
+
+procedure igTextWrapped(const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igTextWrapped';
+
+procedure igTextWrappedV(const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igTextWrappedV';
+
+procedure igLabelText(const &label: PUTF8Char; const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igLabelText';
+
+procedure igLabelTextV(const &label: PUTF8Char; const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igLabelTextV';
+
+procedure igBulletText(const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igBulletText';
+
+procedure igBulletTextV(const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igBulletTextV';
+
+procedure igSeparatorText(const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igSeparatorText';
+
+function igButton(const &label: PUTF8Char; size: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igButton';
+
+function igSmallButton(const &label: PUTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSmallButton';
+
+function igInvisibleButton(const str_id: PUTF8Char; size: ImVec2; flags: ImGuiButtonFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInvisibleButton';
+
+function igArrowButton(const str_id: PUTF8Char; dir: ImGuiDir): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igArrowButton';
+
+function igCheckbox(const &label: PUTF8Char; v: PBoolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCheckbox';
+
+function igCheckboxFlags_IntPtr(const &label: PUTF8Char; flags: PInteger; flags_value: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCheckboxFlags_IntPtr';
+
+function igCheckboxFlags_UintPtr(const &label: PUTF8Char; flags: PCardinal; flags_value: Cardinal): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCheckboxFlags_UintPtr';
+
+function igRadioButton_Bool(const &label: PUTF8Char; active: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igRadioButton_Bool';
+
+function igRadioButton_IntPtr(const &label: PUTF8Char; v: PInteger; v_button: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igRadioButton_IntPtr';
+
+procedure igProgressBar(fraction: Single; size_arg: ImVec2; const overlay: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igProgressBar';
+
+procedure igBullet(); cdecl;
+  external PSFML_DLL name _PU + 'igBullet';
+
+procedure igImage(user_texture_id: ImTextureID; image_size: ImVec2; uv0: ImVec2; uv1: ImVec2; tint_col: ImVec4; border_col: ImVec4); cdecl;
+  external PSFML_DLL name _PU + 'igImage';
+
+function igImageButton(const str_id: PUTF8Char; user_texture_id: ImTextureID; image_size: ImVec2; uv0: ImVec2; uv1: ImVec2; bg_col: ImVec4; tint_col: ImVec4): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImageButton';
+
+function igBeginCombo(const &label: PUTF8Char; const preview_value: PUTF8Char; flags: ImGuiComboFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginCombo';
+
+procedure igEndCombo(); cdecl;
+  external PSFML_DLL name _PU + 'igEndCombo';
+
+function igCombo_Str_arr(const &label: PUTF8Char; current_item: PInteger; items: PPUTF8Char; items_count: Integer; popup_max_height_in_items: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCombo_Str_arr';
+
+function igCombo_Str(const &label: PUTF8Char; current_item: PInteger; const items_separated_by_zeros: PUTF8Char; popup_max_height_in_items: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCombo_Str';
+
+type
+  igCombo_FnStrPtr_getter = function(user_data: Pointer; idx: Integer): PUTF8Char; cdecl;
+
+function igCombo_FnStrPtr(const &label: PUTF8Char; current_item: PInteger; getter: igCombo_FnStrPtr_getter; user_data: Pointer; items_count: Integer; popup_max_height_in_items: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCombo_FnStrPtr';
+
+function igDragFloat(const &label: PUTF8Char; v: PSingle; v_speed: Single; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragFloat';
+
+function igDragFloat2(const &label: PUTF8Char; v: PSingle; v_speed: Single; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragFloat2';
+
+function igDragFloat3(const &label: PUTF8Char; v: PSingle; v_speed: Single; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragFloat3';
+
+function igDragFloat4(const &label: PUTF8Char; v: PSingle; v_speed: Single; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragFloat4';
+
+function igDragFloatRange2(const &label: PUTF8Char; v_current_min: PSingle; v_current_max: PSingle; v_speed: Single; v_min: Single; v_max: Single; const format: PUTF8Char; const format_max: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragFloatRange2';
+
+function igDragInt(const &label: PUTF8Char; v: PInteger; v_speed: Single; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragInt';
+
+function igDragInt2(const &label: PUTF8Char; v: PInteger; v_speed: Single; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragInt2';
+
+function igDragInt3(const &label: PUTF8Char; v: PInteger; v_speed: Single; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragInt3';
+
+function igDragInt4(const &label: PUTF8Char; v: PInteger; v_speed: Single; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragInt4';
+
+function igDragIntRange2(const &label: PUTF8Char; v_current_min: PInteger; v_current_max: PInteger; v_speed: Single; v_min: Integer; v_max: Integer; const format: PUTF8Char; const format_max: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragIntRange2';
+
+function igDragScalar(const &label: PUTF8Char; data_type: ImGuiDataType; p_data: Pointer; v_speed: Single; const p_min: Pointer; const p_max: Pointer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragScalar';
+
+function igDragScalarN(const &label: PUTF8Char; data_type: ImGuiDataType; p_data: Pointer; components: Integer; v_speed: Single; const p_min: Pointer; const p_max: Pointer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragScalarN';
+
+function igSliderFloat(const &label: PUTF8Char; v: PSingle; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderFloat';
+
+function igSliderFloat2(const &label: PUTF8Char; v: PSingle; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderFloat2';
+
+function igSliderFloat3(const &label: PUTF8Char; v: PSingle; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderFloat3';
+
+function igSliderFloat4(const &label: PUTF8Char; v: PSingle; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderFloat4';
+
+function igSliderAngle(const &label: PUTF8Char; v_rad: PSingle; v_degrees_min: Single; v_degrees_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderAngle';
+
+function igSliderInt(const &label: PUTF8Char; v: PInteger; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderInt';
+
+function igSliderInt2(const &label: PUTF8Char; v: PInteger; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderInt2';
+
+function igSliderInt3(const &label: PUTF8Char; v: PInteger; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderInt3';
+
+function igSliderInt4(const &label: PUTF8Char; v: PInteger; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderInt4';
+
+function igSliderScalar(const &label: PUTF8Char; data_type: ImGuiDataType; p_data: Pointer; const p_min: Pointer; const p_max: Pointer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderScalar';
+
+function igSliderScalarN(const &label: PUTF8Char; data_type: ImGuiDataType; p_data: Pointer; components: Integer; const p_min: Pointer; const p_max: Pointer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderScalarN';
+
+function igVSliderFloat(const &label: PUTF8Char; size: ImVec2; v: PSingle; v_min: Single; v_max: Single; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igVSliderFloat';
+
+function igVSliderInt(const &label: PUTF8Char; size: ImVec2; v: PInteger; v_min: Integer; v_max: Integer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igVSliderInt';
+
+function igVSliderScalar(const &label: PUTF8Char; size: ImVec2; data_type: ImGuiDataType; p_data: Pointer; const p_min: Pointer; const p_max: Pointer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igVSliderScalar';
+
+function igInputText(const &label: PUTF8Char; buf: PUTF8Char; buf_size: NativeUInt; flags: ImGuiInputTextFlags; callback: ImGuiInputTextCallback; user_data: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputText';
+
+function igInputTextMultiline(const &label: PUTF8Char; buf: PUTF8Char; buf_size: NativeUInt; size: ImVec2; flags: ImGuiInputTextFlags; callback: ImGuiInputTextCallback; user_data: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputTextMultiline';
+
+function igInputTextWithHint(const &label: PUTF8Char; const hint: PUTF8Char; buf: PUTF8Char; buf_size: NativeUInt; flags: ImGuiInputTextFlags; callback: ImGuiInputTextCallback; user_data: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputTextWithHint';
+
+function igInputFloat(const &label: PUTF8Char; v: PSingle; step: Single; step_fast: Single; const format: PUTF8Char; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputFloat';
+
+function igInputFloat2(const &label: PUTF8Char; v: PSingle; const format: PUTF8Char; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputFloat2';
+
+function igInputFloat3(const &label: PUTF8Char; v: PSingle; const format: PUTF8Char; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputFloat3';
+
+function igInputFloat4(const &label: PUTF8Char; v: PSingle; const format: PUTF8Char; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputFloat4';
+
+function igInputInt(const &label: PUTF8Char; v: PInteger; step: Integer; step_fast: Integer; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputInt';
+
+function igInputInt2(const &label: PUTF8Char; v: PInteger; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputInt2';
+
+function igInputInt3(const &label: PUTF8Char; v: PInteger; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputInt3';
+
+function igInputInt4(const &label: PUTF8Char; v: PInteger; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputInt4';
+
+function igInputDouble(const &label: PUTF8Char; v: PDouble; step: Double; step_fast: Double; const format: PUTF8Char; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputDouble';
+
+function igInputScalar(const &label: PUTF8Char; data_type: ImGuiDataType; p_data: Pointer; const p_step: Pointer; const p_step_fast: Pointer; const format: PUTF8Char; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputScalar';
+
+function igInputScalarN(const &label: PUTF8Char; data_type: ImGuiDataType; p_data: Pointer; components: Integer; const p_step: Pointer; const p_step_fast: Pointer; const format: PUTF8Char; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputScalarN';
+
+function igColorEdit3(const &label: PUTF8Char; col: PSingle; flags: ImGuiColorEditFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igColorEdit3';
+
+function igColorEdit4(const &label: PUTF8Char; col: PSingle; flags: ImGuiColorEditFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igColorEdit4';
+
+function igColorPicker3(const &label: PUTF8Char; col: PSingle; flags: ImGuiColorEditFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igColorPicker3';
+
+function igColorPicker4(const &label: PUTF8Char; col: PSingle; flags: ImGuiColorEditFlags; const ref_col: PSingle): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igColorPicker4';
+
+function igColorButton(const desc_id: PUTF8Char; col: ImVec4; flags: ImGuiColorEditFlags; size: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igColorButton';
+
+procedure igSetColorEditOptions(flags: ImGuiColorEditFlags); cdecl;
+  external PSFML_DLL name _PU + 'igSetColorEditOptions';
+
+function igTreeNode_Str(const &label: PUTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNode_Str';
+
+function igTreeNode_StrStr(const str_id: PUTF8Char; const fmt: PUTF8Char): Boolean varargs; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNode_StrStr';
+
+function igTreeNode_Ptr(const ptr_id: Pointer; const fmt: PUTF8Char): Boolean varargs; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNode_Ptr';
+
+function igTreeNodeV_Str(const str_id: PUTF8Char; const fmt: PUTF8Char; args: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeV_Str';
+
+function igTreeNodeV_Ptr(const ptr_id: Pointer; const fmt: PUTF8Char; args: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeV_Ptr';
+
+function igTreeNodeEx_Str(const &label: PUTF8Char; flags: ImGuiTreeNodeFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeEx_Str';
+
+function igTreeNodeEx_StrStr(const str_id: PUTF8Char; flags: ImGuiTreeNodeFlags; const fmt: PUTF8Char): Boolean varargs; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeEx_StrStr';
+
+function igTreeNodeEx_Ptr(const ptr_id: Pointer; flags: ImGuiTreeNodeFlags; const fmt: PUTF8Char): Boolean varargs; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeEx_Ptr';
+
+function igTreeNodeExV_Str(const str_id: PUTF8Char; flags: ImGuiTreeNodeFlags; const fmt: PUTF8Char; args: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeExV_Str';
+
+function igTreeNodeExV_Ptr(const ptr_id: Pointer; flags: ImGuiTreeNodeFlags; const fmt: PUTF8Char; args: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeExV_Ptr';
+
+procedure igTreePush_Str(const str_id: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igTreePush_Str';
+
+procedure igTreePush_Ptr(const ptr_id: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igTreePush_Ptr';
+
+procedure igTreePop(); cdecl;
+  external PSFML_DLL name _PU + 'igTreePop';
+
+function igGetTreeNodeToLabelSpacing(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetTreeNodeToLabelSpacing';
+
+function igCollapsingHeader_TreeNodeFlags(const &label: PUTF8Char; flags: ImGuiTreeNodeFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCollapsingHeader_TreeNodeFlags';
+
+function igCollapsingHeader_BoolPtr(const &label: PUTF8Char; p_visible: PBoolean; flags: ImGuiTreeNodeFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCollapsingHeader_BoolPtr';
+
+procedure igSetNextItemOpen(is_open: Boolean; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextItemOpen';
+
+function igSelectable_Bool(const &label: PUTF8Char; selected: Boolean; flags: ImGuiSelectableFlags; size: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSelectable_Bool';
+
+function igSelectable_BoolPtr(const &label: PUTF8Char; p_selected: PBoolean; flags: ImGuiSelectableFlags; size: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSelectable_BoolPtr';
+
+function igBeginListBox(const &label: PUTF8Char; size: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginListBox';
+
+procedure igEndListBox(); cdecl;
+  external PSFML_DLL name _PU + 'igEndListBox';
+
+function igListBox_Str_arr(const &label: PUTF8Char; current_item: PInteger; items: PPUTF8Char; items_count: Integer; height_in_items: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igListBox_Str_arr';
+
+type
+  igListBox_FnStrPtr_getter = function(user_data: Pointer; idx: Integer): PUTF8Char; cdecl;
+
+function igListBox_FnStrPtr(const &label: PUTF8Char; current_item: PInteger; getter: igListBox_FnStrPtr_getter; user_data: Pointer; items_count: Integer; height_in_items: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igListBox_FnStrPtr';
+
+procedure igPlotLines_FloatPtr(const &label: PUTF8Char; const values: PSingle; values_count: Integer; values_offset: Integer; const overlay_text: PUTF8Char; scale_min: Single; scale_max: Single; graph_size: ImVec2; stride: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igPlotLines_FloatPtr';
+
+type
+  igPlotLines_FnFloatPtr_values_getter = function(data: Pointer; idx: Integer): Single; cdecl;
+
+procedure igPlotLines_FnFloatPtr(const &label: PUTF8Char; values_getter: igPlotLines_FnFloatPtr_values_getter; data: Pointer; values_count: Integer; values_offset: Integer; const overlay_text: PUTF8Char; scale_min: Single; scale_max: Single; graph_size: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igPlotLines_FnFloatPtr';
+
+procedure igPlotHistogram_FloatPtr(const &label: PUTF8Char; const values: PSingle; values_count: Integer; values_offset: Integer; const overlay_text: PUTF8Char; scale_min: Single; scale_max: Single; graph_size: ImVec2; stride: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igPlotHistogram_FloatPtr';
+
+type
+  igPlotHistogram_FnFloatPtr_values_getter = function(data: Pointer; idx: Integer): Single; cdecl;
+
+procedure igPlotHistogram_FnFloatPtr(const &label: PUTF8Char; values_getter: igPlotHistogram_FnFloatPtr_values_getter; data: Pointer; values_count: Integer; values_offset: Integer; const overlay_text: PUTF8Char; scale_min: Single; scale_max: Single; graph_size: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igPlotHistogram_FnFloatPtr';
+
+procedure igValue_Bool(const prefix: PUTF8Char; b: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igValue_Bool';
+
+procedure igValue_Int(const prefix: PUTF8Char; v: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igValue_Int';
+
+procedure igValue_Uint(const prefix: PUTF8Char; v: Cardinal); cdecl;
+  external PSFML_DLL name _PU + 'igValue_Uint';
+
+procedure igValue_Float(const prefix: PUTF8Char; v: Single; const float_format: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igValue_Float';
+
+function igBeginMenuBar(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginMenuBar';
+
+procedure igEndMenuBar(); cdecl;
+  external PSFML_DLL name _PU + 'igEndMenuBar';
+
+function igBeginMainMenuBar(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginMainMenuBar';
+
+procedure igEndMainMenuBar(); cdecl;
+  external PSFML_DLL name _PU + 'igEndMainMenuBar';
+
+function igBeginMenu(const &label: PUTF8Char; enabled: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginMenu';
+
+procedure igEndMenu(); cdecl;
+  external PSFML_DLL name _PU + 'igEndMenu';
+
+function igMenuItem_Bool(const &label: PUTF8Char; const shortcut: PUTF8Char; selected: Boolean; enabled: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igMenuItem_Bool';
+
+function igMenuItem_BoolPtr(const &label: PUTF8Char; const shortcut: PUTF8Char; p_selected: PBoolean; enabled: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igMenuItem_BoolPtr';
+
+function igBeginTooltip(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginTooltip';
+
+procedure igEndTooltip(); cdecl;
+  external PSFML_DLL name _PU + 'igEndTooltip';
+
+procedure igSetTooltip(const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igSetTooltip';
+
+procedure igSetTooltipV(const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igSetTooltipV';
+
+function igBeginItemTooltip(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginItemTooltip';
+
+procedure igSetItemTooltip(const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igSetItemTooltip';
+
+procedure igSetItemTooltipV(const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igSetItemTooltipV';
+
+function igBeginPopup(const str_id: PUTF8Char; flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginPopup';
+
+function igBeginPopupModal(const name: PUTF8Char; p_open: PBoolean; flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginPopupModal';
+
+procedure igEndPopup(); cdecl;
+  external PSFML_DLL name _PU + 'igEndPopup';
+
+procedure igOpenPopup_Str(const str_id: PUTF8Char; popup_flags: ImGuiPopupFlags); cdecl;
+  external PSFML_DLL name _PU + 'igOpenPopup_Str';
+
+procedure igOpenPopup_ID(id: ImGuiID; popup_flags: ImGuiPopupFlags); cdecl;
+  external PSFML_DLL name _PU + 'igOpenPopup_ID';
+
+procedure igOpenPopupOnItemClick(const str_id: PUTF8Char; popup_flags: ImGuiPopupFlags); cdecl;
+  external PSFML_DLL name _PU + 'igOpenPopupOnItemClick';
+
+procedure igCloseCurrentPopup(); cdecl;
+  external PSFML_DLL name _PU + 'igCloseCurrentPopup';
+
+function igBeginPopupContextItem(const str_id: PUTF8Char; popup_flags: ImGuiPopupFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginPopupContextItem';
+
+function igBeginPopupContextWindow(const str_id: PUTF8Char; popup_flags: ImGuiPopupFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginPopupContextWindow';
+
+function igBeginPopupContextVoid(const str_id: PUTF8Char; popup_flags: ImGuiPopupFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginPopupContextVoid';
+
+function igIsPopupOpen_Str(const str_id: PUTF8Char; flags: ImGuiPopupFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsPopupOpen_Str';
+
+function igBeginTable(const str_id: PUTF8Char; column: Integer; flags: ImGuiTableFlags; outer_size: ImVec2; inner_width: Single): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginTable';
+
+procedure igEndTable(); cdecl;
+  external PSFML_DLL name _PU + 'igEndTable';
+
+procedure igTableNextRow(row_flags: ImGuiTableRowFlags; min_row_height: Single); cdecl;
+  external PSFML_DLL name _PU + 'igTableNextRow';
+
+function igTableNextColumn(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTableNextColumn';
+
+function igTableSetColumnIndex(column_n: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTableSetColumnIndex';
+
+procedure igTableSetupColumn(const &label: PUTF8Char; flags: ImGuiTableColumnFlags; init_width_or_weight: Single; user_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetupColumn';
+
+procedure igTableSetupScrollFreeze(cols: Integer; rows: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetupScrollFreeze';
+
+procedure igTableHeader(const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igTableHeader';
+
+procedure igTableHeadersRow(); cdecl;
+  external PSFML_DLL name _PU + 'igTableHeadersRow';
+
+procedure igTableAngledHeadersRow(); cdecl;
+  external PSFML_DLL name _PU + 'igTableAngledHeadersRow';
+
+function igTableGetSortSpecs(): PImGuiTableSortSpecs; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetSortSpecs';
+
+function igTableGetColumnCount(): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetColumnCount';
+
+function igTableGetColumnIndex(): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetColumnIndex';
+
+function igTableGetRowIndex(): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetRowIndex';
+
+function igTableGetColumnName_Int(column_n: Integer): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetColumnName_Int';
+
+function igTableGetColumnFlags(column_n: Integer): ImGuiTableColumnFlags; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetColumnFlags';
+
+procedure igTableSetColumnEnabled(column_n: Integer; v: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetColumnEnabled';
+
+procedure igTableSetBgColor(target: ImGuiTableBgTarget; color: ImU32; column_n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetBgColor';
+
+procedure igColumns(count: Integer; const id: PUTF8Char; border: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igColumns';
+
+procedure igNextColumn(); cdecl;
+  external PSFML_DLL name _PU + 'igNextColumn';
+
+function igGetColumnIndex(): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igGetColumnIndex';
+
+function igGetColumnWidth(column_index: Integer): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetColumnWidth';
+
+procedure igSetColumnWidth(column_index: Integer; width: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetColumnWidth';
+
+function igGetColumnOffset(column_index: Integer): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetColumnOffset';
+
+procedure igSetColumnOffset(column_index: Integer; offset_x: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetColumnOffset';
+
+function igGetColumnsCount(): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igGetColumnsCount';
+
+function igBeginTabBar(const str_id: PUTF8Char; flags: ImGuiTabBarFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginTabBar';
+
+procedure igEndTabBar(); cdecl;
+  external PSFML_DLL name _PU + 'igEndTabBar';
+
+function igBeginTabItem(const &label: PUTF8Char; p_open: PBoolean; flags: ImGuiTabItemFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginTabItem';
+
+procedure igEndTabItem(); cdecl;
+  external PSFML_DLL name _PU + 'igEndTabItem';
+
+function igTabItemButton(const &label: PUTF8Char; flags: ImGuiTabItemFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTabItemButton';
+
+procedure igSetTabItemClosed(const tab_or_docked_window_label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igSetTabItemClosed';
+
+function igDockSpace(id: ImGuiID; size: ImVec2; flags: ImGuiDockNodeFlags; const window_class: PImGuiWindowClass): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igDockSpace';
+
+function igDockSpaceOverViewport(const viewport: PImGuiViewport; flags: ImGuiDockNodeFlags; const window_class: PImGuiWindowClass): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igDockSpaceOverViewport';
+
+procedure igSetNextWindowDockID(dock_id: ImGuiID; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowDockID';
+
+procedure igSetNextWindowClass(const window_class: PImGuiWindowClass); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextWindowClass';
+
+function igGetWindowDockID(): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowDockID';
+
+function igIsWindowDocked(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowDocked';
+
+procedure igLogToTTY(auto_open_depth: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igLogToTTY';
+
+procedure igLogToFile(auto_open_depth: Integer; const filename: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igLogToFile';
+
+procedure igLogToClipboard(auto_open_depth: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igLogToClipboard';
+
+procedure igLogFinish(); cdecl;
+  external PSFML_DLL name _PU + 'igLogFinish';
+
+procedure igLogButtons(); cdecl;
+  external PSFML_DLL name _PU + 'igLogButtons';
+
+procedure igLogTextV(const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igLogTextV';
+
+function igBeginDragDropSource(flags: ImGuiDragDropFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginDragDropSource';
+
+function igSetDragDropPayload(const &type: PUTF8Char; const data: Pointer; sz: NativeUInt; cond: ImGuiCond): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSetDragDropPayload';
+
+procedure igEndDragDropSource(); cdecl;
+  external PSFML_DLL name _PU + 'igEndDragDropSource';
+
+function igBeginDragDropTarget(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginDragDropTarget';
+
+function igAcceptDragDropPayload(const &type: PUTF8Char; flags: ImGuiDragDropFlags): PImGuiPayload; cdecl;
+  external PSFML_DLL name _PU + 'igAcceptDragDropPayload';
+
+procedure igEndDragDropTarget(); cdecl;
+  external PSFML_DLL name _PU + 'igEndDragDropTarget';
+
+function igGetDragDropPayload(): PImGuiPayload; cdecl;
+  external PSFML_DLL name _PU + 'igGetDragDropPayload';
+
+procedure igBeginDisabled(disabled: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igBeginDisabled';
+
+procedure igEndDisabled(); cdecl;
+  external PSFML_DLL name _PU + 'igEndDisabled';
+
+procedure igPushClipRect(clip_rect_min: ImVec2; clip_rect_max: ImVec2; intersect_with_current_clip_rect: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igPushClipRect';
+
+procedure igPopClipRect(); cdecl;
+  external PSFML_DLL name _PU + 'igPopClipRect';
+
+procedure igSetItemDefaultFocus(); cdecl;
+  external PSFML_DLL name _PU + 'igSetItemDefaultFocus';
+
+procedure igSetKeyboardFocusHere(offset: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igSetKeyboardFocusHere';
+
+procedure igSetNextItemAllowOverlap(); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextItemAllowOverlap';
+
+function igIsItemHovered(flags: ImGuiHoveredFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemHovered';
+
+function igIsItemActive(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemActive';
+
+function igIsItemFocused(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemFocused';
+
+function igIsItemClicked(mouse_button: ImGuiMouseButton): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemClicked';
+
+function igIsItemVisible(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemVisible';
+
+function igIsItemEdited(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemEdited';
+
+function igIsItemActivated(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemActivated';
+
+function igIsItemDeactivated(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemDeactivated';
+
+function igIsItemDeactivatedAfterEdit(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemDeactivatedAfterEdit';
+
+function igIsItemToggledOpen(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemToggledOpen';
+
+function igIsAnyItemHovered(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsAnyItemHovered';
+
+function igIsAnyItemActive(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsAnyItemActive';
+
+function igIsAnyItemFocused(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsAnyItemFocused';
+
+function igGetItemID(): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetItemID';
+
+procedure igGetItemRectMin(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetItemRectMin';
+
+procedure igGetItemRectMax(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetItemRectMax';
+
+procedure igGetItemRectSize(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetItemRectSize';
+
+function igGetMainViewport(): PImGuiViewport; cdecl;
+  external PSFML_DLL name _PU + 'igGetMainViewport';
+
+function igGetBackgroundDrawList_Nil(): PImDrawList; cdecl;
+  external PSFML_DLL name _PU + 'igGetBackgroundDrawList_Nil';
+
+function igGetForegroundDrawList_Nil(): PImDrawList; cdecl;
+  external PSFML_DLL name _PU + 'igGetForegroundDrawList_Nil';
+
+function igGetBackgroundDrawList_ViewportPtr(viewport: PImGuiViewport): PImDrawList; cdecl;
+  external PSFML_DLL name _PU + 'igGetBackgroundDrawList_ViewportPtr';
+
+function igGetForegroundDrawList_ViewportPtr(viewport: PImGuiViewport): PImDrawList; cdecl;
+  external PSFML_DLL name _PU + 'igGetForegroundDrawList_ViewportPtr';
+
+function igIsRectVisible_Nil(size: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsRectVisible_Nil';
+
+function igIsRectVisible_Vec2(rect_min: ImVec2; rect_max: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsRectVisible_Vec2';
+
+function igGetTime(): Double; cdecl;
+  external PSFML_DLL name _PU + 'igGetTime';
+
+function igGetFrameCount(): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igGetFrameCount';
+
+function igGetDrawListSharedData(): PImDrawListSharedData; cdecl;
+  external PSFML_DLL name _PU + 'igGetDrawListSharedData';
+
+function igGetStyleColorName(idx: ImGuiCol): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igGetStyleColorName';
+
+procedure igSetStateStorage(storage: PImGuiStorage); cdecl;
+  external PSFML_DLL name _PU + 'igSetStateStorage';
+
+function igGetStateStorage(): PImGuiStorage; cdecl;
+  external PSFML_DLL name _PU + 'igGetStateStorage';
+
+procedure igCalcTextSize(pOut: PImVec2; const text: PUTF8Char; const text_end: PUTF8Char; hide_text_after_double_hash: Boolean; wrap_width: Single); cdecl;
+  external PSFML_DLL name _PU + 'igCalcTextSize';
+
+procedure igColorConvertU32ToFloat4(pOut: PImVec4; &in: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igColorConvertU32ToFloat4';
+
+function igColorConvertFloat4ToU32(&in: ImVec4): ImU32; cdecl;
+  external PSFML_DLL name _PU + 'igColorConvertFloat4ToU32';
+
+procedure igColorConvertRGBtoHSV(r: Single; g: Single; b: Single; out_h: PSingle; out_s: PSingle; out_v: PSingle); cdecl;
+  external PSFML_DLL name _PU + 'igColorConvertRGBtoHSV';
+
+procedure igColorConvertHSVtoRGB(h: Single; s: Single; v: Single; out_r: PSingle; out_g: PSingle; out_b: PSingle); cdecl;
+  external PSFML_DLL name _PU + 'igColorConvertHSVtoRGB';
+
+function igIsKeyDown_Nil(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyDown_Nil';
+
+function igIsKeyPressed_Bool(key: ImGuiKey; &repeat: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyPressed_Bool';
+
+function igIsKeyReleased_Nil(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyReleased_Nil';
+
+function igIsKeyChordPressed_Nil(key_chord: ImGuiKeyChord): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyChordPressed_Nil';
+
+function igGetKeyPressedAmount(key: ImGuiKey; repeat_delay: Single; rate: Single): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyPressedAmount';
+
+function igGetKeyName(key: ImGuiKey): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyName';
+
+procedure igSetNextFrameWantCaptureKeyboard(want_capture_keyboard: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextFrameWantCaptureKeyboard';
+
+function igIsMouseDown_Nil(button: ImGuiMouseButton): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseDown_Nil';
+
+function igIsMouseClicked_Bool(button: ImGuiMouseButton; &repeat: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseClicked_Bool';
+
+function igIsMouseReleased_Nil(button: ImGuiMouseButton): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseReleased_Nil';
+
+function igIsMouseDoubleClicked_Nil(button: ImGuiMouseButton): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseDoubleClicked_Nil';
+
+function igGetMouseClickedCount(button: ImGuiMouseButton): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igGetMouseClickedCount';
+
+function igIsMouseHoveringRect(r_min: ImVec2; r_max: ImVec2; clip: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseHoveringRect';
+
+function igIsMousePosValid(const mouse_pos: PImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMousePosValid';
+
+function igIsAnyMouseDown(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsAnyMouseDown';
+
+procedure igGetMousePos(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetMousePos';
+
+procedure igGetMousePosOnOpeningCurrentPopup(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetMousePosOnOpeningCurrentPopup';
+
+function igIsMouseDragging(button: ImGuiMouseButton; lock_threshold: Single): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseDragging';
+
+procedure igGetMouseDragDelta(pOut: PImVec2; button: ImGuiMouseButton; lock_threshold: Single); cdecl;
+  external PSFML_DLL name _PU + 'igGetMouseDragDelta';
+
+procedure igResetMouseDragDelta(button: ImGuiMouseButton); cdecl;
+  external PSFML_DLL name _PU + 'igResetMouseDragDelta';
+
+function igGetMouseCursor(): ImGuiMouseCursor; cdecl;
+  external PSFML_DLL name _PU + 'igGetMouseCursor';
+
+procedure igSetMouseCursor(cursor_type: ImGuiMouseCursor); cdecl;
+  external PSFML_DLL name _PU + 'igSetMouseCursor';
+
+procedure igSetNextFrameWantCaptureMouse(want_capture_mouse: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextFrameWantCaptureMouse';
+
+function igGetClipboardText(): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igGetClipboardText';
+
+procedure igSetClipboardText(const text: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igSetClipboardText';
+
+procedure igLoadIniSettingsFromDisk(const ini_filename: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igLoadIniSettingsFromDisk';
+
+procedure igLoadIniSettingsFromMemory(const ini_data: PUTF8Char; ini_size: NativeUInt); cdecl;
+  external PSFML_DLL name _PU + 'igLoadIniSettingsFromMemory';
+
+procedure igSaveIniSettingsToDisk(const ini_filename: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igSaveIniSettingsToDisk';
+
+function igSaveIniSettingsToMemory(out_ini_size: PNativeUInt): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igSaveIniSettingsToMemory';
+
+procedure igDebugTextEncoding(const text: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDebugTextEncoding';
+
+procedure igDebugFlashStyleColor(idx: ImGuiCol); cdecl;
+  external PSFML_DLL name _PU + 'igDebugFlashStyleColor';
+
+function igDebugCheckVersionAndDataLayout(const version_str: PUTF8Char; sz_io: NativeUInt; sz_style: NativeUInt; sz_vec2: NativeUInt; sz_vec4: NativeUInt; sz_drawvert: NativeUInt; sz_drawidx: NativeUInt): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDebugCheckVersionAndDataLayout';
+
+procedure igSetAllocatorFunctions(alloc_func: ImGuiMemAllocFunc; free_func: ImGuiMemFreeFunc; user_data: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igSetAllocatorFunctions';
+
+procedure igGetAllocatorFunctions(p_alloc_func: PImGuiMemAllocFunc; p_free_func: PImGuiMemFreeFunc; p_user_data: PPointer); cdecl;
+  external PSFML_DLL name _PU + 'igGetAllocatorFunctions';
+
+function igMemAlloc(size: NativeUInt): Pointer; cdecl;
+  external PSFML_DLL name _PU + 'igMemAlloc';
+
+procedure igMemFree(ptr: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igMemFree';
+
+function igGetPlatformIO(): PImGuiPlatformIO; cdecl;
+  external PSFML_DLL name _PU + 'igGetPlatformIO';
+
+procedure igUpdatePlatformWindows(); cdecl;
+  external PSFML_DLL name _PU + 'igUpdatePlatformWindows';
+
+procedure igRenderPlatformWindowsDefault(platform_render_arg: Pointer; renderer_render_arg: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igRenderPlatformWindowsDefault';
+
+procedure igDestroyPlatformWindows(); cdecl;
+  external PSFML_DLL name _PU + 'igDestroyPlatformWindows';
+
+function igFindViewportByID(id: ImGuiID): PImGuiViewport; cdecl;
+  external PSFML_DLL name _PU + 'igFindViewportByID';
+
+function igFindViewportByPlatformHandle(platform_handle: Pointer): PImGuiViewport; cdecl;
+  external PSFML_DLL name _PU + 'igFindViewportByPlatformHandle';
+
+function ImGuiTableSortSpecs_ImGuiTableSortSpecs(): PImGuiTableSortSpecs; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableSortSpecs_ImGuiTableSortSpecs';
+
+procedure ImGuiTableSortSpecs_destroy(self: PImGuiTableSortSpecs); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableSortSpecs_destroy';
+
+function ImGuiTableColumnSortSpecs_ImGuiTableColumnSortSpecs(): PImGuiTableColumnSortSpecs; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableColumnSortSpecs_ImGuiTableColumnSortSpecs';
+
+procedure ImGuiTableColumnSortSpecs_destroy(self: PImGuiTableColumnSortSpecs); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableColumnSortSpecs_destroy';
+
+function ImGuiStyle_ImGuiStyle(): PImGuiStyle; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStyle_ImGuiStyle';
+
+procedure ImGuiStyle_destroy(self: PImGuiStyle); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStyle_destroy';
+
+procedure ImGuiStyle_ScaleAllSizes(self: PImGuiStyle; scale_factor: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStyle_ScaleAllSizes';
+
+procedure ImGuiIO_AddKeyEvent(self: PImGuiIO; key: ImGuiKey; down: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddKeyEvent';
+
+procedure ImGuiIO_AddKeyAnalogEvent(self: PImGuiIO; key: ImGuiKey; down: Boolean; v: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddKeyAnalogEvent';
+
+procedure ImGuiIO_AddMousePosEvent(self: PImGuiIO; x: Single; y: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddMousePosEvent';
+
+procedure ImGuiIO_AddMouseButtonEvent(self: PImGuiIO; button: Integer; down: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddMouseButtonEvent';
+
+procedure ImGuiIO_AddMouseWheelEvent(self: PImGuiIO; wheel_x: Single; wheel_y: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddMouseWheelEvent';
+
+procedure ImGuiIO_AddMouseSourceEvent(self: PImGuiIO; source: ImGuiMouseSource); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddMouseSourceEvent';
+
+procedure ImGuiIO_AddMouseViewportEvent(self: PImGuiIO; id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddMouseViewportEvent';
+
+procedure ImGuiIO_AddFocusEvent(self: PImGuiIO; focused: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddFocusEvent';
+
+procedure ImGuiIO_AddInputCharacter(self: PImGuiIO; c: Cardinal); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddInputCharacter';
+
+procedure ImGuiIO_AddInputCharacterUTF16(self: PImGuiIO; c: ImWchar16); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddInputCharacterUTF16';
+
+procedure ImGuiIO_AddInputCharactersUTF8(self: PImGuiIO; const str: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_AddInputCharactersUTF8';
+
+procedure ImGuiIO_SetKeyEventNativeData(self: PImGuiIO; key: ImGuiKey; native_keycode: Integer; native_scancode: Integer; native_legacy_index: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_SetKeyEventNativeData';
+
+procedure ImGuiIO_SetAppAcceptingEvents(self: PImGuiIO; accepting_events: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_SetAppAcceptingEvents';
+
+procedure ImGuiIO_ClearEventsQueue(self: PImGuiIO); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_ClearEventsQueue';
+
+procedure ImGuiIO_ClearInputKeys(self: PImGuiIO); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_ClearInputKeys';
+
+function ImGuiIO_ImGuiIO(): PImGuiIO; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_ImGuiIO';
+
+procedure ImGuiIO_destroy(self: PImGuiIO); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIO_destroy';
+
+function ImGuiInputTextCallbackData_ImGuiInputTextCallbackData(): PImGuiInputTextCallbackData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextCallbackData_ImGuiInputTextCallbackData';
+
+procedure ImGuiInputTextCallbackData_destroy(self: PImGuiInputTextCallbackData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextCallbackData_destroy';
+
+procedure ImGuiInputTextCallbackData_DeleteChars(self: PImGuiInputTextCallbackData; pos: Integer; bytes_count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextCallbackData_DeleteChars';
+
+procedure ImGuiInputTextCallbackData_InsertChars(self: PImGuiInputTextCallbackData; pos: Integer; const text: PUTF8Char; const text_end: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextCallbackData_InsertChars';
+
+procedure ImGuiInputTextCallbackData_SelectAll(self: PImGuiInputTextCallbackData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextCallbackData_SelectAll';
+
+procedure ImGuiInputTextCallbackData_ClearSelection(self: PImGuiInputTextCallbackData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextCallbackData_ClearSelection';
+
+function ImGuiInputTextCallbackData_HasSelection(self: PImGuiInputTextCallbackData): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextCallbackData_HasSelection';
+
+function ImGuiWindowClass_ImGuiWindowClass(): PImGuiWindowClass; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindowClass_ImGuiWindowClass';
+
+procedure ImGuiWindowClass_destroy(self: PImGuiWindowClass); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindowClass_destroy';
+
+function ImGuiPayload_ImGuiPayload(): PImGuiPayload; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPayload_ImGuiPayload';
+
+procedure ImGuiPayload_destroy(self: PImGuiPayload); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPayload_destroy';
+
+procedure ImGuiPayload_Clear(self: PImGuiPayload); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPayload_Clear';
+
+function ImGuiPayload_IsDataType(self: PImGuiPayload; const &type: PUTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPayload_IsDataType';
+
+function ImGuiPayload_IsPreview(self: PImGuiPayload): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPayload_IsPreview';
+
+function ImGuiPayload_IsDelivery(self: PImGuiPayload): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPayload_IsDelivery';
+
+function ImGuiOnceUponAFrame_ImGuiOnceUponAFrame(): PImGuiOnceUponAFrame; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiOnceUponAFrame_ImGuiOnceUponAFrame';
+
+procedure ImGuiOnceUponAFrame_destroy(self: PImGuiOnceUponAFrame); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiOnceUponAFrame_destroy';
+
+function ImGuiTextFilter_ImGuiTextFilter(const default_filter: PUTF8Char): PImGuiTextFilter; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextFilter_ImGuiTextFilter';
+
+procedure ImGuiTextFilter_destroy(self: PImGuiTextFilter); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextFilter_destroy';
+
+function ImGuiTextFilter_Draw(self: PImGuiTextFilter; const &label: PUTF8Char; width: Single): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextFilter_Draw';
+
+function ImGuiTextFilter_PassFilter(self: PImGuiTextFilter; const text: PUTF8Char; const text_end: PUTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextFilter_PassFilter';
+
+procedure ImGuiTextFilter_Build(self: PImGuiTextFilter); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextFilter_Build';
+
+procedure ImGuiTextFilter_Clear(self: PImGuiTextFilter); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextFilter_Clear';
+
+function ImGuiTextFilter_IsActive(self: PImGuiTextFilter): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextFilter_IsActive';
+
+function ImGuiTextRange_ImGuiTextRange_Nil(): PImGuiTextRange; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextRange_ImGuiTextRange_Nil';
+
+procedure ImGuiTextRange_destroy(self: PImGuiTextRange); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextRange_destroy';
+
+function ImGuiTextRange_ImGuiTextRange_Str(const _b: PUTF8Char; const _e: PUTF8Char): PImGuiTextRange; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextRange_ImGuiTextRange_Str';
+
+function ImGuiTextRange_empty(self: PImGuiTextRange): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextRange_empty';
+
+procedure ImGuiTextRange_split(self: PImGuiTextRange; separator: UTF8Char; &out: PImVector_ImGuiTextRange); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextRange_split';
+
+function ImGuiTextBuffer_ImGuiTextBuffer(): PImGuiTextBuffer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_ImGuiTextBuffer';
+
+procedure ImGuiTextBuffer_destroy(self: PImGuiTextBuffer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_destroy';
+
+function ImGuiTextBuffer_begin(self: PImGuiTextBuffer): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_begin';
+
+function ImGuiTextBuffer_end(self: PImGuiTextBuffer): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_end';
+
+function ImGuiTextBuffer_size(self: PImGuiTextBuffer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_size';
+
+function ImGuiTextBuffer_empty(self: PImGuiTextBuffer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_empty';
+
+procedure ImGuiTextBuffer_clear(self: PImGuiTextBuffer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_clear';
+
+procedure ImGuiTextBuffer_reserve(self: PImGuiTextBuffer; capacity: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_reserve';
+
+function ImGuiTextBuffer_c_str(self: PImGuiTextBuffer): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_c_str';
+
+procedure ImGuiTextBuffer_append(self: PImGuiTextBuffer; const str: PUTF8Char; const str_end: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_append';
+
+procedure ImGuiTextBuffer_appendfv(self: PImGuiTextBuffer; const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_appendfv';
+
+function ImGuiStoragePair_ImGuiStoragePair_Int(_key: ImGuiID; _val: Integer): PImGuiStoragePair; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStoragePair_ImGuiStoragePair_Int';
+
+procedure ImGuiStoragePair_destroy(self: PImGuiStoragePair); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStoragePair_destroy';
+
+function ImGuiStoragePair_ImGuiStoragePair_Float(_key: ImGuiID; _val: Single): PImGuiStoragePair; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStoragePair_ImGuiStoragePair_Float';
+
+function ImGuiStoragePair_ImGuiStoragePair_Ptr(_key: ImGuiID; _val: Pointer): PImGuiStoragePair; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStoragePair_ImGuiStoragePair_Ptr';
+
+procedure ImGuiStorage_Clear(self: PImGuiStorage); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_Clear';
+
+function ImGuiStorage_GetInt(self: PImGuiStorage; key: ImGuiID; default_val: Integer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_GetInt';
+
+procedure ImGuiStorage_SetInt(self: PImGuiStorage; key: ImGuiID; val: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_SetInt';
+
+function ImGuiStorage_GetBool(self: PImGuiStorage; key: ImGuiID; default_val: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_GetBool';
+
+procedure ImGuiStorage_SetBool(self: PImGuiStorage; key: ImGuiID; val: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_SetBool';
+
+function ImGuiStorage_GetFloat(self: PImGuiStorage; key: ImGuiID; default_val: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_GetFloat';
+
+procedure ImGuiStorage_SetFloat(self: PImGuiStorage; key: ImGuiID; val: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_SetFloat';
+
+function ImGuiStorage_GetVoidPtr(self: PImGuiStorage; key: ImGuiID): Pointer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_GetVoidPtr';
+
+procedure ImGuiStorage_SetVoidPtr(self: PImGuiStorage; key: ImGuiID; val: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_SetVoidPtr';
+
+function ImGuiStorage_GetIntRef(self: PImGuiStorage; key: ImGuiID; default_val: Integer): PInteger; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_GetIntRef';
+
+function ImGuiStorage_GetBoolRef(self: PImGuiStorage; key: ImGuiID; default_val: Boolean): PBoolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_GetBoolRef';
+
+function ImGuiStorage_GetFloatRef(self: PImGuiStorage; key: ImGuiID; default_val: Single): PSingle; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_GetFloatRef';
+
+function ImGuiStorage_GetVoidPtrRef(self: PImGuiStorage; key: ImGuiID; default_val: Pointer): PPointer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_GetVoidPtrRef';
+
+procedure ImGuiStorage_BuildSortByKey(self: PImGuiStorage); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_BuildSortByKey';
+
+procedure ImGuiStorage_SetAllInt(self: PImGuiStorage; val: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStorage_SetAllInt';
+
+function ImGuiListClipper_ImGuiListClipper(): PImGuiListClipper; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipper_ImGuiListClipper';
+
+procedure ImGuiListClipper_destroy(self: PImGuiListClipper); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipper_destroy';
+
+procedure ImGuiListClipper_Begin(self: PImGuiListClipper; items_count: Integer; items_height: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipper_Begin';
+
+procedure ImGuiListClipper_End(self: PImGuiListClipper); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipper_End';
+
+function ImGuiListClipper_Step(self: PImGuiListClipper): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipper_Step';
+
+procedure ImGuiListClipper_IncludeItemByIndex(self: PImGuiListClipper; item_index: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipper_IncludeItemByIndex';
+
+procedure ImGuiListClipper_IncludeItemsByIndex(self: PImGuiListClipper; item_begin: Integer; item_end: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipper_IncludeItemsByIndex';
+
+function ImColor_ImColor_Nil(): PImColor; cdecl;
+  external PSFML_DLL name _PU + 'ImColor_ImColor_Nil';
+
+procedure ImColor_destroy(self: PImColor); cdecl;
+  external PSFML_DLL name _PU + 'ImColor_destroy';
+
+function ImColor_ImColor_Float(r: Single; g: Single; b: Single; a: Single): PImColor; cdecl;
+  external PSFML_DLL name _PU + 'ImColor_ImColor_Float';
+
+function ImColor_ImColor_Vec4(col: ImVec4): PImColor; cdecl;
+  external PSFML_DLL name _PU + 'ImColor_ImColor_Vec4';
+
+function ImColor_ImColor_Int(r: Integer; g: Integer; b: Integer; a: Integer): PImColor; cdecl;
+  external PSFML_DLL name _PU + 'ImColor_ImColor_Int';
+
+function ImColor_ImColor_U32(rgba: ImU32): PImColor; cdecl;
+  external PSFML_DLL name _PU + 'ImColor_ImColor_U32';
+
+procedure ImColor_SetHSV(self: PImColor; h: Single; s: Single; v: Single; a: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImColor_SetHSV';
+
+procedure ImColor_HSV(pOut: PImColor; h: Single; s: Single; v: Single; a: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImColor_HSV';
+
+function ImDrawCmd_ImDrawCmd(): PImDrawCmd; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawCmd_ImDrawCmd';
+
+procedure ImDrawCmd_destroy(self: PImDrawCmd); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawCmd_destroy';
+
+function ImDrawCmd_GetTexID(self: PImDrawCmd): ImTextureID; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawCmd_GetTexID';
+
+function ImDrawListSplitter_ImDrawListSplitter(): PImDrawListSplitter; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSplitter_ImDrawListSplitter';
+
+procedure ImDrawListSplitter_destroy(self: PImDrawListSplitter); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSplitter_destroy';
+
+procedure ImDrawListSplitter_Clear(self: PImDrawListSplitter); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSplitter_Clear';
+
+procedure ImDrawListSplitter_ClearFreeMemory(self: PImDrawListSplitter); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSplitter_ClearFreeMemory';
+
+procedure ImDrawListSplitter_Split(self: PImDrawListSplitter; draw_list: PImDrawList; count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSplitter_Split';
+
+procedure ImDrawListSplitter_Merge(self: PImDrawListSplitter; draw_list: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSplitter_Merge';
+
+procedure ImDrawListSplitter_SetCurrentChannel(self: PImDrawListSplitter; draw_list: PImDrawList; channel_idx: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSplitter_SetCurrentChannel';
+
+function ImDrawList_ImDrawList(shared_data: PImDrawListSharedData): PImDrawList; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_ImDrawList';
+
+procedure ImDrawList_destroy(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_destroy';
+
+procedure ImDrawList_PushClipRect(self: PImDrawList; clip_rect_min: ImVec2; clip_rect_max: ImVec2; intersect_with_current_clip_rect: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PushClipRect';
+
+procedure ImDrawList_PushClipRectFullScreen(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PushClipRectFullScreen';
+
+procedure ImDrawList_PopClipRect(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PopClipRect';
+
+procedure ImDrawList_PushTextureID(self: PImDrawList; texture_id: ImTextureID); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PushTextureID';
+
+procedure ImDrawList_PopTextureID(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PopTextureID';
+
+procedure ImDrawList_GetClipRectMin(pOut: PImVec2; self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_GetClipRectMin';
+
+procedure ImDrawList_GetClipRectMax(pOut: PImVec2; self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_GetClipRectMax';
+
+procedure ImDrawList_AddLine(self: PImDrawList; p1: ImVec2; p2: ImVec2; col: ImU32; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddLine';
+
+procedure ImDrawList_AddRect(self: PImDrawList; p_min: ImVec2; p_max: ImVec2; col: ImU32; rounding: Single; flags: ImDrawFlags; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddRect';
+
+procedure ImDrawList_AddRectFilled(self: PImDrawList; p_min: ImVec2; p_max: ImVec2; col: ImU32; rounding: Single; flags: ImDrawFlags); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddRectFilled';
+
+procedure ImDrawList_AddRectFilledMultiColor(self: PImDrawList; p_min: ImVec2; p_max: ImVec2; col_upr_left: ImU32; col_upr_right: ImU32; col_bot_right: ImU32; col_bot_left: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddRectFilledMultiColor';
+
+procedure ImDrawList_AddQuad(self: PImDrawList; p1: ImVec2; p2: ImVec2; p3: ImVec2; p4: ImVec2; col: ImU32; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddQuad';
+
+procedure ImDrawList_AddQuadFilled(self: PImDrawList; p1: ImVec2; p2: ImVec2; p3: ImVec2; p4: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddQuadFilled';
+
+procedure ImDrawList_AddTriangle(self: PImDrawList; p1: ImVec2; p2: ImVec2; p3: ImVec2; col: ImU32; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddTriangle';
+
+procedure ImDrawList_AddTriangleFilled(self: PImDrawList; p1: ImVec2; p2: ImVec2; p3: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddTriangleFilled';
+
+procedure ImDrawList_AddCircle(self: PImDrawList; center: ImVec2; radius: Single; col: ImU32; num_segments: Integer; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddCircle';
+
+procedure ImDrawList_AddCircleFilled(self: PImDrawList; center: ImVec2; radius: Single; col: ImU32; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddCircleFilled';
+
+procedure ImDrawList_AddNgon(self: PImDrawList; center: ImVec2; radius: Single; col: ImU32; num_segments: Integer; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddNgon';
+
+procedure ImDrawList_AddNgonFilled(self: PImDrawList; center: ImVec2; radius: Single; col: ImU32; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddNgonFilled';
+
+procedure ImDrawList_AddEllipse(self: PImDrawList; center: ImVec2; radius_x: Single; radius_y: Single; col: ImU32; rot: Single; num_segments: Integer; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddEllipse';
+
+procedure ImDrawList_AddEllipseFilled(self: PImDrawList; center: ImVec2; radius_x: Single; radius_y: Single; col: ImU32; rot: Single; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddEllipseFilled';
+
+procedure ImDrawList_AddText_Vec2(self: PImDrawList; pos: ImVec2; col: ImU32; const text_begin: PUTF8Char; const text_end: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddText_Vec2';
+
+procedure ImDrawList_AddText_FontPtr(self: PImDrawList; const font: PImFont; font_size: Single; pos: ImVec2; col: ImU32; const text_begin: PUTF8Char; const text_end: PUTF8Char; wrap_width: Single; const cpu_fine_clip_rect: PImVec4); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddText_FontPtr';
+
+procedure ImDrawList_AddPolyline(self: PImDrawList; const points: PImVec2; num_points: Integer; col: ImU32; flags: ImDrawFlags; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddPolyline';
+
+procedure ImDrawList_AddConvexPolyFilled(self: PImDrawList; const points: PImVec2; num_points: Integer; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddConvexPolyFilled';
+
+procedure ImDrawList_AddBezierCubic(self: PImDrawList; p1: ImVec2; p2: ImVec2; p3: ImVec2; p4: ImVec2; col: ImU32; thickness: Single; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddBezierCubic';
+
+procedure ImDrawList_AddBezierQuadratic(self: PImDrawList; p1: ImVec2; p2: ImVec2; p3: ImVec2; col: ImU32; thickness: Single; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddBezierQuadratic';
+
+procedure ImDrawList_AddImage(self: PImDrawList; user_texture_id: ImTextureID; p_min: ImVec2; p_max: ImVec2; uv_min: ImVec2; uv_max: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddImage';
+
+procedure ImDrawList_AddImageQuad(self: PImDrawList; user_texture_id: ImTextureID; p1: ImVec2; p2: ImVec2; p3: ImVec2; p4: ImVec2; uv1: ImVec2; uv2: ImVec2; uv3: ImVec2; uv4: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddImageQuad';
+
+procedure ImDrawList_AddImageRounded(self: PImDrawList; user_texture_id: ImTextureID; p_min: ImVec2; p_max: ImVec2; uv_min: ImVec2; uv_max: ImVec2; col: ImU32; rounding: Single; flags: ImDrawFlags); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddImageRounded';
+
+procedure ImDrawList_PathClear(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathClear';
+
+procedure ImDrawList_PathLineTo(self: PImDrawList; pos: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathLineTo';
+
+procedure ImDrawList_PathLineToMergeDuplicate(self: PImDrawList; pos: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathLineToMergeDuplicate';
+
+procedure ImDrawList_PathFillConvex(self: PImDrawList; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathFillConvex';
+
+procedure ImDrawList_PathStroke(self: PImDrawList; col: ImU32; flags: ImDrawFlags; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathStroke';
+
+procedure ImDrawList_PathArcTo(self: PImDrawList; center: ImVec2; radius: Single; a_min: Single; a_max: Single; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathArcTo';
+
+procedure ImDrawList_PathArcToFast(self: PImDrawList; center: ImVec2; radius: Single; a_min_of_12: Integer; a_max_of_12: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathArcToFast';
+
+procedure ImDrawList_PathEllipticalArcTo(self: PImDrawList; center: ImVec2; radius_x: Single; radius_y: Single; rot: Single; a_min: Single; a_max: Single; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathEllipticalArcTo';
+
+procedure ImDrawList_PathBezierCubicCurveTo(self: PImDrawList; p2: ImVec2; p3: ImVec2; p4: ImVec2; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathBezierCubicCurveTo';
+
+procedure ImDrawList_PathBezierQuadraticCurveTo(self: PImDrawList; p2: ImVec2; p3: ImVec2; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathBezierQuadraticCurveTo';
+
+procedure ImDrawList_PathRect(self: PImDrawList; rect_min: ImVec2; rect_max: ImVec2; rounding: Single; flags: ImDrawFlags); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PathRect';
+
+procedure ImDrawList_AddCallback(self: PImDrawList; callback: ImDrawCallback; callback_data: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddCallback';
+
+procedure ImDrawList_AddDrawCmd(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_AddDrawCmd';
+
+function ImDrawList_CloneOutput(self: PImDrawList): PImDrawList; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_CloneOutput';
+
+procedure ImDrawList_ChannelsSplit(self: PImDrawList; count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_ChannelsSplit';
+
+procedure ImDrawList_ChannelsMerge(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_ChannelsMerge';
+
+procedure ImDrawList_ChannelsSetCurrent(self: PImDrawList; n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_ChannelsSetCurrent';
+
+procedure ImDrawList_PrimReserve(self: PImDrawList; idx_count: Integer; vtx_count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PrimReserve';
+
+procedure ImDrawList_PrimUnreserve(self: PImDrawList; idx_count: Integer; vtx_count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PrimUnreserve';
+
+procedure ImDrawList_PrimRect(self: PImDrawList; a: ImVec2; b: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PrimRect';
+
+procedure ImDrawList_PrimRectUV(self: PImDrawList; a: ImVec2; b: ImVec2; uv_a: ImVec2; uv_b: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PrimRectUV';
+
+procedure ImDrawList_PrimQuadUV(self: PImDrawList; a: ImVec2; b: ImVec2; c: ImVec2; d: ImVec2; uv_a: ImVec2; uv_b: ImVec2; uv_c: ImVec2; uv_d: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PrimQuadUV';
+
+procedure ImDrawList_PrimWriteVtx(self: PImDrawList; pos: ImVec2; uv: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PrimWriteVtx';
+
+procedure ImDrawList_PrimWriteIdx(self: PImDrawList; idx: ImDrawIdx); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PrimWriteIdx';
+
+procedure ImDrawList_PrimVtx(self: PImDrawList; pos: ImVec2; uv: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList_PrimVtx';
+
+procedure ImDrawList__ResetForNewFrame(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__ResetForNewFrame';
+
+procedure ImDrawList__ClearFreeMemory(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__ClearFreeMemory';
+
+procedure ImDrawList__PopUnusedDrawCmd(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__PopUnusedDrawCmd';
+
+procedure ImDrawList__TryMergeDrawCmds(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__TryMergeDrawCmds';
+
+procedure ImDrawList__OnChangedClipRect(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__OnChangedClipRect';
+
+procedure ImDrawList__OnChangedTextureID(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__OnChangedTextureID';
+
+procedure ImDrawList__OnChangedVtxOffset(self: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__OnChangedVtxOffset';
+
+function ImDrawList__CalcCircleAutoSegmentCount(self: PImDrawList; radius: Single): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__CalcCircleAutoSegmentCount';
+
+procedure ImDrawList__PathArcToFastEx(self: PImDrawList; center: ImVec2; radius: Single; a_min_sample: Integer; a_max_sample: Integer; a_step: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__PathArcToFastEx';
+
+procedure ImDrawList__PathArcToN(self: PImDrawList; center: ImVec2; radius: Single; a_min: Single; a_max: Single; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawList__PathArcToN';
+
+function ImDrawData_ImDrawData(): PImDrawData; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawData_ImDrawData';
+
+procedure ImDrawData_destroy(self: PImDrawData); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawData_destroy';
+
+procedure ImDrawData_Clear(self: PImDrawData); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawData_Clear';
+
+procedure ImDrawData_AddDrawList(self: PImDrawData; draw_list: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawData_AddDrawList';
+
+procedure ImDrawData_DeIndexAllBuffers(self: PImDrawData); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawData_DeIndexAllBuffers';
+
+procedure ImDrawData_ScaleClipRects(self: PImDrawData; fb_scale: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawData_ScaleClipRects';
+
+function ImFontConfig_ImFontConfig(): PImFontConfig; cdecl;
+  external PSFML_DLL name _PU + 'ImFontConfig_ImFontConfig';
+
+procedure ImFontConfig_destroy(self: PImFontConfig); cdecl;
+  external PSFML_DLL name _PU + 'ImFontConfig_destroy';
+
+function ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder(): PImFontGlyphRangesBuilder; cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_ImFontGlyphRangesBuilder';
+
+procedure ImFontGlyphRangesBuilder_destroy(self: PImFontGlyphRangesBuilder); cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_destroy';
+
+procedure ImFontGlyphRangesBuilder_Clear(self: PImFontGlyphRangesBuilder); cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_Clear';
+
+function ImFontGlyphRangesBuilder_GetBit(self: PImFontGlyphRangesBuilder; n: NativeUInt): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_GetBit';
+
+procedure ImFontGlyphRangesBuilder_SetBit(self: PImFontGlyphRangesBuilder; n: NativeUInt); cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_SetBit';
+
+procedure ImFontGlyphRangesBuilder_AddChar(self: PImFontGlyphRangesBuilder; c: ImWchar); cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_AddChar';
+
+procedure ImFontGlyphRangesBuilder_AddText(self: PImFontGlyphRangesBuilder; const text: PUTF8Char; const text_end: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_AddText';
+
+procedure ImFontGlyphRangesBuilder_AddRanges(self: PImFontGlyphRangesBuilder; const ranges: PImWchar); cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_AddRanges';
+
+procedure ImFontGlyphRangesBuilder_BuildRanges(self: PImFontGlyphRangesBuilder; out_ranges: PImVector_ImWchar); cdecl;
+  external PSFML_DLL name _PU + 'ImFontGlyphRangesBuilder_BuildRanges';
+
+function ImFontAtlasCustomRect_ImFontAtlasCustomRect(): PImFontAtlasCustomRect; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlasCustomRect_ImFontAtlasCustomRect';
+
+procedure ImFontAtlasCustomRect_destroy(self: PImFontAtlasCustomRect); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlasCustomRect_destroy';
+
+function ImFontAtlasCustomRect_IsPacked(self: PImFontAtlasCustomRect): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlasCustomRect_IsPacked';
+
+function ImFontAtlas_ImFontAtlas(): PImFontAtlas; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_ImFontAtlas';
+
+procedure ImFontAtlas_destroy(self: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_destroy';
+
+function ImFontAtlas_AddFont(self: PImFontAtlas; const font_cfg: PImFontConfig): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_AddFont';
+
+function ImFontAtlas_AddFontDefault(self: PImFontAtlas; const font_cfg: PImFontConfig): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_AddFontDefault';
+
+function ImFontAtlas_AddFontFromFileTTF(self: PImFontAtlas; const filename: PUTF8Char; size_pixels: Single; const font_cfg: PImFontConfig; const glyph_ranges: PImWchar): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_AddFontFromFileTTF';
+
+function ImFontAtlas_AddFontFromMemoryTTF(self: PImFontAtlas; font_data: Pointer; font_data_size: Integer; size_pixels: Single; const font_cfg: PImFontConfig; const glyph_ranges: PImWchar): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_AddFontFromMemoryTTF';
+
+function ImFontAtlas_AddFontFromMemoryCompressedTTF(self: PImFontAtlas; const compressed_font_data: Pointer; compressed_font_data_size: Integer; size_pixels: Single; const font_cfg: PImFontConfig; const glyph_ranges: PImWchar): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_AddFontFromMemoryCompressedTTF';
+
+function ImFontAtlas_AddFontFromMemoryCompressedBase85TTF(self: PImFontAtlas; const compressed_font_data_base85: PUTF8Char; size_pixels: Single; const font_cfg: PImFontConfig; const glyph_ranges: PImWchar): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_AddFontFromMemoryCompressedBase85TTF';
+
+procedure ImFontAtlas_ClearInputData(self: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_ClearInputData';
+
+procedure ImFontAtlas_ClearTexData(self: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_ClearTexData';
+
+procedure ImFontAtlas_ClearFonts(self: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_ClearFonts';
+
+procedure ImFontAtlas_Clear(self: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_Clear';
+
+function ImFontAtlas_Build(self: PImFontAtlas): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_Build';
+
+procedure ImFontAtlas_GetTexDataAsAlpha8(self: PImFontAtlas; out_pixels: PPByte; out_width: PInteger; out_height: PInteger; out_bytes_per_pixel: PInteger); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetTexDataAsAlpha8';
+
+procedure ImFontAtlas_GetTexDataAsRGBA32(self: PImFontAtlas; out_pixels: PPByte; out_width: PInteger; out_height: PInteger; out_bytes_per_pixel: PInteger); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetTexDataAsRGBA32';
+
+function ImFontAtlas_IsBuilt(self: PImFontAtlas): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_IsBuilt';
+
+procedure ImFontAtlas_SetTexID(self: PImFontAtlas; id: ImTextureID); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_SetTexID';
+
+function ImFontAtlas_GetGlyphRangesDefault(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesDefault';
+
+function ImFontAtlas_GetGlyphRangesGreek(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesGreek';
+
+function ImFontAtlas_GetGlyphRangesKorean(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesKorean';
+
+function ImFontAtlas_GetGlyphRangesJapanese(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesJapanese';
+
+function ImFontAtlas_GetGlyphRangesChineseFull(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesChineseFull';
+
+function ImFontAtlas_GetGlyphRangesChineseSimplifiedCommon(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesChineseSimplifiedCommon';
+
+function ImFontAtlas_GetGlyphRangesCyrillic(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesCyrillic';
+
+function ImFontAtlas_GetGlyphRangesThai(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesThai';
+
+function ImFontAtlas_GetGlyphRangesVietnamese(self: PImFontAtlas): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetGlyphRangesVietnamese';
+
+function ImFontAtlas_AddCustomRectRegular(self: PImFontAtlas; width: Integer; height: Integer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_AddCustomRectRegular';
+
+function ImFontAtlas_AddCustomRectFontGlyph(self: PImFontAtlas; font: PImFont; id: ImWchar; width: Integer; height: Integer; advance_x: Single; offset: ImVec2): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_AddCustomRectFontGlyph';
+
+function ImFontAtlas_GetCustomRectByIndex(self: PImFontAtlas; index: Integer): PImFontAtlasCustomRect; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetCustomRectByIndex';
+
+procedure ImFontAtlas_CalcCustomRectUV(self: PImFontAtlas; const rect: PImFontAtlasCustomRect; out_uv_min: PImVec2; out_uv_max: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_CalcCustomRectUV';
+
+function ImFontAtlas_GetMouseCursorTexData(self: PImFontAtlas; cursor: ImGuiMouseCursor; out_offset: PImVec2; out_size: PImVec2; out_uv_border: PImVec2; out_uv_fill: PImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImFontAtlas_GetMouseCursorTexData';
+
+function ImFont_ImFont(): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'ImFont_ImFont';
+
+procedure ImFont_destroy(self: PImFont); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_destroy';
+
+function ImFont_FindGlyph(self: PImFont; c: ImWchar): PImFontGlyph; cdecl;
+  external PSFML_DLL name _PU + 'ImFont_FindGlyph';
+
+function ImFont_FindGlyphNoFallback(self: PImFont; c: ImWchar): PImFontGlyph; cdecl;
+  external PSFML_DLL name _PU + 'ImFont_FindGlyphNoFallback';
+
+function ImFont_GetCharAdvance(self: PImFont; c: ImWchar): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImFont_GetCharAdvance';
+
+function ImFont_IsLoaded(self: PImFont): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImFont_IsLoaded';
+
+function ImFont_GetDebugName(self: PImFont): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'ImFont_GetDebugName';
+
+procedure ImFont_CalcTextSizeA(pOut: PImVec2; self: PImFont; size: Single; max_width: Single; wrap_width: Single; const text_begin: PUTF8Char; const text_end: PUTF8Char; remaining: PPUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_CalcTextSizeA';
+
+function ImFont_CalcWordWrapPositionA(self: PImFont; scale: Single; const text: PUTF8Char; const text_end: PUTF8Char; wrap_width: Single): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'ImFont_CalcWordWrapPositionA';
+
+procedure ImFont_RenderChar(self: PImFont; draw_list: PImDrawList; size: Single; pos: ImVec2; col: ImU32; c: ImWchar); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_RenderChar';
+
+procedure ImFont_RenderText(self: PImFont; draw_list: PImDrawList; size: Single; pos: ImVec2; col: ImU32; clip_rect: ImVec4; const text_begin: PUTF8Char; const text_end: PUTF8Char; wrap_width: Single; cpu_fine_clip: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_RenderText';
+
+procedure ImFont_BuildLookupTable(self: PImFont); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_BuildLookupTable';
+
+procedure ImFont_ClearOutputData(self: PImFont); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_ClearOutputData';
+
+procedure ImFont_GrowIndex(self: PImFont; new_size: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_GrowIndex';
+
+procedure ImFont_AddGlyph(self: PImFont; const src_cfg: PImFontConfig; c: ImWchar; x0: Single; y0: Single; x1: Single; y1: Single; u0: Single; v0: Single; u1: Single; v1: Single; advance_x: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_AddGlyph';
+
+procedure ImFont_AddRemapChar(self: PImFont; dst: ImWchar; src: ImWchar; overwrite_dst: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_AddRemapChar';
+
+procedure ImFont_SetGlyphVisible(self: PImFont; c: ImWchar; visible: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImFont_SetGlyphVisible';
+
+function ImFont_IsGlyphRangeUnused(self: PImFont; c_begin: Cardinal; c_last: Cardinal): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImFont_IsGlyphRangeUnused';
+
+function ImGuiViewport_ImGuiViewport(): PImGuiViewport; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewport_ImGuiViewport';
+
+procedure ImGuiViewport_destroy(self: PImGuiViewport); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewport_destroy';
+
+procedure ImGuiViewport_GetCenter(pOut: PImVec2; self: PImGuiViewport); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewport_GetCenter';
+
+procedure ImGuiViewport_GetWorkCenter(pOut: PImVec2; self: PImGuiViewport); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewport_GetWorkCenter';
+
+function ImGuiPlatformIO_ImGuiPlatformIO(): PImGuiPlatformIO; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPlatformIO_ImGuiPlatformIO';
+
+procedure ImGuiPlatformIO_destroy(self: PImGuiPlatformIO); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPlatformIO_destroy';
+
+function ImGuiPlatformMonitor_ImGuiPlatformMonitor(): PImGuiPlatformMonitor; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPlatformMonitor_ImGuiPlatformMonitor';
+
+procedure ImGuiPlatformMonitor_destroy(self: PImGuiPlatformMonitor); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPlatformMonitor_destroy';
+
+function ImGuiPlatformImeData_ImGuiPlatformImeData(): PImGuiPlatformImeData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPlatformImeData_ImGuiPlatformImeData';
+
+procedure ImGuiPlatformImeData_destroy(self: PImGuiPlatformImeData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPlatformImeData_destroy';
+
+function igGetKeyIndex(key: ImGuiKey): ImGuiKey; cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyIndex';
+
+function igImHashData(const data: Pointer; data_size: NativeUInt; seed: ImGuiID): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igImHashData';
+
+function igImHashStr(const data: PUTF8Char; data_size: NativeUInt; seed: ImGuiID): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igImHashStr';
+
+type
+  igImQsort_compare_func = function(const p1: Pointer; const p2: Pointer): Integer; cdecl;
+
+procedure igImQsort(base: Pointer; count: NativeUInt; size_of_element: NativeUInt; compare_func: igImQsort_compare_func); cdecl;
+  external PSFML_DLL name _PU + 'igImQsort';
+
+function igImAlphaBlendColors(col_a: ImU32; col_b: ImU32): ImU32; cdecl;
+  external PSFML_DLL name _PU + 'igImAlphaBlendColors';
+
+function igImIsPowerOfTwo_Int(v: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImIsPowerOfTwo_Int';
+
+function igImIsPowerOfTwo_U64(v: ImU64): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImIsPowerOfTwo_U64';
+
+function igImUpperPowerOfTwo(v: Integer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImUpperPowerOfTwo';
+
+function igImStricmp(const str1: PUTF8Char; const str2: PUTF8Char): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImStricmp';
+
+function igImStrnicmp(const str1: PUTF8Char; const str2: PUTF8Char; count: NativeUInt): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImStrnicmp';
+
+procedure igImStrncpy(dst: PUTF8Char; const src: PUTF8Char; count: NativeUInt); cdecl;
+  external PSFML_DLL name _PU + 'igImStrncpy';
+
+function igImStrdup(const str: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImStrdup';
+
+function igImStrdupcpy(dst: PUTF8Char; p_dst_size: PNativeUInt; const str: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImStrdupcpy';
+
+function igImStrchrRange(const str_begin: PUTF8Char; const str_end: PUTF8Char; c: UTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImStrchrRange';
+
+function igImStreolRange(const str: PUTF8Char; const str_end: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImStreolRange';
+
+function igImStristr(const haystack: PUTF8Char; const haystack_end: PUTF8Char; const needle: PUTF8Char; const needle_end: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImStristr';
+
+procedure igImStrTrimBlanks(str: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igImStrTrimBlanks';
+
+function igImStrSkipBlank(const str: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImStrSkipBlank';
+
+function igImStrlenW(const str: PImWchar): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImStrlenW';
+
+function igImStrbolW(const buf_mid_line: PImWchar; const buf_begin: PImWchar): PImWchar; cdecl;
+  external PSFML_DLL name _PU + 'igImStrbolW';
+
+function igImToUpper(c: UTF8Char): UTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImToUpper';
+
+function igImCharIsBlankA(c: UTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImCharIsBlankA';
+
+function igImCharIsBlankW(c: Cardinal): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImCharIsBlankW';
+
+function igImFormatString(buf: PUTF8Char; buf_size: NativeUInt; const fmt: PUTF8Char): Integer varargs; cdecl;
+  external PSFML_DLL name _PU + 'igImFormatString';
+
+function igImFormatStringV(buf: PUTF8Char; buf_size: NativeUInt; const fmt: PUTF8Char; args: Pointer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImFormatStringV';
+
+procedure igImFormatStringToTempBuffer(out_buf: PPUTF8Char; out_buf_end: PPUTF8Char; const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igImFormatStringToTempBuffer';
+
+procedure igImFormatStringToTempBufferV(out_buf: PPUTF8Char; out_buf_end: PPUTF8Char; const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igImFormatStringToTempBufferV';
+
+function igImParseFormatFindStart(const format: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImParseFormatFindStart';
+
+function igImParseFormatFindEnd(const format: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImParseFormatFindEnd';
+
+function igImParseFormatTrimDecorations(const format: PUTF8Char; buf: PUTF8Char; buf_size: NativeUInt): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImParseFormatTrimDecorations';
+
+procedure igImParseFormatSanitizeForPrinting(const fmt_in: PUTF8Char; fmt_out: PUTF8Char; fmt_out_size: NativeUInt); cdecl;
+  external PSFML_DLL name _PU + 'igImParseFormatSanitizeForPrinting';
+
+function igImParseFormatSanitizeForScanning(const fmt_in: PUTF8Char; fmt_out: PUTF8Char; fmt_out_size: NativeUInt): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImParseFormatSanitizeForScanning';
+
+function igImParseFormatPrecision(const format: PUTF8Char; default_value: Integer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImParseFormatPrecision';
+
+function igImTextCharToUtf8(out_buf: PUTF8Char; c: Cardinal): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImTextCharToUtf8';
+
+function igImTextStrToUtf8(out_buf: PUTF8Char; out_buf_size: Integer; const in_text: PImWchar; const in_text_end: PImWchar): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImTextStrToUtf8';
+
+function igImTextCharFromUtf8(out_char: PCardinal; const in_text: PUTF8Char; const in_text_end: PUTF8Char): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImTextCharFromUtf8';
+
+function igImTextStrFromUtf8(out_buf: PImWchar; out_buf_size: Integer; const in_text: PUTF8Char; const in_text_end: PUTF8Char; in_remaining: PPUTF8Char): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImTextStrFromUtf8';
+
+function igImTextCountCharsFromUtf8(const in_text: PUTF8Char; const in_text_end: PUTF8Char): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImTextCountCharsFromUtf8';
+
+function igImTextCountUtf8BytesFromChar(const in_text: PUTF8Char; const in_text_end: PUTF8Char): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImTextCountUtf8BytesFromChar';
+
+function igImTextCountUtf8BytesFromStr(const in_text: PImWchar; const in_text_end: PImWchar): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImTextCountUtf8BytesFromStr';
+
+function igImTextFindPreviousUtf8Codepoint(const in_text_start: PUTF8Char; const in_text_curr: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igImTextFindPreviousUtf8Codepoint';
+
+function igImFileOpen(const filename: PUTF8Char; const mode: PUTF8Char): ImFileHandle; cdecl;
+  external PSFML_DLL name _PU + 'igImFileOpen';
+
+function igImFileClose(&file: ImFileHandle): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImFileClose';
+
+function igImFileGetSize(&file: ImFileHandle): ImU64; cdecl;
+  external PSFML_DLL name _PU + 'igImFileGetSize';
+
+function igImFileRead(data: Pointer; size: ImU64; count: ImU64; &file: ImFileHandle): ImU64; cdecl;
+  external PSFML_DLL name _PU + 'igImFileRead';
+
+function igImFileWrite(const data: Pointer; size: ImU64; count: ImU64; &file: ImFileHandle): ImU64; cdecl;
+  external PSFML_DLL name _PU + 'igImFileWrite';
+
+function igImFileLoadToMemory(const filename: PUTF8Char; const mode: PUTF8Char; out_file_size: PNativeUInt; padding_bytes: Integer): Pointer; cdecl;
+  external PSFML_DLL name _PU + 'igImFileLoadToMemory';
+
+function igImPow_Float(x: Single; y: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImPow_Float';
+
+function igImPow_double(x: Double; y: Double): Double; cdecl;
+  external PSFML_DLL name _PU + 'igImPow_double';
+
+function igImLog_Float(x: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImLog_Float';
+
+function igImLog_double(x: Double): Double; cdecl;
+  external PSFML_DLL name _PU + 'igImLog_double';
+
+function igImAbs_Int(x: Integer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImAbs_Int';
+
+function igImAbs_Float(x: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImAbs_Float';
+
+function igImAbs_double(x: Double): Double; cdecl;
+  external PSFML_DLL name _PU + 'igImAbs_double';
+
+function igImSign_Float(x: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImSign_Float';
+
+function igImSign_double(x: Double): Double; cdecl;
+  external PSFML_DLL name _PU + 'igImSign_double';
+
+function igImRsqrt_Float(x: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImRsqrt_Float';
+
+function igImRsqrt_double(x: Double): Double; cdecl;
+  external PSFML_DLL name _PU + 'igImRsqrt_double';
+
+procedure igImMin(pOut: PImVec2; lhs: ImVec2; rhs: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImMin';
+
+procedure igImMax(pOut: PImVec2; lhs: ImVec2; rhs: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImMax';
+
+procedure igImClamp(pOut: PImVec2; v: ImVec2; mn: ImVec2; mx: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImClamp';
+
+procedure igImLerp_Vec2Float(pOut: PImVec2; a: ImVec2; b: ImVec2; t: Single); cdecl;
+  external PSFML_DLL name _PU + 'igImLerp_Vec2Float';
+
+procedure igImLerp_Vec2Vec2(pOut: PImVec2; a: ImVec2; b: ImVec2; t: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImLerp_Vec2Vec2';
+
+procedure igImLerp_Vec4(pOut: PImVec4; a: ImVec4; b: ImVec4; t: Single); cdecl;
+  external PSFML_DLL name _PU + 'igImLerp_Vec4';
+
+function igImSaturate(f: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImSaturate';
+
+function igImLengthSqr_Vec2(lhs: ImVec2): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImLengthSqr_Vec2';
+
+function igImLengthSqr_Vec4(lhs: ImVec4): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImLengthSqr_Vec4';
+
+function igImInvLength(lhs: ImVec2; fail_value: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImInvLength';
+
+function igImTrunc_Float(f: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImTrunc_Float';
+
+procedure igImTrunc_Vec2(pOut: PImVec2; v: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImTrunc_Vec2';
+
+function igImFloor_Float(f: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImFloor_Float';
+
+procedure igImFloor_Vec2(pOut: PImVec2; v: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImFloor_Vec2';
+
+function igImModPositive(a: Integer; b: Integer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igImModPositive';
+
+function igImDot(a: ImVec2; b: ImVec2): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImDot';
+
+procedure igImRotate(pOut: PImVec2; v: ImVec2; cos_a: Single; sin_a: Single); cdecl;
+  external PSFML_DLL name _PU + 'igImRotate';
+
+function igImLinearSweep(current: Single; target: Single; speed: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImLinearSweep';
+
+procedure igImMul(pOut: PImVec2; lhs: ImVec2; rhs: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImMul';
+
+function igImIsFloatAboveGuaranteedIntegerPrecision(f: Single): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImIsFloatAboveGuaranteedIntegerPrecision';
+
+function igImExponentialMovingAverage(avg: Single; sample: Single; n: Integer): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImExponentialMovingAverage';
+
+procedure igImBezierCubicCalc(pOut: PImVec2; p1: ImVec2; p2: ImVec2; p3: ImVec2; p4: ImVec2; t: Single); cdecl;
+  external PSFML_DLL name _PU + 'igImBezierCubicCalc';
+
+procedure igImBezierCubicClosestPoint(pOut: PImVec2; p1: ImVec2; p2: ImVec2; p3: ImVec2; p4: ImVec2; p: ImVec2; num_segments: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igImBezierCubicClosestPoint';
+
+procedure igImBezierCubicClosestPointCasteljau(pOut: PImVec2; p1: ImVec2; p2: ImVec2; p3: ImVec2; p4: ImVec2; p: ImVec2; tess_tol: Single); cdecl;
+  external PSFML_DLL name _PU + 'igImBezierCubicClosestPointCasteljau';
+
+procedure igImBezierQuadraticCalc(pOut: PImVec2; p1: ImVec2; p2: ImVec2; p3: ImVec2; t: Single); cdecl;
+  external PSFML_DLL name _PU + 'igImBezierQuadraticCalc';
+
+procedure igImLineClosestPoint(pOut: PImVec2; a: ImVec2; b: ImVec2; p: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImLineClosestPoint';
+
+function igImTriangleContainsPoint(a: ImVec2; b: ImVec2; c: ImVec2; p: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImTriangleContainsPoint';
+
+procedure igImTriangleClosestPoint(pOut: PImVec2; a: ImVec2; b: ImVec2; c: ImVec2; p: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igImTriangleClosestPoint';
+
+procedure igImTriangleBarycentricCoords(a: ImVec2; b: ImVec2; c: ImVec2; p: ImVec2; out_u: PSingle; out_v: PSingle; out_w: PSingle); cdecl;
+  external PSFML_DLL name _PU + 'igImTriangleBarycentricCoords';
+
+function igImTriangleArea(a: ImVec2; b: ImVec2; c: ImVec2): Single; cdecl;
+  external PSFML_DLL name _PU + 'igImTriangleArea';
+
+function ImVec1_ImVec1_Nil(): PImVec1; cdecl;
+  external PSFML_DLL name _PU + 'ImVec1_ImVec1_Nil';
+
+procedure ImVec1_destroy(self: PImVec1); cdecl;
+  external PSFML_DLL name _PU + 'ImVec1_destroy';
+
+function ImVec1_ImVec1_Float(_x: Single): PImVec1; cdecl;
+  external PSFML_DLL name _PU + 'ImVec1_ImVec1_Float';
+
+function ImVec2ih_ImVec2ih_Nil(): PImVec2ih; cdecl;
+  external PSFML_DLL name _PU + 'ImVec2ih_ImVec2ih_Nil';
+
+procedure ImVec2ih_destroy(self: PImVec2ih); cdecl;
+  external PSFML_DLL name _PU + 'ImVec2ih_destroy';
+
+function ImVec2ih_ImVec2ih_short(_x: Smallint; _y: Smallint): PImVec2ih; cdecl;
+  external PSFML_DLL name _PU + 'ImVec2ih_ImVec2ih_short';
+
+function ImVec2ih_ImVec2ih_Vec2(rhs: ImVec2): PImVec2ih; cdecl;
+  external PSFML_DLL name _PU + 'ImVec2ih_ImVec2ih_Vec2';
+
+function ImRect_ImRect_Nil(): PImRect; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_ImRect_Nil';
+
+procedure ImRect_destroy(self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_destroy';
+
+function ImRect_ImRect_Vec2(min: ImVec2; max: ImVec2): PImRect; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_ImRect_Vec2';
+
+function ImRect_ImRect_Vec4(v: ImVec4): PImRect; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_ImRect_Vec4';
+
+function ImRect_ImRect_Float(x1: Single; y1: Single; x2: Single; y2: Single): PImRect; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_ImRect_Float';
+
+procedure ImRect_GetCenter(pOut: PImVec2; self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetCenter';
+
+procedure ImRect_GetSize(pOut: PImVec2; self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetSize';
+
+function ImRect_GetWidth(self: PImRect): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetWidth';
+
+function ImRect_GetHeight(self: PImRect): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetHeight';
+
+function ImRect_GetArea(self: PImRect): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetArea';
+
+procedure ImRect_GetTL(pOut: PImVec2; self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetTL';
+
+procedure ImRect_GetTR(pOut: PImVec2; self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetTR';
+
+procedure ImRect_GetBL(pOut: PImVec2; self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetBL';
+
+procedure ImRect_GetBR(pOut: PImVec2; self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_GetBR';
+
+function ImRect_Contains_Vec2(self: PImRect; p: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Contains_Vec2';
+
+function ImRect_Contains_Rect(self: PImRect; r: ImRect): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Contains_Rect';
+
+function ImRect_ContainsWithPad(self: PImRect; p: ImVec2; pad: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_ContainsWithPad';
+
+function ImRect_Overlaps(self: PImRect; r: ImRect): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Overlaps';
+
+procedure ImRect_Add_Vec2(self: PImRect; p: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Add_Vec2';
+
+procedure ImRect_Add_Rect(self: PImRect; r: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Add_Rect';
+
+procedure ImRect_Expand_Float(self: PImRect; const amount: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Expand_Float';
+
+procedure ImRect_Expand_Vec2(self: PImRect; amount: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Expand_Vec2';
+
+procedure ImRect_Translate(self: PImRect; d: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Translate';
+
+procedure ImRect_TranslateX(self: PImRect; dx: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_TranslateX';
+
+procedure ImRect_TranslateY(self: PImRect; dy: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_TranslateY';
+
+procedure ImRect_ClipWith(self: PImRect; r: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_ClipWith';
+
+procedure ImRect_ClipWithFull(self: PImRect; r: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_ClipWithFull';
+
+procedure ImRect_Floor(self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_Floor';
+
+function ImRect_IsInverted(self: PImRect): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImRect_IsInverted';
+
+procedure ImRect_ToVec4(pOut: PImVec4; self: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'ImRect_ToVec4';
+
+function igImBitArrayGetStorageSizeInBytes(bitcount: Integer): NativeUInt; cdecl;
+  external PSFML_DLL name _PU + 'igImBitArrayGetStorageSizeInBytes';
+
+procedure igImBitArrayClearAllBits(arr: PImU32; bitcount: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igImBitArrayClearAllBits';
+
+function igImBitArrayTestBit(const arr: PImU32; n: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImBitArrayTestBit';
+
+procedure igImBitArrayClearBit(arr: PImU32; n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igImBitArrayClearBit';
+
+procedure igImBitArraySetBit(arr: PImU32; n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igImBitArraySetBit';
+
+procedure igImBitArraySetBitRange(arr: PImU32; n: Integer; n2: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igImBitArraySetBitRange';
+
+procedure ImBitVector_Create(self: PImBitVector; sz: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImBitVector_Create';
+
+procedure ImBitVector_Clear(self: PImBitVector); cdecl;
+  external PSFML_DLL name _PU + 'ImBitVector_Clear';
+
+function ImBitVector_TestBit(self: PImBitVector; n: Integer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImBitVector_TestBit';
+
+procedure ImBitVector_SetBit(self: PImBitVector; n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImBitVector_SetBit';
+
+procedure ImBitVector_ClearBit(self: PImBitVector; n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImBitVector_ClearBit';
+
+procedure ImGuiTextIndex_clear(self: PImGuiTextIndex); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextIndex_clear';
+
+function ImGuiTextIndex_size(self: PImGuiTextIndex): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextIndex_size';
+
+function ImGuiTextIndex_get_line_begin(self: PImGuiTextIndex; const base: PUTF8Char; n: Integer): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextIndex_get_line_begin';
+
+function ImGuiTextIndex_get_line_end(self: PImGuiTextIndex; const base: PUTF8Char; n: Integer): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextIndex_get_line_end';
+
+procedure ImGuiTextIndex_append(self: PImGuiTextIndex; const base: PUTF8Char; old_size: Integer; new_size: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextIndex_append';
+
+function ImDrawListSharedData_ImDrawListSharedData(): PImDrawListSharedData; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSharedData_ImDrawListSharedData';
+
+procedure ImDrawListSharedData_destroy(self: PImDrawListSharedData); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSharedData_destroy';
+
+procedure ImDrawListSharedData_SetCircleTessellationMaxError(self: PImDrawListSharedData; max_error: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawListSharedData_SetCircleTessellationMaxError';
+
+function ImDrawDataBuilder_ImDrawDataBuilder(): PImDrawDataBuilder; cdecl;
+  external PSFML_DLL name _PU + 'ImDrawDataBuilder_ImDrawDataBuilder';
+
+procedure ImDrawDataBuilder_destroy(self: PImDrawDataBuilder); cdecl;
+  external PSFML_DLL name _PU + 'ImDrawDataBuilder_destroy';
+
+function ImGuiDataVarInfo_GetVarPtr(self: PImGuiDataVarInfo; parent: Pointer): Pointer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDataVarInfo_GetVarPtr';
+
+function ImGuiStyleMod_ImGuiStyleMod_Int(idx: ImGuiStyleVar; v: Integer): PImGuiStyleMod; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStyleMod_ImGuiStyleMod_Int';
+
+procedure ImGuiStyleMod_destroy(self: PImGuiStyleMod); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStyleMod_destroy';
+
+function ImGuiStyleMod_ImGuiStyleMod_Float(idx: ImGuiStyleVar; v: Single): PImGuiStyleMod; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStyleMod_ImGuiStyleMod_Float';
+
+function ImGuiStyleMod_ImGuiStyleMod_Vec2(idx: ImGuiStyleVar; v: ImVec2): PImGuiStyleMod; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStyleMod_ImGuiStyleMod_Vec2';
+
+function ImGuiComboPreviewData_ImGuiComboPreviewData(): PImGuiComboPreviewData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiComboPreviewData_ImGuiComboPreviewData';
+
+procedure ImGuiComboPreviewData_destroy(self: PImGuiComboPreviewData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiComboPreviewData_destroy';
+
+function ImGuiMenuColumns_ImGuiMenuColumns(): PImGuiMenuColumns; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiMenuColumns_ImGuiMenuColumns';
+
+procedure ImGuiMenuColumns_destroy(self: PImGuiMenuColumns); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiMenuColumns_destroy';
+
+procedure ImGuiMenuColumns_Update(self: PImGuiMenuColumns; spacing: Single; window_reappearing: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiMenuColumns_Update';
+
+function ImGuiMenuColumns_DeclColumns(self: PImGuiMenuColumns; w_icon: Single; w_label: Single; w_shortcut: Single; w_mark: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiMenuColumns_DeclColumns';
+
+procedure ImGuiMenuColumns_CalcNextTotalWidth(self: PImGuiMenuColumns; update_offsets: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiMenuColumns_CalcNextTotalWidth';
+
+function ImGuiInputTextDeactivatedState_ImGuiInputTextDeactivatedState(): PImGuiInputTextDeactivatedState; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextDeactivatedState_ImGuiInputTextDeactivatedState';
+
+procedure ImGuiInputTextDeactivatedState_destroy(self: PImGuiInputTextDeactivatedState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextDeactivatedState_destroy';
+
+procedure ImGuiInputTextDeactivatedState_ClearFreeMemory(self: PImGuiInputTextDeactivatedState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextDeactivatedState_ClearFreeMemory';
+
+function ImGuiInputTextState_ImGuiInputTextState(): PImGuiInputTextState; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_ImGuiInputTextState';
+
+procedure ImGuiInputTextState_destroy(self: PImGuiInputTextState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_destroy';
+
+procedure ImGuiInputTextState_ClearText(self: PImGuiInputTextState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_ClearText';
+
+procedure ImGuiInputTextState_ClearFreeMemory(self: PImGuiInputTextState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_ClearFreeMemory';
+
+function ImGuiInputTextState_GetUndoAvailCount(self: PImGuiInputTextState): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_GetUndoAvailCount';
+
+function ImGuiInputTextState_GetRedoAvailCount(self: PImGuiInputTextState): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_GetRedoAvailCount';
+
+procedure ImGuiInputTextState_OnKeyPressed(self: PImGuiInputTextState; key: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_OnKeyPressed';
+
+procedure ImGuiInputTextState_CursorAnimReset(self: PImGuiInputTextState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_CursorAnimReset';
+
+procedure ImGuiInputTextState_CursorClamp(self: PImGuiInputTextState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_CursorClamp';
+
+function ImGuiInputTextState_HasSelection(self: PImGuiInputTextState): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_HasSelection';
+
+procedure ImGuiInputTextState_ClearSelection(self: PImGuiInputTextState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_ClearSelection';
+
+function ImGuiInputTextState_GetCursorPos(self: PImGuiInputTextState): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_GetCursorPos';
+
+function ImGuiInputTextState_GetSelectionStart(self: PImGuiInputTextState): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_GetSelectionStart';
+
+function ImGuiInputTextState_GetSelectionEnd(self: PImGuiInputTextState): Integer; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_GetSelectionEnd';
+
+procedure ImGuiInputTextState_SelectAll(self: PImGuiInputTextState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputTextState_SelectAll';
+
+function ImGuiPopupData_ImGuiPopupData(): PImGuiPopupData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPopupData_ImGuiPopupData';
+
+procedure ImGuiPopupData_destroy(self: PImGuiPopupData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPopupData_destroy';
+
+function ImGuiNextWindowData_ImGuiNextWindowData(): PImGuiNextWindowData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNextWindowData_ImGuiNextWindowData';
+
+procedure ImGuiNextWindowData_destroy(self: PImGuiNextWindowData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNextWindowData_destroy';
+
+procedure ImGuiNextWindowData_ClearFlags(self: PImGuiNextWindowData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNextWindowData_ClearFlags';
+
+function ImGuiNextItemData_ImGuiNextItemData(): PImGuiNextItemData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNextItemData_ImGuiNextItemData';
+
+procedure ImGuiNextItemData_destroy(self: PImGuiNextItemData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNextItemData_destroy';
+
+procedure ImGuiNextItemData_ClearFlags(self: PImGuiNextItemData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNextItemData_ClearFlags';
+
+function ImGuiLastItemData_ImGuiLastItemData(): PImGuiLastItemData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiLastItemData_ImGuiLastItemData';
+
+procedure ImGuiLastItemData_destroy(self: PImGuiLastItemData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiLastItemData_destroy';
+
+function ImGuiStackSizes_ImGuiStackSizes(): PImGuiStackSizes; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStackSizes_ImGuiStackSizes';
+
+procedure ImGuiStackSizes_destroy(self: PImGuiStackSizes); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStackSizes_destroy';
+
+procedure ImGuiStackSizes_SetToContextState(self: PImGuiStackSizes; ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStackSizes_SetToContextState';
+
+procedure ImGuiStackSizes_CompareWithContextState(self: PImGuiStackSizes; ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStackSizes_CompareWithContextState';
+
+function ImGuiPtrOrIndex_ImGuiPtrOrIndex_Ptr(ptr: Pointer): PImGuiPtrOrIndex; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPtrOrIndex_ImGuiPtrOrIndex_Ptr';
+
+procedure ImGuiPtrOrIndex_destroy(self: PImGuiPtrOrIndex); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPtrOrIndex_destroy';
+
+function ImGuiPtrOrIndex_ImGuiPtrOrIndex_Int(index: Integer): PImGuiPtrOrIndex; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiPtrOrIndex_ImGuiPtrOrIndex_Int';
+
+function ImGuiInputEvent_ImGuiInputEvent(): PImGuiInputEvent; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputEvent_ImGuiInputEvent';
+
+procedure ImGuiInputEvent_destroy(self: PImGuiInputEvent); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiInputEvent_destroy';
+
+function ImGuiKeyRoutingData_ImGuiKeyRoutingData(): PImGuiKeyRoutingData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiKeyRoutingData_ImGuiKeyRoutingData';
+
+procedure ImGuiKeyRoutingData_destroy(self: PImGuiKeyRoutingData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiKeyRoutingData_destroy';
+
+function ImGuiKeyRoutingTable_ImGuiKeyRoutingTable(): PImGuiKeyRoutingTable; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiKeyRoutingTable_ImGuiKeyRoutingTable';
+
+procedure ImGuiKeyRoutingTable_destroy(self: PImGuiKeyRoutingTable); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiKeyRoutingTable_destroy';
+
+procedure ImGuiKeyRoutingTable_Clear(self: PImGuiKeyRoutingTable); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiKeyRoutingTable_Clear';
+
+function ImGuiKeyOwnerData_ImGuiKeyOwnerData(): PImGuiKeyOwnerData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiKeyOwnerData_ImGuiKeyOwnerData';
+
+procedure ImGuiKeyOwnerData_destroy(self: PImGuiKeyOwnerData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiKeyOwnerData_destroy';
+
+function ImGuiListClipperRange_FromIndices(min: Integer; max: Integer): ImGuiListClipperRange; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipperRange_FromIndices';
+
+function ImGuiListClipperRange_FromPositions(y1: Single; y2: Single; off_min: Integer; off_max: Integer): ImGuiListClipperRange; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipperRange_FromPositions';
+
+function ImGuiListClipperData_ImGuiListClipperData(): PImGuiListClipperData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipperData_ImGuiListClipperData';
+
+procedure ImGuiListClipperData_destroy(self: PImGuiListClipperData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipperData_destroy';
+
+procedure ImGuiListClipperData_Reset(self: PImGuiListClipperData; clipper: PImGuiListClipper); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiListClipperData_Reset';
+
+function ImGuiNavItemData_ImGuiNavItemData(): PImGuiNavItemData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNavItemData_ImGuiNavItemData';
+
+procedure ImGuiNavItemData_destroy(self: PImGuiNavItemData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNavItemData_destroy';
+
+procedure ImGuiNavItemData_Clear(self: PImGuiNavItemData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiNavItemData_Clear';
+
+function ImGuiTypingSelectState_ImGuiTypingSelectState(): PImGuiTypingSelectState; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTypingSelectState_ImGuiTypingSelectState';
+
+procedure ImGuiTypingSelectState_destroy(self: PImGuiTypingSelectState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTypingSelectState_destroy';
+
+procedure ImGuiTypingSelectState_Clear(self: PImGuiTypingSelectState); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTypingSelectState_Clear';
+
+function ImGuiOldColumnData_ImGuiOldColumnData(): PImGuiOldColumnData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiOldColumnData_ImGuiOldColumnData';
+
+procedure ImGuiOldColumnData_destroy(self: PImGuiOldColumnData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiOldColumnData_destroy';
+
+function ImGuiOldColumns_ImGuiOldColumns(): PImGuiOldColumns; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiOldColumns_ImGuiOldColumns';
+
+procedure ImGuiOldColumns_destroy(self: PImGuiOldColumns); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiOldColumns_destroy';
+
+function ImGuiDockNode_ImGuiDockNode(id: ImGuiID): PImGuiDockNode; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_ImGuiDockNode';
+
+procedure ImGuiDockNode_destroy(self: PImGuiDockNode); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_destroy';
+
+function ImGuiDockNode_IsRootNode(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsRootNode';
+
+function ImGuiDockNode_IsDockSpace(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsDockSpace';
+
+function ImGuiDockNode_IsFloatingNode(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsFloatingNode';
+
+function ImGuiDockNode_IsCentralNode(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsCentralNode';
+
+function ImGuiDockNode_IsHiddenTabBar(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsHiddenTabBar';
+
+function ImGuiDockNode_IsNoTabBar(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsNoTabBar';
+
+function ImGuiDockNode_IsSplitNode(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsSplitNode';
+
+function ImGuiDockNode_IsLeafNode(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsLeafNode';
+
+function ImGuiDockNode_IsEmpty(self: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_IsEmpty';
+
+procedure ImGuiDockNode_Rect(pOut: PImRect; self: PImGuiDockNode); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_Rect';
+
+procedure ImGuiDockNode_SetLocalFlags(self: PImGuiDockNode; flags: ImGuiDockNodeFlags); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_SetLocalFlags';
+
+procedure ImGuiDockNode_UpdateMergedFlags(self: PImGuiDockNode); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockNode_UpdateMergedFlags';
+
+function ImGuiDockContext_ImGuiDockContext(): PImGuiDockContext; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockContext_ImGuiDockContext';
+
+procedure ImGuiDockContext_destroy(self: PImGuiDockContext); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDockContext_destroy';
+
+function ImGuiViewportP_ImGuiViewportP(): PImGuiViewportP; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_ImGuiViewportP';
+
+procedure ImGuiViewportP_destroy(self: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_destroy';
+
+procedure ImGuiViewportP_ClearRequestFlags(self: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_ClearRequestFlags';
+
+procedure ImGuiViewportP_CalcWorkRectPos(pOut: PImVec2; self: PImGuiViewportP; off_min: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_CalcWorkRectPos';
+
+procedure ImGuiViewportP_CalcWorkRectSize(pOut: PImVec2; self: PImGuiViewportP; off_min: ImVec2; off_max: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_CalcWorkRectSize';
+
+procedure ImGuiViewportP_UpdateWorkRect(self: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_UpdateWorkRect';
+
+procedure ImGuiViewportP_GetMainRect(pOut: PImRect; self: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_GetMainRect';
+
+procedure ImGuiViewportP_GetWorkRect(pOut: PImRect; self: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_GetWorkRect';
+
+procedure ImGuiViewportP_GetBuildWorkRect(pOut: PImRect; self: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiViewportP_GetBuildWorkRect';
+
+function ImGuiWindowSettings_ImGuiWindowSettings(): PImGuiWindowSettings; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindowSettings_ImGuiWindowSettings';
+
+procedure ImGuiWindowSettings_destroy(self: PImGuiWindowSettings); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindowSettings_destroy';
+
+function ImGuiWindowSettings_GetName(self: PImGuiWindowSettings): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindowSettings_GetName';
+
+function ImGuiSettingsHandler_ImGuiSettingsHandler(): PImGuiSettingsHandler; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiSettingsHandler_ImGuiSettingsHandler';
+
+procedure ImGuiSettingsHandler_destroy(self: PImGuiSettingsHandler); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiSettingsHandler_destroy';
+
+function ImGuiDebugAllocInfo_ImGuiDebugAllocInfo(): PImGuiDebugAllocInfo; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDebugAllocInfo_ImGuiDebugAllocInfo';
+
+procedure ImGuiDebugAllocInfo_destroy(self: PImGuiDebugAllocInfo); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiDebugAllocInfo_destroy';
+
+function ImGuiStackLevelInfo_ImGuiStackLevelInfo(): PImGuiStackLevelInfo; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStackLevelInfo_ImGuiStackLevelInfo';
+
+procedure ImGuiStackLevelInfo_destroy(self: PImGuiStackLevelInfo); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiStackLevelInfo_destroy';
+
+function ImGuiIDStackTool_ImGuiIDStackTool(): PImGuiIDStackTool; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIDStackTool_ImGuiIDStackTool';
+
+procedure ImGuiIDStackTool_destroy(self: PImGuiIDStackTool); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiIDStackTool_destroy';
+
+function ImGuiContextHook_ImGuiContextHook(): PImGuiContextHook; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiContextHook_ImGuiContextHook';
+
+procedure ImGuiContextHook_destroy(self: PImGuiContextHook); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiContextHook_destroy';
+
+function ImGuiContext_ImGuiContext(shared_font_atlas: PImFontAtlas): PImGuiContext; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiContext_ImGuiContext';
+
+procedure ImGuiContext_destroy(self: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiContext_destroy';
+
+function ImGuiWindow_ImGuiWindow(context: PImGuiContext; const name: PUTF8Char): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_ImGuiWindow';
+
+procedure ImGuiWindow_destroy(self: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_destroy';
+
+function ImGuiWindow_GetID_Str(self: PImGuiWindow; const str: PUTF8Char; const str_end: PUTF8Char): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_GetID_Str';
+
+function ImGuiWindow_GetID_Ptr(self: PImGuiWindow; const ptr: Pointer): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_GetID_Ptr';
+
+function ImGuiWindow_GetID_Int(self: PImGuiWindow; n: Integer): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_GetID_Int';
+
+function ImGuiWindow_GetIDFromRectangle(self: PImGuiWindow; r_abs: ImRect): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_GetIDFromRectangle';
+
+procedure ImGuiWindow_Rect(pOut: PImRect; self: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_Rect';
+
+function ImGuiWindow_CalcFontSize(self: PImGuiWindow): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_CalcFontSize';
+
+function ImGuiWindow_TitleBarHeight(self: PImGuiWindow): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_TitleBarHeight';
+
+procedure ImGuiWindow_TitleBarRect(pOut: PImRect; self: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_TitleBarRect';
+
+function ImGuiWindow_MenuBarHeight(self: PImGuiWindow): Single; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_MenuBarHeight';
+
+procedure ImGuiWindow_MenuBarRect(pOut: PImRect; self: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiWindow_MenuBarRect';
+
+function ImGuiTabItem_ImGuiTabItem(): PImGuiTabItem; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTabItem_ImGuiTabItem';
+
+procedure ImGuiTabItem_destroy(self: PImGuiTabItem); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTabItem_destroy';
+
+function ImGuiTabBar_ImGuiTabBar(): PImGuiTabBar; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTabBar_ImGuiTabBar';
+
+procedure ImGuiTabBar_destroy(self: PImGuiTabBar); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTabBar_destroy';
+
+function ImGuiTableColumn_ImGuiTableColumn(): PImGuiTableColumn; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableColumn_ImGuiTableColumn';
+
+procedure ImGuiTableColumn_destroy(self: PImGuiTableColumn); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableColumn_destroy';
+
+function ImGuiTableInstanceData_ImGuiTableInstanceData(): PImGuiTableInstanceData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableInstanceData_ImGuiTableInstanceData';
+
+procedure ImGuiTableInstanceData_destroy(self: PImGuiTableInstanceData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableInstanceData_destroy';
+
+function ImGuiTable_ImGuiTable(): PImGuiTable; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTable_ImGuiTable';
+
+procedure ImGuiTable_destroy(self: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTable_destroy';
+
+function ImGuiTableTempData_ImGuiTableTempData(): PImGuiTableTempData; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableTempData_ImGuiTableTempData';
+
+procedure ImGuiTableTempData_destroy(self: PImGuiTableTempData); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableTempData_destroy';
+
+function ImGuiTableColumnSettings_ImGuiTableColumnSettings(): PImGuiTableColumnSettings; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableColumnSettings_ImGuiTableColumnSettings';
+
+procedure ImGuiTableColumnSettings_destroy(self: PImGuiTableColumnSettings); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableColumnSettings_destroy';
+
+function ImGuiTableSettings_ImGuiTableSettings(): PImGuiTableSettings; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableSettings_ImGuiTableSettings';
+
+procedure ImGuiTableSettings_destroy(self: PImGuiTableSettings); cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableSettings_destroy';
+
+function ImGuiTableSettings_GetColumnSettings(self: PImGuiTableSettings): PImGuiTableColumnSettings; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTableSettings_GetColumnSettings';
+
+function igGetCurrentWindowRead(): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'igGetCurrentWindowRead';
+
+function igGetCurrentWindow(): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'igGetCurrentWindow';
+
+function igFindWindowByID(id: ImGuiID): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'igFindWindowByID';
+
+function igFindWindowByName(const name: PUTF8Char): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'igFindWindowByName';
+
+procedure igUpdateWindowParentAndRootLinks(window: PImGuiWindow; flags: ImGuiWindowFlags; parent_window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igUpdateWindowParentAndRootLinks';
+
+procedure igCalcWindowNextAutoFitSize(pOut: PImVec2; window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igCalcWindowNextAutoFitSize';
+
+function igIsWindowChildOf(window: PImGuiWindow; potential_parent: PImGuiWindow; popup_hierarchy: Boolean; dock_hierarchy: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowChildOf';
+
+function igIsWindowWithinBeginStackOf(window: PImGuiWindow; potential_parent: PImGuiWindow): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowWithinBeginStackOf';
+
+function igIsWindowAbove(potential_above: PImGuiWindow; potential_below: PImGuiWindow): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowAbove';
+
+function igIsWindowNavFocusable(window: PImGuiWindow): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowNavFocusable';
+
+procedure igSetWindowPos_WindowPtr(window: PImGuiWindow; pos: ImVec2; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowPos_WindowPtr';
+
+procedure igSetWindowSize_WindowPtr(window: PImGuiWindow; size: ImVec2; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowSize_WindowPtr';
+
+procedure igSetWindowCollapsed_WindowPtr(window: PImGuiWindow; collapsed: Boolean; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowCollapsed_WindowPtr';
+
+procedure igSetWindowHitTestHole(window: PImGuiWindow; pos: ImVec2; size: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowHitTestHole';
+
+procedure igSetWindowHiddenAndSkipItemsForCurrentFrame(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowHiddenAndSkipItemsForCurrentFrame';
+
+procedure igWindowRectAbsToRel(pOut: PImRect; window: PImGuiWindow; r: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'igWindowRectAbsToRel';
+
+procedure igWindowRectRelToAbs(pOut: PImRect; window: PImGuiWindow; r: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'igWindowRectRelToAbs';
+
+procedure igWindowPosRelToAbs(pOut: PImVec2; window: PImGuiWindow; p: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igWindowPosRelToAbs';
+
+procedure igFocusWindow(window: PImGuiWindow; flags: ImGuiFocusRequestFlags); cdecl;
+  external PSFML_DLL name _PU + 'igFocusWindow';
+
+procedure igFocusTopMostWindowUnderOne(under_this_window: PImGuiWindow; ignore_window: PImGuiWindow; filter_viewport: PImGuiViewport; flags: ImGuiFocusRequestFlags); cdecl;
+  external PSFML_DLL name _PU + 'igFocusTopMostWindowUnderOne';
+
+procedure igBringWindowToFocusFront(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igBringWindowToFocusFront';
+
+procedure igBringWindowToDisplayFront(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igBringWindowToDisplayFront';
+
+procedure igBringWindowToDisplayBack(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igBringWindowToDisplayBack';
+
+procedure igBringWindowToDisplayBehind(window: PImGuiWindow; above_window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igBringWindowToDisplayBehind';
+
+function igFindWindowDisplayIndex(window: PImGuiWindow): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igFindWindowDisplayIndex';
+
+function igFindBottomMostVisibleWindowWithinBeginStack(window: PImGuiWindow): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'igFindBottomMostVisibleWindowWithinBeginStack';
+
+procedure igSetCurrentFont(font: PImFont); cdecl;
+  external PSFML_DLL name _PU + 'igSetCurrentFont';
+
+function igGetDefaultFont(): PImFont; cdecl;
+  external PSFML_DLL name _PU + 'igGetDefaultFont';
+
+function igGetForegroundDrawList_WindowPtr(window: PImGuiWindow): PImDrawList; cdecl;
+  external PSFML_DLL name _PU + 'igGetForegroundDrawList_WindowPtr';
+
+procedure igAddDrawListToDrawDataEx(draw_data: PImDrawData; out_list: PImVector_ImDrawListPtr; draw_list: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'igAddDrawListToDrawDataEx';
+
+procedure igInitialize(); cdecl;
+  external PSFML_DLL name _PU + 'igInitialize';
+
+procedure igShutdown(); cdecl;
+  external PSFML_DLL name _PU + 'igShutdown';
+
+procedure igUpdateInputEvents(trickle_fast_inputs: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igUpdateInputEvents';
+
+procedure igUpdateHoveredWindowAndCaptureFlags(); cdecl;
+  external PSFML_DLL name _PU + 'igUpdateHoveredWindowAndCaptureFlags';
+
+procedure igStartMouseMovingWindow(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igStartMouseMovingWindow';
+
+procedure igStartMouseMovingWindowOrNode(window: PImGuiWindow; node: PImGuiDockNode; undock: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igStartMouseMovingWindowOrNode';
+
+procedure igUpdateMouseMovingWindowNewFrame(); cdecl;
+  external PSFML_DLL name _PU + 'igUpdateMouseMovingWindowNewFrame';
+
+procedure igUpdateMouseMovingWindowEndFrame(); cdecl;
+  external PSFML_DLL name _PU + 'igUpdateMouseMovingWindowEndFrame';
+
+function igAddContextHook(context: PImGuiContext; const hook: PImGuiContextHook): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igAddContextHook';
+
+procedure igRemoveContextHook(context: PImGuiContext; hook_to_remove: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igRemoveContextHook';
+
+procedure igCallContextHooks(context: PImGuiContext; &type: ImGuiContextHookType); cdecl;
+  external PSFML_DLL name _PU + 'igCallContextHooks';
+
+procedure igTranslateWindowsInViewport(viewport: PImGuiViewportP; old_pos: ImVec2; new_pos: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igTranslateWindowsInViewport';
+
+procedure igScaleWindowsInViewport(viewport: PImGuiViewportP; scale: Single); cdecl;
+  external PSFML_DLL name _PU + 'igScaleWindowsInViewport';
+
+procedure igDestroyPlatformWindow(viewport: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'igDestroyPlatformWindow';
+
+procedure igSetWindowViewport(window: PImGuiWindow; viewport: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowViewport';
+
+procedure igSetCurrentViewport(window: PImGuiWindow; viewport: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'igSetCurrentViewport';
+
+function igGetViewportPlatformMonitor(viewport: PImGuiViewport): PImGuiPlatformMonitor; cdecl;
+  external PSFML_DLL name _PU + 'igGetViewportPlatformMonitor';
+
+function igFindHoveredViewportFromPlatformWindowStack(mouse_platform_pos: ImVec2): PImGuiViewportP; cdecl;
+  external PSFML_DLL name _PU + 'igFindHoveredViewportFromPlatformWindowStack';
+
+procedure igMarkIniSettingsDirty_Nil(); cdecl;
+  external PSFML_DLL name _PU + 'igMarkIniSettingsDirty_Nil';
+
+procedure igMarkIniSettingsDirty_WindowPtr(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igMarkIniSettingsDirty_WindowPtr';
+
+procedure igClearIniSettings(); cdecl;
+  external PSFML_DLL name _PU + 'igClearIniSettings';
+
+procedure igAddSettingsHandler(const handler: PImGuiSettingsHandler); cdecl;
+  external PSFML_DLL name _PU + 'igAddSettingsHandler';
+
+procedure igRemoveSettingsHandler(const type_name: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igRemoveSettingsHandler';
+
+function igFindSettingsHandler(const type_name: PUTF8Char): PImGuiSettingsHandler; cdecl;
+  external PSFML_DLL name _PU + 'igFindSettingsHandler';
+
+function igCreateNewWindowSettings(const name: PUTF8Char): PImGuiWindowSettings; cdecl;
+  external PSFML_DLL name _PU + 'igCreateNewWindowSettings';
+
+function igFindWindowSettingsByID(id: ImGuiID): PImGuiWindowSettings; cdecl;
+  external PSFML_DLL name _PU + 'igFindWindowSettingsByID';
+
+function igFindWindowSettingsByWindow(window: PImGuiWindow): PImGuiWindowSettings; cdecl;
+  external PSFML_DLL name _PU + 'igFindWindowSettingsByWindow';
+
+procedure igClearWindowSettings(const name: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igClearWindowSettings';
+
+procedure igLocalizeRegisterEntries(const entries: PImGuiLocEntry; count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igLocalizeRegisterEntries';
+
+function igLocalizeGetMsg(key: ImGuiLocKey): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igLocalizeGetMsg';
+
+procedure igSetScrollX_WindowPtr(window: PImGuiWindow; scroll_x: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollX_WindowPtr';
+
+procedure igSetScrollY_WindowPtr(window: PImGuiWindow; scroll_y: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollY_WindowPtr';
+
+procedure igSetScrollFromPosX_WindowPtr(window: PImGuiWindow; local_x: Single; center_x_ratio: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollFromPosX_WindowPtr';
+
+procedure igSetScrollFromPosY_WindowPtr(window: PImGuiWindow; local_y: Single; center_y_ratio: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSetScrollFromPosY_WindowPtr';
+
+procedure igScrollToItem(flags: ImGuiScrollFlags); cdecl;
+  external PSFML_DLL name _PU + 'igScrollToItem';
+
+procedure igScrollToRect(window: PImGuiWindow; rect: ImRect; flags: ImGuiScrollFlags); cdecl;
+  external PSFML_DLL name _PU + 'igScrollToRect';
+
+procedure igScrollToRectEx(pOut: PImVec2; window: PImGuiWindow; rect: ImRect; flags: ImGuiScrollFlags); cdecl;
+  external PSFML_DLL name _PU + 'igScrollToRectEx';
+
+procedure igScrollToBringRectIntoView(window: PImGuiWindow; rect: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'igScrollToBringRectIntoView';
+
+function igGetItemStatusFlags(): ImGuiItemStatusFlags; cdecl;
+  external PSFML_DLL name _PU + 'igGetItemStatusFlags';
+
+function igGetItemFlags(): ImGuiItemFlags; cdecl;
+  external PSFML_DLL name _PU + 'igGetItemFlags';
+
+function igGetActiveID(): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetActiveID';
+
+function igGetFocusID(): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetFocusID';
+
+procedure igSetActiveID(id: ImGuiID; window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igSetActiveID';
+
+procedure igSetFocusID(id: ImGuiID; window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igSetFocusID';
+
+procedure igClearActiveID(); cdecl;
+  external PSFML_DLL name _PU + 'igClearActiveID';
+
+function igGetHoveredID(): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetHoveredID';
+
+procedure igSetHoveredID(id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igSetHoveredID';
+
+procedure igKeepAliveID(id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igKeepAliveID';
+
+procedure igMarkItemEdited(id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igMarkItemEdited';
+
+procedure igPushOverrideID(id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igPushOverrideID';
+
+function igGetIDWithSeed_Str(const str_id_begin: PUTF8Char; const str_id_end: PUTF8Char; seed: ImGuiID): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetIDWithSeed_Str';
+
+function igGetIDWithSeed_Int(n: Integer; seed: ImGuiID): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetIDWithSeed_Int';
+
+procedure igItemSize_Vec2(size: ImVec2; text_baseline_y: Single); cdecl;
+  external PSFML_DLL name _PU + 'igItemSize_Vec2';
+
+procedure igItemSize_Rect(bb: ImRect; text_baseline_y: Single); cdecl;
+  external PSFML_DLL name _PU + 'igItemSize_Rect';
+
+function igItemAdd(bb: ImRect; id: ImGuiID; const nav_bb: PImRect; extra_flags: ImGuiItemFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igItemAdd';
+
+function igItemHoverable(bb: ImRect; id: ImGuiID; item_flags: ImGuiItemFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igItemHoverable';
+
+function igIsWindowContentHoverable(window: PImGuiWindow; flags: ImGuiHoveredFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsWindowContentHoverable';
+
+function igIsClippedEx(bb: ImRect; id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsClippedEx';
+
+procedure igSetLastItemData(item_id: ImGuiID; in_flags: ImGuiItemFlags; status_flags: ImGuiItemStatusFlags; item_rect: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'igSetLastItemData';
+
+procedure igCalcItemSize(pOut: PImVec2; size: ImVec2; default_w: Single; default_h: Single); cdecl;
+  external PSFML_DLL name _PU + 'igCalcItemSize';
+
+function igCalcWrapWidthForPos(pos: ImVec2; wrap_pos_x: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igCalcWrapWidthForPos';
+
+procedure igPushMultiItemsWidths(components: Integer; width_full: Single); cdecl;
+  external PSFML_DLL name _PU + 'igPushMultiItemsWidths';
+
+function igIsItemToggledSelection(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsItemToggledSelection';
+
+procedure igGetContentRegionMaxAbs(pOut: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igGetContentRegionMaxAbs';
+
+procedure igShrinkWidths(items: PImGuiShrinkWidthItem; count: Integer; width_excess: Single); cdecl;
+  external PSFML_DLL name _PU + 'igShrinkWidths';
+
+procedure igPushItemFlag(option: ImGuiItemFlags; enabled: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igPushItemFlag';
+
+procedure igPopItemFlag(); cdecl;
+  external PSFML_DLL name _PU + 'igPopItemFlag';
+
+function igGetStyleVarInfo(idx: ImGuiStyleVar): PImGuiDataVarInfo; cdecl;
+  external PSFML_DLL name _PU + 'igGetStyleVarInfo';
+
+procedure igLogBegin(&type: ImGuiLogType; auto_open_depth: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igLogBegin';
+
+procedure igLogToBuffer(auto_open_depth: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igLogToBuffer';
+
+procedure igLogRenderedText(const ref_pos: PImVec2; const text: PUTF8Char; const text_end: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igLogRenderedText';
+
+procedure igLogSetNextTextDecoration(const prefix: PUTF8Char; const suffix: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igLogSetNextTextDecoration';
+
+function igBeginChildEx(const name: PUTF8Char; id: ImGuiID; size_arg: ImVec2; child_flags: ImGuiChildFlags; window_flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginChildEx';
+
+procedure igOpenPopupEx(id: ImGuiID; popup_flags: ImGuiPopupFlags); cdecl;
+  external PSFML_DLL name _PU + 'igOpenPopupEx';
+
+procedure igClosePopupToLevel(remaining: Integer; restore_focus_to_window_under_popup: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igClosePopupToLevel';
+
+procedure igClosePopupsOverWindow(ref_window: PImGuiWindow; restore_focus_to_window_under_popup: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igClosePopupsOverWindow';
+
+procedure igClosePopupsExceptModals(); cdecl;
+  external PSFML_DLL name _PU + 'igClosePopupsExceptModals';
+
+function igIsPopupOpen_ID(id: ImGuiID; popup_flags: ImGuiPopupFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsPopupOpen_ID';
+
+function igBeginPopupEx(id: ImGuiID; extra_flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginPopupEx';
+
+function igBeginTooltipEx(tooltip_flags: ImGuiTooltipFlags; extra_window_flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginTooltipEx';
+
+function igBeginTooltipHidden(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginTooltipHidden';
+
+procedure igGetPopupAllowedExtentRect(pOut: PImRect; window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igGetPopupAllowedExtentRect';
+
+function igGetTopMostPopupModal(): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'igGetTopMostPopupModal';
+
+function igGetTopMostAndVisiblePopupModal(): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'igGetTopMostAndVisiblePopupModal';
+
+function igFindBlockingModal(window: PImGuiWindow): PImGuiWindow; cdecl;
+  external PSFML_DLL name _PU + 'igFindBlockingModal';
+
+procedure igFindBestWindowPosForPopup(pOut: PImVec2; window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igFindBestWindowPosForPopup';
+
+procedure igFindBestWindowPosForPopupEx(pOut: PImVec2; ref_pos: ImVec2; size: ImVec2; last_dir: PImGuiDir; r_outer: ImRect; r_avoid: ImRect; policy: ImGuiPopupPositionPolicy); cdecl;
+  external PSFML_DLL name _PU + 'igFindBestWindowPosForPopupEx';
+
+function igBeginViewportSideBar(const name: PUTF8Char; viewport: PImGuiViewport; dir: ImGuiDir; size: Single; window_flags: ImGuiWindowFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginViewportSideBar';
+
+function igBeginMenuEx(const &label: PUTF8Char; const icon: PUTF8Char; enabled: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginMenuEx';
+
+function igMenuItemEx(const &label: PUTF8Char; const icon: PUTF8Char; const shortcut: PUTF8Char; selected: Boolean; enabled: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igMenuItemEx';
+
+function igBeginComboPopup(popup_id: ImGuiID; bb: ImRect; flags: ImGuiComboFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginComboPopup';
+
+function igBeginComboPreview(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginComboPreview';
+
+procedure igEndComboPreview(); cdecl;
+  external PSFML_DLL name _PU + 'igEndComboPreview';
+
+procedure igNavInitWindow(window: PImGuiWindow; force_reinit: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igNavInitWindow';
+
+procedure igNavInitRequestApplyResult(); cdecl;
+  external PSFML_DLL name _PU + 'igNavInitRequestApplyResult';
+
+function igNavMoveRequestButNoResultYet(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igNavMoveRequestButNoResultYet';
+
+procedure igNavMoveRequestSubmit(move_dir: ImGuiDir; clip_dir: ImGuiDir; move_flags: ImGuiNavMoveFlags; scroll_flags: ImGuiScrollFlags); cdecl;
+  external PSFML_DLL name _PU + 'igNavMoveRequestSubmit';
+
+procedure igNavMoveRequestForward(move_dir: ImGuiDir; clip_dir: ImGuiDir; move_flags: ImGuiNavMoveFlags; scroll_flags: ImGuiScrollFlags); cdecl;
+  external PSFML_DLL name _PU + 'igNavMoveRequestForward';
+
+procedure igNavMoveRequestResolveWithLastItem(result: PImGuiNavItemData); cdecl;
+  external PSFML_DLL name _PU + 'igNavMoveRequestResolveWithLastItem';
+
+procedure igNavMoveRequestResolveWithPastTreeNode(result: PImGuiNavItemData; tree_node_data: PImGuiNavTreeNodeData); cdecl;
+  external PSFML_DLL name _PU + 'igNavMoveRequestResolveWithPastTreeNode';
+
+procedure igNavMoveRequestCancel(); cdecl;
+  external PSFML_DLL name _PU + 'igNavMoveRequestCancel';
+
+procedure igNavMoveRequestApplyResult(); cdecl;
+  external PSFML_DLL name _PU + 'igNavMoveRequestApplyResult';
+
+procedure igNavMoveRequestTryWrapping(window: PImGuiWindow; move_flags: ImGuiNavMoveFlags); cdecl;
+  external PSFML_DLL name _PU + 'igNavMoveRequestTryWrapping';
+
+procedure igNavClearPreferredPosForAxis(axis: ImGuiAxis); cdecl;
+  external PSFML_DLL name _PU + 'igNavClearPreferredPosForAxis';
+
+procedure igNavRestoreHighlightAfterMove(); cdecl;
+  external PSFML_DLL name _PU + 'igNavRestoreHighlightAfterMove';
+
+procedure igNavUpdateCurrentWindowIsScrollPushableX(); cdecl;
+  external PSFML_DLL name _PU + 'igNavUpdateCurrentWindowIsScrollPushableX';
+
+procedure igSetNavWindow(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igSetNavWindow';
+
+procedure igSetNavID(id: ImGuiID; nav_layer: ImGuiNavLayer; focus_scope_id: ImGuiID; rect_rel: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'igSetNavID';
+
+procedure igFocusItem(); cdecl;
+  external PSFML_DLL name _PU + 'igFocusItem';
+
+procedure igActivateItemByID(id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igActivateItemByID';
+
+function igIsNamedKey(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsNamedKey';
+
+function igIsNamedKeyOrModKey(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsNamedKeyOrModKey';
+
+function igIsLegacyKey(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsLegacyKey';
+
+function igIsKeyboardKey(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyboardKey';
+
+function igIsGamepadKey(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsGamepadKey';
+
+function igIsMouseKey(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseKey';
+
+function igIsAliasKey(key: ImGuiKey): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsAliasKey';
+
+function igConvertShortcutMod(key_chord: ImGuiKeyChord): ImGuiKeyChord; cdecl;
+  external PSFML_DLL name _PU + 'igConvertShortcutMod';
+
+function igConvertSingleModFlagToKey(ctx: PImGuiContext; key: ImGuiKey): ImGuiKey; cdecl;
+  external PSFML_DLL name _PU + 'igConvertSingleModFlagToKey';
+
+function igGetKeyData_ContextPtr(ctx: PImGuiContext; key: ImGuiKey): PImGuiKeyData; cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyData_ContextPtr';
+
+function igGetKeyData_Key(key: ImGuiKey): PImGuiKeyData; cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyData_Key';
+
+function igGetKeyChordName(key_chord: ImGuiKeyChord; out_buf: PUTF8Char; out_buf_size: Integer): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyChordName';
+
+function igMouseButtonToKey(button: ImGuiMouseButton): ImGuiKey; cdecl;
+  external PSFML_DLL name _PU + 'igMouseButtonToKey';
+
+function igIsMouseDragPastThreshold(button: ImGuiMouseButton; lock_threshold: Single): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseDragPastThreshold';
+
+procedure igGetKeyMagnitude2d(pOut: PImVec2; key_left: ImGuiKey; key_right: ImGuiKey; key_up: ImGuiKey; key_down: ImGuiKey); cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyMagnitude2d';
+
+function igGetNavTweakPressedAmount(axis: ImGuiAxis): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetNavTweakPressedAmount';
+
+function igCalcTypematicRepeatAmount(t0: Single; t1: Single; repeat_delay: Single; repeat_rate: Single): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igCalcTypematicRepeatAmount';
+
+procedure igGetTypematicRepeatRate(flags: ImGuiInputFlags; repeat_delay: PSingle; repeat_rate: PSingle); cdecl;
+  external PSFML_DLL name _PU + 'igGetTypematicRepeatRate';
+
+procedure igTeleportMousePos(pos: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igTeleportMousePos';
+
+procedure igSetActiveIdUsingAllKeyboardKeys(); cdecl;
+  external PSFML_DLL name _PU + 'igSetActiveIdUsingAllKeyboardKeys';
+
+function igIsActiveIdUsingNavDir(dir: ImGuiDir): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsActiveIdUsingNavDir';
+
+function igGetKeyOwner(key: ImGuiKey): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyOwner';
+
+procedure igSetKeyOwner(key: ImGuiKey; owner_id: ImGuiID; flags: ImGuiInputFlags); cdecl;
+  external PSFML_DLL name _PU + 'igSetKeyOwner';
+
+procedure igSetKeyOwnersForKeyChord(key: ImGuiKeyChord; owner_id: ImGuiID; flags: ImGuiInputFlags); cdecl;
+  external PSFML_DLL name _PU + 'igSetKeyOwnersForKeyChord';
+
+procedure igSetItemKeyOwner(key: ImGuiKey; flags: ImGuiInputFlags); cdecl;
+  external PSFML_DLL name _PU + 'igSetItemKeyOwner';
+
+function igTestKeyOwner(key: ImGuiKey; owner_id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTestKeyOwner';
+
+function igGetKeyOwnerData(ctx: PImGuiContext; key: ImGuiKey): PImGuiKeyOwnerData; cdecl;
+  external PSFML_DLL name _PU + 'igGetKeyOwnerData';
+
+function igIsKeyDown_ID(key: ImGuiKey; owner_id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyDown_ID';
+
+function igIsKeyPressed_ID(key: ImGuiKey; owner_id: ImGuiID; flags: ImGuiInputFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyPressed_ID';
+
+function igIsKeyReleased_ID(key: ImGuiKey; owner_id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyReleased_ID';
+
+function igIsMouseDown_ID(button: ImGuiMouseButton; owner_id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseDown_ID';
+
+function igIsMouseClicked_ID(button: ImGuiMouseButton; owner_id: ImGuiID; flags: ImGuiInputFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseClicked_ID';
+
+function igIsMouseReleased_ID(button: ImGuiMouseButton; owner_id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseReleased_ID';
+
+function igIsMouseDoubleClicked_ID(button: ImGuiMouseButton; owner_id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsMouseDoubleClicked_ID';
+
+function igIsKeyChordPressed_ID(key_chord: ImGuiKeyChord; owner_id: ImGuiID; flags: ImGuiInputFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsKeyChordPressed_ID';
+
+function igShortcut(key_chord: ImGuiKeyChord; owner_id: ImGuiID; flags: ImGuiInputFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igShortcut';
+
+function igSetShortcutRouting(key_chord: ImGuiKeyChord; owner_id: ImGuiID; flags: ImGuiInputFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSetShortcutRouting';
+
+function igTestShortcutRouting(key_chord: ImGuiKeyChord; owner_id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTestShortcutRouting';
+
+function igGetShortcutRoutingData(key_chord: ImGuiKeyChord): PImGuiKeyRoutingData; cdecl;
+  external PSFML_DLL name _PU + 'igGetShortcutRoutingData';
+
+procedure igDockContextInitialize(ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextInitialize';
+
+procedure igDockContextShutdown(ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextShutdown';
+
+procedure igDockContextClearNodes(ctx: PImGuiContext; root_id: ImGuiID; clear_settings_refs: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextClearNodes';
+
+procedure igDockContextRebuildNodes(ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextRebuildNodes';
+
+procedure igDockContextNewFrameUpdateUndocking(ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextNewFrameUpdateUndocking';
+
+procedure igDockContextNewFrameUpdateDocking(ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextNewFrameUpdateDocking';
+
+procedure igDockContextEndFrame(ctx: PImGuiContext); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextEndFrame';
+
+function igDockContextGenNodeID(ctx: PImGuiContext): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igDockContextGenNodeID';
+
+procedure igDockContextQueueDock(ctx: PImGuiContext; target: PImGuiWindow; target_node: PImGuiDockNode; payload: PImGuiWindow; split_dir: ImGuiDir; split_ratio: Single; split_outer: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextQueueDock';
+
+procedure igDockContextQueueUndockWindow(ctx: PImGuiContext; window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextQueueUndockWindow';
+
+procedure igDockContextQueueUndockNode(ctx: PImGuiContext; node: PImGuiDockNode); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextQueueUndockNode';
+
+procedure igDockContextProcessUndockWindow(ctx: PImGuiContext; window: PImGuiWindow; clear_persistent_docking_ref: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextProcessUndockWindow';
+
+procedure igDockContextProcessUndockNode(ctx: PImGuiContext; node: PImGuiDockNode); cdecl;
+  external PSFML_DLL name _PU + 'igDockContextProcessUndockNode';
+
+function igDockContextCalcDropPosForDocking(target: PImGuiWindow; target_node: PImGuiDockNode; payload_window: PImGuiWindow; payload_node: PImGuiDockNode; split_dir: ImGuiDir; split_outer: Boolean; out_pos: PImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDockContextCalcDropPosForDocking';
+
+function igDockContextFindNodeByID(ctx: PImGuiContext; id: ImGuiID): PImGuiDockNode; cdecl;
+  external PSFML_DLL name _PU + 'igDockContextFindNodeByID';
+
+procedure igDockNodeWindowMenuHandler_Default(ctx: PImGuiContext; node: PImGuiDockNode; tab_bar: PImGuiTabBar); cdecl;
+  external PSFML_DLL name _PU + 'igDockNodeWindowMenuHandler_Default';
+
+function igDockNodeBeginAmendTabBar(node: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDockNodeBeginAmendTabBar';
+
+procedure igDockNodeEndAmendTabBar(); cdecl;
+  external PSFML_DLL name _PU + 'igDockNodeEndAmendTabBar';
+
+function igDockNodeGetRootNode(node: PImGuiDockNode): PImGuiDockNode; cdecl;
+  external PSFML_DLL name _PU + 'igDockNodeGetRootNode';
+
+function igDockNodeIsInHierarchyOf(node: PImGuiDockNode; parent: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDockNodeIsInHierarchyOf';
+
+function igDockNodeGetDepth(const node: PImGuiDockNode): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igDockNodeGetDepth';
+
+function igDockNodeGetWindowMenuButtonId(const node: PImGuiDockNode): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igDockNodeGetWindowMenuButtonId';
+
+function igGetWindowDockNode(): PImGuiDockNode; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowDockNode';
+
+function igGetWindowAlwaysWantOwnTabBar(window: PImGuiWindow): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowAlwaysWantOwnTabBar';
+
+procedure igBeginDocked(window: PImGuiWindow; p_open: PBoolean); cdecl;
+  external PSFML_DLL name _PU + 'igBeginDocked';
+
+procedure igBeginDockableDragDropSource(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igBeginDockableDragDropSource';
+
+procedure igBeginDockableDragDropTarget(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igBeginDockableDragDropTarget';
+
+procedure igSetWindowDock(window: PImGuiWindow; dock_id: ImGuiID; cond: ImGuiCond); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowDock';
+
+procedure igDockBuilderDockWindow(const window_name: PUTF8Char; node_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderDockWindow';
+
+function igDockBuilderGetNode(node_id: ImGuiID): PImGuiDockNode; cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderGetNode';
+
+function igDockBuilderGetCentralNode(node_id: ImGuiID): PImGuiDockNode; cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderGetCentralNode';
+
+function igDockBuilderAddNode(node_id: ImGuiID; flags: ImGuiDockNodeFlags): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderAddNode';
+
+procedure igDockBuilderRemoveNode(node_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderRemoveNode';
+
+procedure igDockBuilderRemoveNodeDockedWindows(node_id: ImGuiID; clear_settings_refs: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderRemoveNodeDockedWindows';
+
+procedure igDockBuilderRemoveNodeChildNodes(node_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderRemoveNodeChildNodes';
+
+procedure igDockBuilderSetNodePos(node_id: ImGuiID; pos: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderSetNodePos';
+
+procedure igDockBuilderSetNodeSize(node_id: ImGuiID; size: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderSetNodeSize';
+
+function igDockBuilderSplitNode(node_id: ImGuiID; split_dir: ImGuiDir; size_ratio_for_node_at_dir: Single; out_id_at_dir: PImGuiID; out_id_at_opposite_dir: PImGuiID): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderSplitNode';
+
+procedure igDockBuilderCopyDockSpace(src_dockspace_id: ImGuiID; dst_dockspace_id: ImGuiID; in_window_remap_pairs: PImVector_const_charPtr); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderCopyDockSpace';
+
+procedure igDockBuilderCopyNode(src_node_id: ImGuiID; dst_node_id: ImGuiID; out_node_remap_pairs: PImVector_ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderCopyNode';
+
+procedure igDockBuilderCopyWindowSettings(const src_name: PUTF8Char; const dst_name: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderCopyWindowSettings';
+
+procedure igDockBuilderFinish(node_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igDockBuilderFinish';
+
+procedure igPushFocusScope(id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igPushFocusScope';
+
+procedure igPopFocusScope(); cdecl;
+  external PSFML_DLL name _PU + 'igPopFocusScope';
+
+function igGetCurrentFocusScope(): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetCurrentFocusScope';
+
+function igIsDragDropActive(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsDragDropActive';
+
+function igBeginDragDropTargetCustom(bb: ImRect; id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginDragDropTargetCustom';
+
+procedure igClearDragDrop(); cdecl;
+  external PSFML_DLL name _PU + 'igClearDragDrop';
+
+function igIsDragDropPayloadBeingAccepted(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igIsDragDropPayloadBeingAccepted';
+
+procedure igRenderDragDropTargetRect(bb: ImRect; item_clip_rect: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'igRenderDragDropTargetRect';
+
+function igGetTypingSelectRequest(flags: ImGuiTypingSelectFlags): PImGuiTypingSelectRequest; cdecl;
+  external PSFML_DLL name _PU + 'igGetTypingSelectRequest';
+
+type
+  igTypingSelectFindMatch_get_item_name_func = function(p1: Pointer; p2: Integer): PUTF8Char; cdecl;
+
+function igTypingSelectFindMatch(req: PImGuiTypingSelectRequest; items_count: Integer; get_item_name_func: igTypingSelectFindMatch_get_item_name_func; user_data: Pointer; nav_item_idx: Integer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTypingSelectFindMatch';
+
+type
+  igTypingSelectFindNextSingleCharMatch_get_item_name_func = function(p1: Pointer; p2: Integer): PUTF8Char; cdecl;
+
+function igTypingSelectFindNextSingleCharMatch(req: PImGuiTypingSelectRequest; items_count: Integer; get_item_name_func: igTypingSelectFindNextSingleCharMatch_get_item_name_func; user_data: Pointer; nav_item_idx: Integer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTypingSelectFindNextSingleCharMatch';
+
+type
+  igTypingSelectFindBestLeadingMatch_get_item_name_func = function(p1: Pointer; p2: Integer): PUTF8Char; cdecl;
+
+function igTypingSelectFindBestLeadingMatch(req: PImGuiTypingSelectRequest; items_count: Integer; get_item_name_func: igTypingSelectFindBestLeadingMatch_get_item_name_func; user_data: Pointer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTypingSelectFindBestLeadingMatch';
+
+procedure igSetWindowClipRectBeforeSetChannel(window: PImGuiWindow; clip_rect: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'igSetWindowClipRectBeforeSetChannel';
+
+procedure igBeginColumns(const str_id: PUTF8Char; count: Integer; flags: ImGuiOldColumnFlags); cdecl;
+  external PSFML_DLL name _PU + 'igBeginColumns';
+
+procedure igEndColumns(); cdecl;
+  external PSFML_DLL name _PU + 'igEndColumns';
+
+procedure igPushColumnClipRect(column_index: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igPushColumnClipRect';
+
+procedure igPushColumnsBackground(); cdecl;
+  external PSFML_DLL name _PU + 'igPushColumnsBackground';
+
+procedure igPopColumnsBackground(); cdecl;
+  external PSFML_DLL name _PU + 'igPopColumnsBackground';
+
+function igGetColumnsID(const str_id: PUTF8Char; count: Integer): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetColumnsID';
+
+function igFindOrCreateColumns(window: PImGuiWindow; id: ImGuiID): PImGuiOldColumns; cdecl;
+  external PSFML_DLL name _PU + 'igFindOrCreateColumns';
+
+function igGetColumnOffsetFromNorm(const columns: PImGuiOldColumns; offset_norm: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetColumnOffsetFromNorm';
+
+function igGetColumnNormFromOffset(const columns: PImGuiOldColumns; offset: Single): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGetColumnNormFromOffset';
+
+procedure igTableOpenContextMenu(column_n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igTableOpenContextMenu';
+
+procedure igTableSetColumnWidth(column_n: Integer; width: Single); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetColumnWidth';
+
+procedure igTableSetColumnSortDirection(column_n: Integer; sort_direction: ImGuiSortDirection; append_to_sort_specs: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetColumnSortDirection';
+
+function igTableGetHoveredColumn(): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetHoveredColumn';
+
+function igTableGetHoveredRow(): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetHoveredRow';
+
+function igTableGetHeaderRowHeight(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetHeaderRowHeight';
+
+function igTableGetHeaderAngledMaxLabelWidth(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetHeaderAngledMaxLabelWidth';
+
+procedure igTablePushBackgroundChannel(); cdecl;
+  external PSFML_DLL name _PU + 'igTablePushBackgroundChannel';
+
+procedure igTablePopBackgroundChannel(); cdecl;
+  external PSFML_DLL name _PU + 'igTablePopBackgroundChannel';
+
+procedure igTableAngledHeadersRowEx(angle: Single; label_width: Single); cdecl;
+  external PSFML_DLL name _PU + 'igTableAngledHeadersRowEx';
+
+function igGetCurrentTable(): PImGuiTable; cdecl;
+  external PSFML_DLL name _PU + 'igGetCurrentTable';
+
+function igTableFindByID(id: ImGuiID): PImGuiTable; cdecl;
+  external PSFML_DLL name _PU + 'igTableFindByID';
+
+function igBeginTableEx(const name: PUTF8Char; id: ImGuiID; columns_count: Integer; flags: ImGuiTableFlags; outer_size: ImVec2; inner_width: Single): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginTableEx';
+
+procedure igTableBeginInitMemory(table: PImGuiTable; columns_count: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igTableBeginInitMemory';
+
+procedure igTableBeginApplyRequests(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableBeginApplyRequests';
+
+procedure igTableSetupDrawChannels(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetupDrawChannels';
+
+procedure igTableUpdateLayout(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableUpdateLayout';
+
+procedure igTableUpdateBorders(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableUpdateBorders';
+
+procedure igTableUpdateColumnsWeightFromWidth(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableUpdateColumnsWeightFromWidth';
+
+procedure igTableDrawBorders(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableDrawBorders';
+
+procedure igTableDrawDefaultContextMenu(table: PImGuiTable; flags_for_section_to_display: ImGuiTableFlags); cdecl;
+  external PSFML_DLL name _PU + 'igTableDrawDefaultContextMenu';
+
+function igTableBeginContextMenuPopup(table: PImGuiTable): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTableBeginContextMenuPopup';
+
+procedure igTableMergeDrawChannels(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableMergeDrawChannels';
+
+function igTableGetInstanceData(table: PImGuiTable; instance_no: Integer): PImGuiTableInstanceData; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetInstanceData';
+
+function igTableGetInstanceID(table: PImGuiTable; instance_no: Integer): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetInstanceID';
+
+procedure igTableSortSpecsSanitize(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableSortSpecsSanitize';
+
+procedure igTableSortSpecsBuild(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableSortSpecsBuild';
+
+function igTableGetColumnNextSortDirection(column: PImGuiTableColumn): ImGuiSortDirection; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetColumnNextSortDirection';
+
+procedure igTableFixColumnSortDirection(table: PImGuiTable; column: PImGuiTableColumn); cdecl;
+  external PSFML_DLL name _PU + 'igTableFixColumnSortDirection';
+
+function igTableGetColumnWidthAuto(table: PImGuiTable; column: PImGuiTableColumn): Single; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetColumnWidthAuto';
+
+procedure igTableBeginRow(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableBeginRow';
+
+procedure igTableEndRow(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableEndRow';
+
+procedure igTableBeginCell(table: PImGuiTable; column_n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igTableBeginCell';
+
+procedure igTableEndCell(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableEndCell';
+
+procedure igTableGetCellBgRect(pOut: PImRect; const table: PImGuiTable; column_n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igTableGetCellBgRect';
+
+function igTableGetColumnName_TablePtr(const table: PImGuiTable; column_n: Integer): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetColumnName_TablePtr';
+
+function igTableGetColumnResizeID(table: PImGuiTable; column_n: Integer; instance_no: Integer): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetColumnResizeID';
+
+function igTableGetMaxColumnWidth(const table: PImGuiTable; column_n: Integer): Single; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetMaxColumnWidth';
+
+procedure igTableSetColumnWidthAutoSingle(table: PImGuiTable; column_n: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetColumnWidthAutoSingle';
+
+procedure igTableSetColumnWidthAutoAll(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableSetColumnWidthAutoAll';
+
+procedure igTableRemove(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableRemove';
+
+procedure igTableGcCompactTransientBuffers_TablePtr(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableGcCompactTransientBuffers_TablePtr';
+
+procedure igTableGcCompactTransientBuffers_TableTempDataPtr(table: PImGuiTableTempData); cdecl;
+  external PSFML_DLL name _PU + 'igTableGcCompactTransientBuffers_TableTempDataPtr';
+
+procedure igTableGcCompactSettings(); cdecl;
+  external PSFML_DLL name _PU + 'igTableGcCompactSettings';
+
+procedure igTableLoadSettings(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableLoadSettings';
+
+procedure igTableSaveSettings(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableSaveSettings';
+
+procedure igTableResetSettings(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igTableResetSettings';
+
+function igTableGetBoundSettings(table: PImGuiTable): PImGuiTableSettings; cdecl;
+  external PSFML_DLL name _PU + 'igTableGetBoundSettings';
+
+procedure igTableSettingsAddSettingsHandler(); cdecl;
+  external PSFML_DLL name _PU + 'igTableSettingsAddSettingsHandler';
+
+function igTableSettingsCreate(id: ImGuiID; columns_count: Integer): PImGuiTableSettings; cdecl;
+  external PSFML_DLL name _PU + 'igTableSettingsCreate';
+
+function igTableSettingsFindByID(id: ImGuiID): PImGuiTableSettings; cdecl;
+  external PSFML_DLL name _PU + 'igTableSettingsFindByID';
+
+function igGetCurrentTabBar(): PImGuiTabBar; cdecl;
+  external PSFML_DLL name _PU + 'igGetCurrentTabBar';
+
+function igBeginTabBarEx(tab_bar: PImGuiTabBar; bb: ImRect; flags: ImGuiTabBarFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igBeginTabBarEx';
+
+function igTabBarFindTabByID(tab_bar: PImGuiTabBar; tab_id: ImGuiID): PImGuiTabItem; cdecl;
+  external PSFML_DLL name _PU + 'igTabBarFindTabByID';
+
+function igTabBarFindTabByOrder(tab_bar: PImGuiTabBar; order: Integer): PImGuiTabItem; cdecl;
+  external PSFML_DLL name _PU + 'igTabBarFindTabByOrder';
+
+function igTabBarFindMostRecentlySelectedTabForActiveWindow(tab_bar: PImGuiTabBar): PImGuiTabItem; cdecl;
+  external PSFML_DLL name _PU + 'igTabBarFindMostRecentlySelectedTabForActiveWindow';
+
+function igTabBarGetCurrentTab(tab_bar: PImGuiTabBar): PImGuiTabItem; cdecl;
+  external PSFML_DLL name _PU + 'igTabBarGetCurrentTab';
+
+function igTabBarGetTabOrder(tab_bar: PImGuiTabBar; tab: PImGuiTabItem): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igTabBarGetTabOrder';
+
+function igTabBarGetTabName(tab_bar: PImGuiTabBar; tab: PImGuiTabItem): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igTabBarGetTabName';
+
+procedure igTabBarAddTab(tab_bar: PImGuiTabBar; tab_flags: ImGuiTabItemFlags; window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igTabBarAddTab';
+
+procedure igTabBarRemoveTab(tab_bar: PImGuiTabBar; tab_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igTabBarRemoveTab';
+
+procedure igTabBarCloseTab(tab_bar: PImGuiTabBar; tab: PImGuiTabItem); cdecl;
+  external PSFML_DLL name _PU + 'igTabBarCloseTab';
+
+procedure igTabBarQueueFocus(tab_bar: PImGuiTabBar; tab: PImGuiTabItem); cdecl;
+  external PSFML_DLL name _PU + 'igTabBarQueueFocus';
+
+procedure igTabBarQueueReorder(tab_bar: PImGuiTabBar; tab: PImGuiTabItem; offset: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igTabBarQueueReorder';
+
+procedure igTabBarQueueReorderFromMousePos(tab_bar: PImGuiTabBar; tab: PImGuiTabItem; mouse_pos: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igTabBarQueueReorderFromMousePos';
+
+function igTabBarProcessReorder(tab_bar: PImGuiTabBar): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTabBarProcessReorder';
+
+function igTabItemEx(tab_bar: PImGuiTabBar; const &label: PUTF8Char; p_open: PBoolean; flags: ImGuiTabItemFlags; docked_window: PImGuiWindow): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTabItemEx';
+
+procedure igTabItemCalcSize_Str(pOut: PImVec2; const &label: PUTF8Char; has_close_button_or_unsaved_marker: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igTabItemCalcSize_Str';
+
+procedure igTabItemCalcSize_WindowPtr(pOut: PImVec2; window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igTabItemCalcSize_WindowPtr';
+
+procedure igTabItemBackground(draw_list: PImDrawList; bb: ImRect; flags: ImGuiTabItemFlags; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igTabItemBackground';
+
+procedure igTabItemLabelAndCloseButton(draw_list: PImDrawList; bb: ImRect; flags: ImGuiTabItemFlags; frame_padding: ImVec2; const &label: PUTF8Char; tab_id: ImGuiID; close_button_id: ImGuiID; is_contents_visible: Boolean; out_just_closed: PBoolean; out_text_clipped: PBoolean); cdecl;
+  external PSFML_DLL name _PU + 'igTabItemLabelAndCloseButton';
+
+procedure igRenderText(pos: ImVec2; const text: PUTF8Char; const text_end: PUTF8Char; hide_text_after_hash: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igRenderText';
+
+procedure igRenderTextWrapped(pos: ImVec2; const text: PUTF8Char; const text_end: PUTF8Char; wrap_width: Single); cdecl;
+  external PSFML_DLL name _PU + 'igRenderTextWrapped';
+
+procedure igRenderTextClipped(pos_min: ImVec2; pos_max: ImVec2; const text: PUTF8Char; const text_end: PUTF8Char; const text_size_if_known: PImVec2; align: ImVec2; const clip_rect: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'igRenderTextClipped';
+
+procedure igRenderTextClippedEx(draw_list: PImDrawList; pos_min: ImVec2; pos_max: ImVec2; const text: PUTF8Char; const text_end: PUTF8Char; const text_size_if_known: PImVec2; align: ImVec2; const clip_rect: PImRect); cdecl;
+  external PSFML_DLL name _PU + 'igRenderTextClippedEx';
+
+procedure igRenderTextEllipsis(draw_list: PImDrawList; pos_min: ImVec2; pos_max: ImVec2; clip_max_x: Single; ellipsis_max_x: Single; const text: PUTF8Char; const text_end: PUTF8Char; const text_size_if_known: PImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igRenderTextEllipsis';
+
+procedure igRenderFrame(p_min: ImVec2; p_max: ImVec2; fill_col: ImU32; border: Boolean; rounding: Single); cdecl;
+  external PSFML_DLL name _PU + 'igRenderFrame';
+
+procedure igRenderFrameBorder(p_min: ImVec2; p_max: ImVec2; rounding: Single); cdecl;
+  external PSFML_DLL name _PU + 'igRenderFrameBorder';
+
+procedure igRenderColorRectWithAlphaCheckerboard(draw_list: PImDrawList; p_min: ImVec2; p_max: ImVec2; fill_col: ImU32; grid_step: Single; grid_off: ImVec2; rounding: Single; flags: ImDrawFlags); cdecl;
+  external PSFML_DLL name _PU + 'igRenderColorRectWithAlphaCheckerboard';
+
+procedure igRenderNavHighlight(bb: ImRect; id: ImGuiID; flags: ImGuiNavHighlightFlags); cdecl;
+  external PSFML_DLL name _PU + 'igRenderNavHighlight';
+
+function igFindRenderedTextEnd(const text: PUTF8Char; const text_end: PUTF8Char): PUTF8Char; cdecl;
+  external PSFML_DLL name _PU + 'igFindRenderedTextEnd';
+
+procedure igRenderMouseCursor(pos: ImVec2; scale: Single; mouse_cursor: ImGuiMouseCursor; col_fill: ImU32; col_border: ImU32; col_shadow: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igRenderMouseCursor';
+
+procedure igRenderArrow(draw_list: PImDrawList; pos: ImVec2; col: ImU32; dir: ImGuiDir; scale: Single); cdecl;
+  external PSFML_DLL name _PU + 'igRenderArrow';
+
+procedure igRenderBullet(draw_list: PImDrawList; pos: ImVec2; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igRenderBullet';
+
+procedure igRenderCheckMark(draw_list: PImDrawList; pos: ImVec2; col: ImU32; sz: Single); cdecl;
+  external PSFML_DLL name _PU + 'igRenderCheckMark';
+
+procedure igRenderArrowPointingAt(draw_list: PImDrawList; pos: ImVec2; half_sz: ImVec2; direction: ImGuiDir; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igRenderArrowPointingAt';
+
+procedure igRenderArrowDockMenu(draw_list: PImDrawList; p_min: ImVec2; sz: Single; col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igRenderArrowDockMenu';
+
+procedure igRenderRectFilledRangeH(draw_list: PImDrawList; rect: ImRect; col: ImU32; x_start_norm: Single; x_end_norm: Single; rounding: Single); cdecl;
+  external PSFML_DLL name _PU + 'igRenderRectFilledRangeH';
+
+procedure igRenderRectFilledWithHole(draw_list: PImDrawList; outer: ImRect; inner: ImRect; col: ImU32; rounding: Single); cdecl;
+  external PSFML_DLL name _PU + 'igRenderRectFilledWithHole';
+
+function igCalcRoundingFlagsForRectInRect(r_in: ImRect; r_outer: ImRect; threshold: Single): ImDrawFlags; cdecl;
+  external PSFML_DLL name _PU + 'igCalcRoundingFlagsForRectInRect';
+
+procedure igTextEx(const text: PUTF8Char; const text_end: PUTF8Char; flags: ImGuiTextFlags); cdecl;
+  external PSFML_DLL name _PU + 'igTextEx';
+
+function igButtonEx(const &label: PUTF8Char; size_arg: ImVec2; flags: ImGuiButtonFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igButtonEx';
+
+function igArrowButtonEx(const str_id: PUTF8Char; dir: ImGuiDir; size_arg: ImVec2; flags: ImGuiButtonFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igArrowButtonEx';
+
+function igImageButtonEx(id: ImGuiID; texture_id: ImTextureID; image_size: ImVec2; uv0: ImVec2; uv1: ImVec2; bg_col: ImVec4; tint_col: ImVec4; flags: ImGuiButtonFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igImageButtonEx';
+
+procedure igSeparatorEx(flags: ImGuiSeparatorFlags; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSeparatorEx';
+
+procedure igSeparatorTextEx(id: ImGuiID; const &label: PUTF8Char; const label_end: PUTF8Char; extra_width: Single); cdecl;
+  external PSFML_DLL name _PU + 'igSeparatorTextEx';
+
+function igCheckboxFlags_S64Ptr(const &label: PUTF8Char; flags: PImS64; flags_value: ImS64): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCheckboxFlags_S64Ptr';
+
+function igCheckboxFlags_U64Ptr(const &label: PUTF8Char; flags: PImU64; flags_value: ImU64): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCheckboxFlags_U64Ptr';
+
+function igCloseButton(id: ImGuiID; pos: ImVec2): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCloseButton';
+
+function igCollapseButton(id: ImGuiID; pos: ImVec2; dock_node: PImGuiDockNode): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igCollapseButton';
+
+procedure igScrollbar(axis: ImGuiAxis); cdecl;
+  external PSFML_DLL name _PU + 'igScrollbar';
+
+function igScrollbarEx(bb: ImRect; id: ImGuiID; axis: ImGuiAxis; p_scroll_v: PImS64; avail_v: ImS64; contents_v: ImS64; flags: ImDrawFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igScrollbarEx';
+
+procedure igGetWindowScrollbarRect(pOut: PImRect; window: PImGuiWindow; axis: ImGuiAxis); cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowScrollbarRect';
+
+function igGetWindowScrollbarID(window: PImGuiWindow; axis: ImGuiAxis): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowScrollbarID';
+
+function igGetWindowResizeCornerID(window: PImGuiWindow; n: Integer): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowResizeCornerID';
+
+function igGetWindowResizeBorderID(window: PImGuiWindow; dir: ImGuiDir): ImGuiID; cdecl;
+  external PSFML_DLL name _PU + 'igGetWindowResizeBorderID';
+
+function igButtonBehavior(bb: ImRect; id: ImGuiID; out_hovered: PBoolean; out_held: PBoolean; flags: ImGuiButtonFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igButtonBehavior';
+
+function igDragBehavior(id: ImGuiID; data_type: ImGuiDataType; p_v: Pointer; v_speed: Single; const p_min: Pointer; const p_max: Pointer; const format: PUTF8Char; flags: ImGuiSliderFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDragBehavior';
+
+function igSliderBehavior(bb: ImRect; id: ImGuiID; data_type: ImGuiDataType; p_v: Pointer; const p_min: Pointer; const p_max: Pointer; const format: PUTF8Char; flags: ImGuiSliderFlags; out_grab_bb: PImRect): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSliderBehavior';
+
+function igSplitterBehavior(bb: ImRect; id: ImGuiID; axis: ImGuiAxis; size1: PSingle; size2: PSingle; min_size1: Single; min_size2: Single; hover_extend: Single; hover_visibility_delay: Single; bg_col: ImU32): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igSplitterBehavior';
+
+function igTreeNodeBehavior(id: ImGuiID; flags: ImGuiTreeNodeFlags; const &label: PUTF8Char; const label_end: PUTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeBehavior';
+
+procedure igTreePushOverrideID(id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igTreePushOverrideID';
+
+procedure igTreeNodeSetOpen(id: ImGuiID; open: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeSetOpen';
+
+function igTreeNodeUpdateNextOpen(id: ImGuiID; flags: ImGuiTreeNodeFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTreeNodeUpdateNextOpen';
+
+procedure igSetNextItemSelectionUserData(selection_user_data: ImGuiSelectionUserData); cdecl;
+  external PSFML_DLL name _PU + 'igSetNextItemSelectionUserData';
+
+function igDataTypeGetInfo(data_type: ImGuiDataType): PImGuiDataTypeInfo; cdecl;
+  external PSFML_DLL name _PU + 'igDataTypeGetInfo';
+
+function igDataTypeFormatString(buf: PUTF8Char; buf_size: Integer; data_type: ImGuiDataType; const p_data: Pointer; const format: PUTF8Char): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igDataTypeFormatString';
+
+procedure igDataTypeApplyOp(data_type: ImGuiDataType; op: Integer; output: Pointer; const arg_1: Pointer; const arg_2: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igDataTypeApplyOp';
+
+function igDataTypeApplyFromText(const buf: PUTF8Char; data_type: ImGuiDataType; p_data: Pointer; const format: PUTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDataTypeApplyFromText';
+
+function igDataTypeCompare(data_type: ImGuiDataType; const arg_1: Pointer; const arg_2: Pointer): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igDataTypeCompare';
+
+function igDataTypeClamp(data_type: ImGuiDataType; p_data: Pointer; const p_min: Pointer; const p_max: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDataTypeClamp';
+
+function igInputTextEx(const &label: PUTF8Char; const hint: PUTF8Char; buf: PUTF8Char; buf_size: Integer; size_arg: ImVec2; flags: ImGuiInputTextFlags; callback: ImGuiInputTextCallback; user_data: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igInputTextEx';
+
+procedure igInputTextDeactivateHook(id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igInputTextDeactivateHook';
+
+function igTempInputText(bb: ImRect; id: ImGuiID; const &label: PUTF8Char; buf: PUTF8Char; buf_size: Integer; flags: ImGuiInputTextFlags): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTempInputText';
+
+function igTempInputScalar(bb: ImRect; id: ImGuiID; const &label: PUTF8Char; data_type: ImGuiDataType; p_data: Pointer; const format: PUTF8Char; const p_clamp_min: Pointer; const p_clamp_max: Pointer): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTempInputScalar';
+
+function igTempInputIsActive(id: ImGuiID): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igTempInputIsActive';
+
+function igGetInputTextState(id: ImGuiID): PImGuiInputTextState; cdecl;
+  external PSFML_DLL name _PU + 'igGetInputTextState';
+
+procedure igColorTooltip(const text: PUTF8Char; const col: PSingle; flags: ImGuiColorEditFlags); cdecl;
+  external PSFML_DLL name _PU + 'igColorTooltip';
+
+procedure igColorEditOptionsPopup(const col: PSingle; flags: ImGuiColorEditFlags); cdecl;
+  external PSFML_DLL name _PU + 'igColorEditOptionsPopup';
+
+procedure igColorPickerOptionsPopup(const ref_col: PSingle; flags: ImGuiColorEditFlags); cdecl;
+  external PSFML_DLL name _PU + 'igColorPickerOptionsPopup';
+
+type
+  igPlotEx_values_getter = function(data: Pointer; idx: Integer): Single; cdecl;
+
+function igPlotEx(plot_type: ImGuiPlotType; const &label: PUTF8Char; values_getter: igPlotEx_values_getter; data: Pointer; values_count: Integer; values_offset: Integer; const overlay_text: PUTF8Char; scale_min: Single; scale_max: Single; size_arg: ImVec2): Integer; cdecl;
+  external PSFML_DLL name _PU + 'igPlotEx';
+
+procedure igShadeVertsLinearColorGradientKeepAlpha(draw_list: PImDrawList; vert_start_idx: Integer; vert_end_idx: Integer; gradient_p0: ImVec2; gradient_p1: ImVec2; col0: ImU32; col1: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igShadeVertsLinearColorGradientKeepAlpha';
+
+procedure igShadeVertsLinearUV(draw_list: PImDrawList; vert_start_idx: Integer; vert_end_idx: Integer; a: ImVec2; b: ImVec2; uv_a: ImVec2; uv_b: ImVec2; clamp: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igShadeVertsLinearUV';
+
+procedure igShadeVertsTransformPos(draw_list: PImDrawList; vert_start_idx: Integer; vert_end_idx: Integer; pivot_in: ImVec2; cos_a: Single; sin_a: Single; pivot_out: ImVec2); cdecl;
+  external PSFML_DLL name _PU + 'igShadeVertsTransformPos';
+
+procedure igGcCompactTransientMiscBuffers(); cdecl;
+  external PSFML_DLL name _PU + 'igGcCompactTransientMiscBuffers';
+
+procedure igGcCompactTransientWindowBuffers(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igGcCompactTransientWindowBuffers';
+
+procedure igGcAwakeTransientWindowBuffers(window: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igGcAwakeTransientWindowBuffers';
+
+procedure igDebugLog(const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igDebugLog';
+
+procedure igDebugLogV(const fmt: PUTF8Char; args: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igDebugLogV';
+
+procedure igDebugAllocHook(info: PImGuiDebugAllocInfo; frame_count: Integer; ptr: Pointer; size: NativeUInt); cdecl;
+  external PSFML_DLL name _PU + 'igDebugAllocHook';
+
+procedure igErrorCheckEndFrameRecover(log_callback: ImGuiErrorLogCallback; user_data: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igErrorCheckEndFrameRecover';
+
+procedure igErrorCheckEndWindowRecover(log_callback: ImGuiErrorLogCallback; user_data: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igErrorCheckEndWindowRecover';
+
+procedure igErrorCheckUsingSetCursorPosToExtendParentBoundaries(); cdecl;
+  external PSFML_DLL name _PU + 'igErrorCheckUsingSetCursorPosToExtendParentBoundaries';
+
+procedure igDebugDrawCursorPos(col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igDebugDrawCursorPos';
+
+procedure igDebugDrawLineExtents(col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igDebugDrawLineExtents';
+
+procedure igDebugDrawItemRect(col: ImU32); cdecl;
+  external PSFML_DLL name _PU + 'igDebugDrawItemRect';
+
+procedure igDebugLocateItem(target_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igDebugLocateItem';
+
+procedure igDebugLocateItemOnHover(target_id: ImGuiID); cdecl;
+  external PSFML_DLL name _PU + 'igDebugLocateItemOnHover';
+
+procedure igDebugLocateItemResolveWithLastItem(); cdecl;
+  external PSFML_DLL name _PU + 'igDebugLocateItemResolveWithLastItem';
+
+procedure igDebugBreakClearData(); cdecl;
+  external PSFML_DLL name _PU + 'igDebugBreakClearData';
+
+function igDebugBreakButton(const &label: PUTF8Char; const description_of_location: PUTF8Char): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'igDebugBreakButton';
+
+procedure igDebugBreakButtonTooltip(keyboard_only: Boolean; const description_of_location: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDebugBreakButtonTooltip';
+
+procedure igDebugStartItemPicker(); cdecl;
+  external PSFML_DLL name _PU + 'igDebugStartItemPicker';
+
+procedure igShowFontAtlas(atlas: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'igShowFontAtlas';
+
+procedure igDebugHookIdInfo(id: ImGuiID; data_type: ImGuiDataType; const data_id: Pointer; const data_id_end: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igDebugHookIdInfo';
+
+procedure igDebugNodeColumns(columns: PImGuiOldColumns); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeColumns';
+
+procedure igDebugNodeDockNode(node: PImGuiDockNode; const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeDockNode';
+
+procedure igDebugNodeDrawList(window: PImGuiWindow; viewport: PImGuiViewportP; const draw_list: PImDrawList; const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeDrawList';
+
+procedure igDebugNodeDrawCmdShowMeshAndBoundingBox(out_draw_list: PImDrawList; const draw_list: PImDrawList; const draw_cmd: PImDrawCmd; show_mesh: Boolean; show_aabb: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeDrawCmdShowMeshAndBoundingBox';
+
+procedure igDebugNodeFont(font: PImFont); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeFont';
+
+procedure igDebugNodeFontGlyph(font: PImFont; const glyph: PImFontGlyph); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeFontGlyph';
+
+procedure igDebugNodeStorage(storage: PImGuiStorage; const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeStorage';
+
+procedure igDebugNodeTabBar(tab_bar: PImGuiTabBar; const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeTabBar';
+
+procedure igDebugNodeTable(table: PImGuiTable); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeTable';
+
+procedure igDebugNodeTableSettings(settings: PImGuiTableSettings); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeTableSettings';
+
+procedure igDebugNodeInputTextState(state: PImGuiInputTextState); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeInputTextState';
+
+procedure igDebugNodeTypingSelectState(state: PImGuiTypingSelectState); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeTypingSelectState';
+
+procedure igDebugNodeWindow(window: PImGuiWindow; const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeWindow';
+
+procedure igDebugNodeWindowSettings(settings: PImGuiWindowSettings); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeWindowSettings';
+
+procedure igDebugNodeWindowsList(windows: PImVector_ImGuiWindowPtr; const &label: PUTF8Char); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeWindowsList';
+
+procedure igDebugNodeWindowsListByBeginStackParent(windows: PPImGuiWindow; windows_size: Integer; parent_in_begin_stack: PImGuiWindow); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeWindowsListByBeginStackParent';
+
+procedure igDebugNodeViewport(viewport: PImGuiViewportP); cdecl;
+  external PSFML_DLL name _PU + 'igDebugNodeViewport';
+
+procedure igDebugRenderKeyboardPreview(draw_list: PImDrawList); cdecl;
+  external PSFML_DLL name _PU + 'igDebugRenderKeyboardPreview';
+
+procedure igDebugRenderViewportThumbnail(draw_list: PImDrawList; viewport: PImGuiViewportP; bb: ImRect); cdecl;
+  external PSFML_DLL name _PU + 'igDebugRenderViewportThumbnail';
+
+function igImFontAtlasGetBuilderForStbTruetype(): PImFontBuilderIO; cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasGetBuilderForStbTruetype';
+
+procedure igImFontAtlasUpdateConfigDataPointers(atlas: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasUpdateConfigDataPointers';
+
+procedure igImFontAtlasBuildInit(atlas: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasBuildInit';
+
+procedure igImFontAtlasBuildSetupFont(atlas: PImFontAtlas; font: PImFont; font_config: PImFontConfig; ascent: Single; descent: Single); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasBuildSetupFont';
+
+procedure igImFontAtlasBuildPackCustomRects(atlas: PImFontAtlas; stbrp_context_opaque: Pointer); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasBuildPackCustomRects';
+
+procedure igImFontAtlasBuildFinish(atlas: PImFontAtlas); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasBuildFinish';
+
+procedure igImFontAtlasBuildRender8bppRectFromString(atlas: PImFontAtlas; x: Integer; y: Integer; w: Integer; h: Integer; const in_str: PUTF8Char; in_marker_char: UTF8Char; in_marker_pixel_value: Byte); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasBuildRender8bppRectFromString';
+
+procedure igImFontAtlasBuildRender32bppRectFromString(atlas: PImFontAtlas; x: Integer; y: Integer; w: Integer; h: Integer; const in_str: PUTF8Char; in_marker_char: UTF8Char; in_marker_pixel_value: Cardinal); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasBuildRender32bppRectFromString';
+
+procedure igImFontAtlasBuildMultiplyCalcLookupTable(out_table: PByte; in_multiply_factor: Single); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasBuildMultiplyCalcLookupTable';
+
+procedure igImFontAtlasBuildMultiplyRectAlpha8(table: PByte; pixels: PByte; x: Integer; y: Integer; w: Integer; h: Integer; stride: Integer); cdecl;
+  external PSFML_DLL name _PU + 'igImFontAtlasBuildMultiplyRectAlpha8';
+
+/////////////////////////hand written functions
+procedure igLogText(const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'igLogText';
+
+procedure ImGuiTextBuffer_appendf(buffer: PImGuiTextBuffer; const fmt: PUTF8Char) varargs; cdecl;
+  external PSFML_DLL name _PU + 'ImGuiTextBuffer_appendf';
+
+function igGET_FLT_MAX(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGET_FLT_MAX';
+
+function igGET_FLT_MIN(): Single; cdecl;
+  external PSFML_DLL name _PU + 'igGET_FLT_MIN';
+
+function ImVector_ImWchar_create(): PImVector_ImWchar; cdecl;
+  external PSFML_DLL name _PU + 'ImVector_ImWchar_create';
+
+procedure ImVector_ImWchar_destroy(self: PImVector_ImWchar); cdecl;
+  external PSFML_DLL name _PU + 'ImVector_ImWchar_destroy';
+
+procedure ImVector_ImWchar_Init(p: PImVector_ImWchar); cdecl;
+  external PSFML_DLL name _PU + 'ImVector_ImWchar_Init';
+
+procedure ImVector_ImWchar_UnInit(p: PImVector_ImWchar); cdecl;
+  external PSFML_DLL name _PU + 'ImVector_ImWchar_UnInit';
+
+function ImGui_SFML_Init_RenderWindow(window: PsfRenderWindow; loadDefaultFont: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Init_RenderWindow';
+
+function ImGui_SFML_Init_Window_DisplaySize(window: PsfWindow; displaySize: sfVector2f; loadDefaultFont: Boolean): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Init_Window_DisplaySize';
+
+procedure ImGui_SFML_SetCurrentWindow(window: PsfWindow); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetCurrentWindow';
+
+procedure ImGui_SFML_ProcessEvent_Window(window: PsfWindow; event: PsfEvent); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_ProcessEvent_Window';
+
+procedure ImGui_SFML_Update_RenderWindow(window: PsfRenderWindow; dt: sfTime); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Update_RenderWindow';
+
+procedure ImGui_SFML_Update_Mouse_Display(mousePos: sfVector2i; displaySize: sfVector2f; dt: sfTime); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Update_Mouse_Display';
+
+procedure ImGui_SFML_Render_RenderWindow(window: PsfRenderWindow); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Render_RenderWindow';
+
+procedure ImGui_SFML_Render(); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Render';
+
+procedure ImGui_SFML_Shutdown_Window(window: PsfWindow); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Shutdown_Window';
+
+procedure ImGui_SFML_Shutdown(); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Shutdown';
+
+function ImGui_SFML_UpdateFontTexture(): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_UpdateFontTexture';
+
+function ImGui_SFML_GetFontTexture(): PsfTexture; cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_GetFontTexture';
+
+procedure ImGui_SFML_SetActiveJoystickId(joystickId: Cardinal); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetActiveJoystickId';
+
+procedure ImGui_SFML_SetJoystickDPadThreshold(threshold: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetJoystickDPadThreshold';
+
+procedure ImGui_SFML_SetJoystickLStickThreshold(threshold: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetJoystickLStickThreshold';
+
+procedure ImGui_SFML_SetJoystickRStickThreshold(threshold: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetJoystickRStickThreshold';
+
+procedure ImGui_SFML_SetJoystickLTriggerThreshold(threshold: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetJoystickLTriggerThreshold';
+
+procedure ImGui_SFML_SetJoystickRTriggerThreshold(threshold: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetJoystickRTriggerThreshold';
+
+procedure ImGui_SFML_SetJoystickMapping(key: Integer; joystickButton: Cardinal); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetJoystickMapping';
+
+procedure ImGui_SFML_SetDPadXAxis(dPadXAxis: sfJoystickAxis; inverted: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetDPadXAxis';
+
+procedure ImGui_SFML_SetDPadYAxis(dPadYAxis: sfJoystickAxis; inverted: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetDPadYAxis';
+
+procedure ImGui_SFML_SetLStickXAxis(lStickXAxis: sfJoystickAxis; inverted: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetLStickXAxis';
+
+procedure ImGui_SFML_SetLStickYAxis(lStickYAxis: sfJoystickAxis; inverted: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetLStickYAxis';
+
+procedure ImGui_SFML_SetRStickXAxis(rStickXAxis: sfJoystickAxis; inverted: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetRStickXAxis';
+
+procedure ImGui_SFML_SetRStickYAxis(rStickYAxis: sfJoystickAxis; inverted: Boolean); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetRStickYAxis';
+
+procedure ImGui_SFML_SetLTriggerAxis(lTriggerAxis: sfJoystickAxis); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetLTriggerAxis';
+
+procedure ImGui_SFML_SetRTriggerAxis(rTriggerAxis: sfJoystickAxis); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_SetRTriggerAxis';
+
+procedure ImGui_SFML_Image_Texture(texture: PsfTexture; tintColor: sfColor; borderColor: sfColor); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Image_Texture';
+
+procedure ImGui_SFML_Image_Texture_Size(texture: PsfTexture; size: sfVector2f; tintColor: sfColor; borderColor: sfColor); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Image_Texture_Size';
+
+procedure ImGui_SFML_Image_RenderTexture(texture: PsfRenderTexture; tintColor: sfColor; borderColor: sfColor); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Image_RenderTexture';
+
+procedure ImGui_SFML_Image_RenderTexture_Size(texture: PsfRenderTexture; size: sfVector2f; tintColor: sfColor; borderColor: sfColor); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Image_RenderTexture_Size';
+
+procedure ImGui_SFML_Image_Sprite(sprite: PsfSprite; tintColor: sfColor; borderColor: sfColor); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Image_Sprite';
+
+procedure ImGui_SFML_Image_Sprite_Size(sprite: PsfSprite; size: sfVector2f; tintColor: sfColor; borderColor: sfColor); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_Image_Sprite_Size';
+
+function ImGui_SFML_ImageButton_Texture(texture: PsfTexture; size: sfVector2f; bgColor: sfColor; tintColor: sfColor): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_ImageButton_Texture';
+
+function ImGui_SFML_ImageButton_RenderTexture(texture: PsfRenderTexture; size: sfVector2f; bgColor: sfColor; tintColor: sfColor): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_ImageButton_RenderTexture';
+
+function ImGui_SFML_ImageButton_Sprite(sprite: PsfSprite; size: sfVector2f; bgColor: sfColor; tintColor: sfColor): Boolean; cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_ImageButton_Sprite';
+
+procedure ImGui_SFML_DrawLine(a: sfVector2f; b: sfVector2f; col: sfColor; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_DrawLine';
+
+procedure ImGui_SFML_DrawRect(rect: sfFloatRect; color: sfColor; rounding: Single; rounding_corners: Integer; thickness: Single); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_DrawRect';
+
+procedure ImGui_SFML_DrawRectFilled(rect: sfFloatRect; color: sfColor; rounding: Single; rounding_corners: Integer); cdecl;
+  external PSFML_DLL name _PU + 'ImGui_SFML_DrawRectFilled';
+
 implementation
+
+{ImGuiTableColumnSortSpecs}
+
+function ImGuiTableColumnSortSpecs.GetData0Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data0 shr Offset) and Mask;
+end;
+
+procedure ImGuiTableColumnSortSpecs.SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data0 := (Data0 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
+{ImFontGlyph}
+
+function ImFontGlyph.GetData0Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data0 shr Offset) and Mask;
+end;
+
+procedure ImFontGlyph.SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data0 := (Data0 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
+{ImGuiDockNode}
+
+function ImGuiDockNode.GetData0Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data0 shr Offset) and Mask;
+end;
+
+procedure ImGuiDockNode.SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data0 := (Data0 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
+{ImGuiStackLevelInfo}
+
+function ImGuiStackLevelInfo.GetData0Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data0 shr Offset) and Mask;
+end;
+
+procedure ImGuiStackLevelInfo.SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data0 := (Data0 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
+{ImGuiWindow}
+
+function ImGuiWindow.GetData0Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data0 shr Offset) and Mask;
+end;
+
+procedure ImGuiWindow.SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data0 := (Data0 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
+{ImGuiWindow}
+
+function ImGuiWindow.GetData1Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data1 shr Offset) and Mask;
+end;
+
+procedure ImGuiWindow.SetData1Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data1 := (Data1 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
+{ImGuiTableColumn}
+
+function ImGuiTableColumn.GetData0Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data0 shr Offset) and Mask;
+end;
+
+procedure ImGuiTableColumn.SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data0 := (Data0 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
+{ImGuiTable}
+
+function ImGuiTable.GetData0Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data0 shr Offset) and Mask;
+end;
+
+procedure ImGuiTable.SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data0 := (Data0 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
+{ImGuiTableColumnSettings}
+
+function ImGuiTableColumnSettings.GetData0Value(const AIndex: Integer): Cardinal;
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Result := (Data0 shr Offset) and Mask;
+end;
+
+procedure ImGuiTableColumnSettings.SetData0Value(const AIndex: Integer; const AValue: Cardinal);
+var
+  BitCount, Offset, Mask: Cardinal;
+begin
+  BitCount := AIndex and $FF;
+  Offset := AIndex shr 8;
+  Mask := ((1 shl BitCount) - 1);
+  Data0 := (Data0 and (not (Mask shl Offset))) or (AValue shl Offset);
+end;
+
 
 end.

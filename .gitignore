@@ -70,3 +70,4 @@ modules/
 
 # psfml
 bin/Data.zip
+!bin/psfml.dll
